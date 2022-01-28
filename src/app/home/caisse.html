@@ -1,0 +1,350 @@
+
+<!-- ============================================================== -->
+<!-- wrapper -->
+<!-- ============================================================== -->
+
+<div class="page-wrapper">
+   <!-- ============================================================== -->
+   <!-- Container fluid  -->
+   <!-- ============================================================== -->
+   <div class="container-fluid">
+      <!-- ============================================================== -->
+      <!-- Bread crumb and right sidebar toggle -->
+      <!-- ============================================================== -->
+      <div class="row page-titles">
+         <div class="col-md-5 align-self-center">
+            <h5 class="text-themecolor">{{ (g.seance != null) ? ('SESSION N°: ' + g.seance.Numero + ' - Ouverture depuis: ' + (g.seance!.DateDebut |
+            date:'dd/MM/YYYY HH:mm:ss'))  : '' }} 
+            </h5>
+         </div>
+         <div class="col-md-7 align-self-center text-end">
+            <div class="d-flex justify-content-end align-items-center">
+               <ol class="breadcrumb justify-content-end">
+                   
+                  <li class="breadcrumb-item"><a href="javascript:void(0)">{{ (g.seance != null) ? (' Caisse : ' + g.seance.LibelleCaisse ) : '' }}</a></li>
+                  <li class="breadcrumb-item active">{{ (g.utilisateur != null ?
+                  g.utilisateur!.Nom : '' ) }}</li>
+               </ol>
+              
+            </div>
+         </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Bread crumb and right sidebar toggle -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Start Page Content -->
+      <!-- ============================================================== -->
+      <div class="row">
+         <!-- Column -->
+         <!-- <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class="box bg-info text-center">
+                  <h1 class="font-light text-white">2,064</h1>
+                  <h6 class="text-white">Sessions</h6>
+               </div>
+            </div>
+         </div> -->
+         <!-- Column -->
+         <!-- <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class="box bg-primary text-center">
+                  <h1 class="font-light text-white">1,738</h1>
+                  <h6 class="text-white">Users</h6>
+               </div>
+            </div>
+         </div> -->
+         <!-- Column -->
+         <!-- <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class="box bg-success text-center">
+                  <h1 class="font-light text-white">5963</h1>
+                  <h6 class="text-white">Page Views</h6>
+               </div>
+            </div>
+         </div> -->
+         <!-- Column -->
+         <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class={{totalColor}}>
+                  <h4 class="font-light text-white">{{ totalVal }} DH</h4>
+                  <h6 class="text-white">Total</h6>
+               </div>
+            </div>
+         </div>
+         <!-- Column -->
+         <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class={{serveurColor}}>
+                  <h4 class="font-light text-white">&nbsp;{{ commande.NomServeur }}</h4>
+                  <h6 class="text-white">Serveur</h6>
+               </div>
+            </div>
+         </div>
+         <!-- Column -->
+         <div class="col-md-6 col-lg-4 col-xlg-2">
+            <div class="card">
+               <div class={{tableColor}}>
+                  <h4 class="font-light text-white">&nbsp;{{ commande.LibelleLocalite }}</h4>
+                  <h6 class="text-white">Table</h6>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="card">
+               <!-- .left-right-aside-column-->
+               <div class="contact-page-aside">
+                  <!-- .left-aside-column-->
+                  <div class="left-aside bg-light-part">
+                     <div class="card-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+               <li class="nav-item" (click)="getnavIndex(1)"> <a class="nav-link  "[ngClass]="{'active': idnav === 1}" data-bs-toggle="tab" href="#home8" ><span><i class="ti-home"></i></span></a> </li>
+                          
+               <li class="nav-item" (click)="showListeServeur()"> <a class="nav-link" [ngClass]="{'active': idnav === 2}" data-bs-toggle="tab" href="#profile8" role="tab"><span><i class="ti-user"></i></span></a> </li>
+                          
+               <li class="nav-item" (click)="showListeLocalite()"> <a class="nav-link"[ngClass]="{'active': idnav === 3}" data-bs-toggle="tab" href="#messages8"role="tab"><span><i class="ti-email"></i></span></a> </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content tabcontent-border">
+                           <div class="tab-pane " [ngClass]="{'active': idnav === 1}" id="home8" role="tabpanel">
+                              <div class="card-body">
+                                 <div class="table-responsive">
+                                    <table id="montab"  data-bs-toggle="table" data-height="350"  >
+                                    
+                                       <thead>
+                                          <tr>
+                                             <th>Name</th>
+                                             <th>Qut</th>
+                                             <th>P.U</th>
+                                       
+                                          </tr>
+                                       </thead>
+                                       
+                                     
+                                       
+                                       <tbody   *ngFor="let item of commande.DetailCommandes; index as i;">
+                                     
+                                         
+                                             <tr (click)="getRowIndex(i)" [ngClass]="{'table-danger': idxOne === i } " >
+                                                <td class="col-md-7" [ngClass]="{'dataSelected': idxOne === i}"> {{ item.LibelleArticle }} </td>
+                                                <td [ngClass]="{'dataSelected': idxOne === i}"> {{ item.Quantite }} </td>
+                                                <td [ngClass]="{'dataSelected': idxOne === i}"> {{ item.Montant }} </td>
+                                             
+                                             </tr>
+                                            </tbody>
+                                       <tbody>
+                                          <tr>
+                                             <td class="col-md-7"></td>
+                                             <td></td>
+                                             <td></td>
+                                          </tr>
+                                       </tbody>
+                                      
+                                       
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- serveurmodal -->
+                           <div class="tab-pane  p-20" [ngClass]="{'active': idnav === 2}" id="profile8" role="tabpanel">
+                             
+                                 <!-- Column -->
+                                 
+                                  <div (click)="selectServeur(item.Identifiant)" class="col-xlg-4" *ngFor="let item of serveurs; index as i;">
+                                          <div class="card">
+                                             <div class="box bg-info text-center">
+                                                <h6 class="font-light text-white">{{ item.Nom }}</h6>
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                 <!-- Column -->
+                                 
+                                 <!-- Column -->
+                                
+                                 <!-- Column -->
+                                
+                                 <!-- Column -->
+                              
+                                 <!-- Column -->
+                             
+                                       
+                           </div>
+
+                        <!-- tablemodal -->
+                           <div class="tab-pane p-20" [ngClass]="{'active': idnav === 3}" id="messages8" role="tabpanel">
+<div class="row">
+                              <div (click)="selectLocalite(item.Identifiant)" class="col-xlg-4" *ngFor="let item of localites; index as i;">
+                                 <div class="card">
+                                    <div class="box bg-success text-center">
+                                       <h6 class="font-light text-white">{{ item.Libelle }}</h6>
+                              
+                                    </div>
+                                 </div>
+                              </div>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-body">
+                        <div class="d-flex no-block align-items-center">
+                           <div>
+                              <button (click)="nouvCommande()" type="button" class="btn btn-info btn-circle btn-lg text-white"><i class="ti-plus"></i> </button>
+                              &nbsp;<button (click)="remove()" type="button" class="btn btn-danger btn-circle btn-lg text-white"><i class="ti-trash"></i> </button>
+                           </div>
+                           <div class="ms-auto">
+                           <button (click)="valider()" type="button" class=" btn btn-success btn-circle btn-lg text-white"><i class="ti-check"></i> </button>
+                           </div>
+                        </div>
+
+                      
+                     
+                        <br>
+
+                                       <input type="text" [(ngModel)]="calcVal" id="demo-input-search2" placeholder="0" disabled><br>
+                                        <input type="button" class="btn btn-secondary btn-circle" (click)="afficherOnCalculator(0)"  value="0" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(1)" value="1" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(2)" value="2" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(3)" value="3" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(4)" value="4" name="next" />
+                           
+                                   <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(5)" value="5" name="next" />
+                                       <br> <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(6)" value="6" name="next" /> 
+                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(7)" value="7" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(8)" value="8" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(9)" value="9" name="next" />
+                                      <input type="button" class="btn btn-secondary btn-circle" (click)="afficherOnCalculator('.')" value="." name="next">
+                                       <input type="button" class="btn btn-secondary btn-circle" (click)="resetCalculator()" value="C" name="next">
+                                      
+                           
+                                       
+                                      
+                                      
+                                        
+                        </div>
+                     </div>
+                  </div>
+                  </div>
+                  <!-- /.left-aside-column-->
+                  <div class="right-aside ">
+                     <div class="right-page-header">
+                        <div class="d-flex">
+                           <button *ngIf="type=='ARTICLE'" type="button" class="btn btn-info btn-circle btn-lg" (click)="chargercat()"><i class="icon-action-undo"></i> </button>
+
+                         <!--   <div class="align-self-center">
+                              <h4 class="card-title m-t-10">Contacts / Employee List </h4>
+                           </div> -->
+                          
+                           <div class="ms-auto">
+                              <input type="text"[(ngModel)] = "searchTerm" (ngModelChange) = "chargerArticlebyname()"  id="demo-input-search2" placeholder="search contacts"
+                                 class="form-control">
+                           </div>
+                        </div>
+                     </div>
+                     <!-- .left-aside-column-->
+                     <div class="row" *ngIf="type=='CAT'">
+                        <div class="col-lg-2 col-md-6" *ngFor="let item of categories; index as i;">
+                           <div class="card" style="background-color:#3b5998" (click)="chargerArticle(item.Identifiant)">
+                              <div class="row ">
+
+                                 <div class="col-10">
+                                    <h3 class="font-medium relative">
+                                       {{ item.Libelle }}
+                                    </h3>
+                                    <div class="col-md-4 col-lg-3 text-center">
+                                       <img [src]= "imageSrcCat"
+                                             width="90" alt="user" class="img-circle img-fluid">
+                                    </div>
+                                    <!-- <h5 class="text-muted relative">
+                                       700
+                                    </h5> -->
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                       
+                     </div>
+
+                     <div class="row" *ngIf="type=='COM'">
+                        <div class="col-lg-2 col-md-6" *ngFor="let item of commandes; index as i;">
+                                          <div class="card" style="background-color:#98ac25b9" (click)="selectArticle(item.Identifiant)">
+                                             <div class="row ">
+                                          
+                                                <div class="col-10">
+                                                   <h3 class="font-medium relative">
+                                                      {{ item.Numero }}
+                                                   </h3><br/>
+                                                   <h3 class="font-medium relative">
+                                                      {{ item.NomServeur }}
+                                                   </h3><br/>
+                                                   <h3 class="font-medium relative">
+                                                      {{ item.LibelleLocalite }}
+                                                   </h3>
+                                                  <!--  <div class="col-md-4 col-lg-3 text-center">
+                                                      <img [src]="imageSrcArt" width="90" alt="user" class="img-circle img-fluid">
+                                                   </div> -->
+                                                   <h5 class="text-muted relative">
+                                                      {{ item.Montant }} DH
+                                                   </h5>
+                                                </div>
+                                             </div>
+                                          </div>
+                        </div>
+                     
+                     </div>
+
+                     <div class="row" *ngIf="type=='ARTICLE'">
+                        <div class="col-lg-2 col-md-6" *ngFor="let item of articles; index as i;">
+                           <div class="card" style="background-color:#983b66" (click)="selectArticle(item.Identifiant)">
+                              <div class="row ">
+                     
+                                 <div class="col-10">
+                                    <h3 class="font-medium relative">
+                                       {{ item.Libelle }}
+                                    </h3>
+                                    <div class="col-md-4 col-lg-3 text-center">
+                                       <img [src]= "imageSrcArt" width="90" alt="user" class="img-circle img-fluid">
+                                    </div>
+                                    <h5 class="text-muted relative">
+                                                         {{ item.Montant }} DH
+                                                         </h5> 
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     
+                     </div>
+
+
+
+
+
+                  </div>
+                  <!-- /.left-right-aside-column-->
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End PAge Content -->
+      <!-- ============================================================== -->
+      <!-- ============================================================== -->
+      <!-- Right sidebar -->
+      <!-- ============================================================== -->
+      <!-- .right-sidebar -->
+    
+      <!-- ============================================================== -->
+      <!-- End Right sidebar -->
+      <!-- ============================================================== -->
+   </div>
+   <!-- ============================================================== -->
+   <!-- End Container fluid  -->
+   <!-- ============================================================== -->
+</div>
+   

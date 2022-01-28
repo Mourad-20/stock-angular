@@ -1,0 +1,114 @@
+<aside *ngIf="g.utilisateur != null" class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- User Profile-->
+        <div class="user-profile">
+            <div class="user-pro-body">
+                <div><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"></div>
+                <div class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle u-dropdown link hide-menu"
+                        data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Steave
+                        Gection <span class="caret"></span></a>
+                    <div class="dropdown-menu animated flipInY">
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
+                        <!-- text-->
+                        <div class="dropdown-divider"></div>
+                        <!-- text-->
+                        <a href="javascript:void(0)" class="dropdown-item"><i class="ti-settings"></i> Account
+                            Setting</a>
+                        <!-- text-->
+                        <div class="dropdown-divider"></div>
+                        <!-- text-->
+                        <a href="pages-login.html" class="dropdown-item"><i class="fas fa-power-off"></i> Logout</a>
+                        <!-- text-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="nav-small-cap">--- PERSONAL</li>
+                <li> <a href="#"><i class="icon-speedometer"></i>
+                        <span class="hide-menu">Dashboard </span></a>
+
+                </li>
+                <li (click)='actiontest'>  <a href="#"><i class="ti-layout-grid2"></i><span class="hide-menu">Apps</span></a>
+
+                </li>
+                <li> <a href="#"><i class="ti-email"></i><span class="hide-menu">Inbox</span></a>
+
+                </li>
+                <li> <a href="#"><i class="ti-palette"></i><span class="hide-menu">Ui Elements</span> </a>
+
+                </li>
+                <li class="nav-small-cap">--- FORMS, TABLE &amp; WIDGETS</li>
+                <li> <a href="#"><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Forms</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-layout-accordion-merged"></i><span class="hide-menu">Tables</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-settings"></i><span class="hide-menu">Widgets</span></a>
+
+                </li>
+                <li class="nav-small-cap">--- EXTRA COMPONENTS</li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-gallery"></i><span class="hide-menu">Page Layout</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-files"></i><span class="hide-menu">Sample Pages <span
+                                class="badge rounded-pill bg-info">25</span></span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-pie-chart"></i><span class="hide-menu">Charts</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-light-bulb"></i><span class="hide-menu">Icons</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-location-pin"></i><span class="hide-menu">Maps</span></a>
+
+                </li>
+                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
+                            class="ti-align-left"></i><span class="hide-menu">Multi level dd</span></a>
+
+                </li>
+                <li class="nav-small-cap">--- SUPPORT</li>
+                <li>
+                    <a class="waves-effect waves-dark"
+                        href="http://eliteadmin.themedesigner.in/demos/bt4/documentation/documentation.html"
+                        aria-expanded="false">
+                        <i class="far fa-circle text-danger"></i>
+                        <span class="hide-menu">Documentation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-dark" href="pages-login.html" aria-expanded="false">
+                        <i class="far fa-circle text-success"></i>
+                        <span class="hide-menu">Log Out</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect waves-dark" href="pages-faq.html" aria-expanded="false">
+                        <i class="far fa-circle text-info"></i>
+                        <span class="hide-menu">FAQs</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>

@@ -1,0 +1,1 @@
+import './vendors/myJs/custom.min.js';
