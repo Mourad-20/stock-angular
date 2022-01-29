@@ -24,8 +24,11 @@ import { CategorieSvc } from '../services/categorieSvc';
 import { ArticleSvc } from '../services/articleSvc';
 import { SeanceSvc } from '../services/seanceSvc';
 
+import {Subscription} from 'rxjs'
+import { Rxjs } from '../services/rxjs';
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -99,10 +102,10 @@ public reglement : Reglement = new Reglement();
 //--------------------------------------
 public recaps : Recap[] = [];
 //--------------------------------------
+clickEventSubscription:Subscription;
 
 
-
-constructor(public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
+constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
 	
 	this.g.showLoadingBlock(true);
 		this.seanceSvc.getSeanceActive().subscribe(
@@ -153,8 +156,12 @@ constructor(public g: Globals,private commandeSvc:CommandeSvc,private localiteSv
 			}
 			this.g.showLoadingBlock(false);    
 		  }
+
 		);
 		
+    this.clickEventSubscription= this.rxjs.getClickEvent().subscribe(()=>{
+      this.showCommandesNonReglees();
+    })
 	
 		
 		
@@ -219,6 +226,34 @@ afficherOnCalculator(x : any){
 
 
   }
+  //====================================================================================================
+nextbutton(){
+switch (this.type) {
+    case 'CAT':
+        this.nextCategorie()
+        break;
+    case 'ARTICLE':
+        this.nextArticle()
+        break;
+    case 'COM':
+        this.nextCommande()
+        break;
+}
+}
+previousbutton(){
+  switch (this.type) {
+    case 'CAT':
+        this.previousCategorie()
+        break;
+    case 'ARTICLE':
+        this.previousArticle()
+        break;
+    case 'COM':
+        this.previousCommande()
+        break;
+}
+}
+  //====================================================================================================
 
   nextCategorie(){
     this.currentPageCat++;
@@ -229,6 +264,28 @@ afficherOnCalculator(x : any){
     this.currentPageCat--;
     this.chargerListeCat();
   }
+  //====================================================================================================
+nextArticle(){
+    this.currentPageArt++;
+    this.chargerListeArt();
+  }
+
+  previousArticle(){
+    this.currentPageArt--;
+    this.chargerListeArt();
+  }
+  //====================================================================================================
+ nextCommande(){
+    this.currentPageCom++;
+    this.chargerCommandesNonReglees();
+  }
+  previousCommande(){
+    this.currentPageCom--;
+    this.chargerCommandesNonReglees();
+  }
+  //====================================================================================================
+
+  //====================================================================================================
 
   chargerArticle(idCategorie : any) {
     this.type="ARTICLE";
@@ -276,19 +333,11 @@ calculatePagesCountArt(elementPerPage : number, totalCount : number) {
 
   }
 
-  nextArticle(){
-    this.currentPageArt++;
-    this.chargerListeArt();
-  }
-
-  previousArticle(){
-    this.currentPageArt--;
-    this.chargerListeArt();
-  }
+  
 
   selectArticle(idArticle : any){
 	//this.scrollToBottom();
-
+console.log(idArticle)
 	if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 		if(this.calcVal == '0'){
       this.calcVal = '1';
@@ -301,6 +350,8 @@ calculatePagesCountArt(elementPerPage : number, totalCount : number) {
     }else{
 
       let article = this.g.articlesOrg.filter(x => x.Identifiant === idArticle)[0];
+      console.log(this.g.articlesOrg)
+      console.log("article",article)
       let detailCommande = new DetailCommande();
       detailCommande.IdArticle = idArticle;
       detailCommande.LibelleArticle = article.Libelle;
@@ -443,9 +494,10 @@ chargercat(){
   }
 
   getCommandeById(identifiant:number){
-    this.g.showLoadingBlock(true);  
+    //this.g.showLoadingBlock(true);  
     this.commandeSvc.getCommandeById(identifiant).subscribe(
       (res:any) => {
+        //this.type="CAT"
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.commande = res["commandeVM"];
@@ -457,7 +509,7 @@ chargercat(){
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
-        this.g.showLoadingBlock(false);    
+        //this.g.showLoadingBlock(false);    
       }
     );
   }
@@ -488,13 +540,13 @@ chargercat(){
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.localitesOrg = res["localiteVMs"];
 
-          this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
+          //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
     
 
           this.localites.length = 0;
           this.localites = [];
 
-          if (this.currentPageLoc < 1)
+          /*if (this.currentPageLoc < 1)
               {
                   this.currentPageLoc = 1;
               }
@@ -508,10 +560,10 @@ chargercat(){
 
             if(endIndex > this.localitesOrg.length) {
               endIndex = this.localitesOrg.length;
-            }
+            }*/
 
 
-            for (let i = startIndex; i < endIndex; i++) {
+            for (let i = 0; i < this.localitesOrg.length; i++) {
               this.localites.push(this.localitesOrg[i]);
             }
 
@@ -539,13 +591,13 @@ chargercat(){
 			  this.serveursOrg = [];
 		  }
 
-          this.totalPageServ = this.calculatePagesCountServ(this.pageSizeServ,this.serveursOrg.length);
+          //this.totalPageServ = this.calculatePagesCountServ(this.pageSizeServ,this.serveursOrg.length);
     
 
           this.serveurs.length = 0;
           this.serveurs = [];
 
-          if (this.currentPageServ < 1)
+          /*if (this.currentPageServ < 1)
               {
                   this.currentPageServ = 1;
               }
@@ -559,10 +611,10 @@ chargercat(){
 
             if(endIndex > this.serveursOrg.length) {
               endIndex = this.serveursOrg.length;
-            }
+            }*/
 
 
-            for (let i = startIndex; i < endIndex; i++) {
+            for (let i = 0; i < this.serveursOrg.length; i++) {
               this.serveurs.push(this.serveursOrg[i]);
             }
 
@@ -577,7 +629,7 @@ chargercat(){
   showListeLocalite(){
     this.idnav=3
     this.chargerListLocalite();
-    ($('#localiteModal') as any).modal('show');
+    //($('#localiteModal') as any).modal('show');
   }
 
 nextLocalite(){
@@ -627,9 +679,8 @@ nextLocalite(){
   }
 
   showCommandesNonReglees(){
-    //alert('showCommandesNonReglees()');
     this.chargerCommandesNonReglees();
-    ($('#commandesNonRegleesModal') as any).modal('show');
+    //($('#commandesNonRegleesModal') as any).modal('show');
   }
 
   calculatePagesCountCom(elementPerPage : number, totalCount : number) {
@@ -639,7 +690,7 @@ nextLocalite(){
   chargerCommandesNonReglees(){
 
 
-    this.g.showLoadingBlock(true);  
+    //this.g.showLoadingBlock(true);  
     this.commandeSvc.getCommandesNonReglees().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
@@ -674,25 +725,18 @@ nextLocalite(){
             for (let i = startIndex; i < endIndex; i++) {
               this.commandes.push(this.commandesOrg[i]);
             }
-
+console.log(this.commandes)
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
-        this.g.showLoadingBlock(false);    
+        //this.g.showLoadingBlock(false);    
       }
     );
 
     
   }
 
-  nextCommande(){
-    this.currentPageCom++;
-    this.chargerCommandesNonReglees();
-  }
-  previousCommande(){
-    this.currentPageCom--;
-    this.chargerCommandesNonReglees();
-  }
+ 
 
   selectCommande(idCommande : any){
     this.getCommandeById(idCommande);
@@ -702,7 +746,7 @@ nextLocalite(){
   showReglements(){
     if(this.commande.Identifiant > 0){
 	this.detailsCommandeARegles = [];
-      this.g.showLoadingBlock(true);  
+      //this.g.showLoadingBlock(true);  
       this.commandeSvc.getCommandeById(this.commande.Identifiant).subscribe(
         (res:any) => {
           let etatReponse = res["EtatReponse"];
@@ -720,7 +764,7 @@ nextLocalite(){
           }else{ 
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
-          this.g.showLoadingBlock(false);    
+          //this.g.showLoadingBlock(false);    
         }
       );
 

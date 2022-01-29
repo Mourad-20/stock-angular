@@ -49,6 +49,8 @@ Contact app Page
 }
 
 .right-aside {
+    height: 600px;
+    max-height: 600px;
     padding: 5px 1px 5px 10px;
     margin-left: 350px;
 }

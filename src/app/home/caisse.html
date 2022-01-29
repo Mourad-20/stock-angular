@@ -234,17 +234,35 @@
                   <!-- /.left-aside-column-->
                   <div class="right-aside ">
                      <div class="right-page-header">
-                        <div class="d-flex">
-                           <button *ngIf="type=='ARTICLE'" type="button" class="btn btn-info btn-circle btn-lg" (click)="chargercat()"><i class="icon-action-undo"></i> </button>
+                        <div class="d-flex mb-2">
+                           <button *ngIf="type=='ARTICLE'|| type=='COM'" type="button" class="btn btn-info btn-circle " (click)="chargercat()"><i class="icon-action-undo"></i> </button>
 
                          <!--   <div class="align-self-center">
                               <h4 class="card-title m-t-10">Contacts / Employee List </h4>
                            </div> -->
                           
-                           <div class="ms-auto">
-                              <input type="text"[(ngModel)] = "searchTerm" (ngModelChange) = "chargerArticlebyname()"  id="demo-input-search2" placeholder="search contacts"
-                                 class="form-control">
+                           <div class="ms-auto ">
+                              <input type="text"[(ngModel)] = "searchTerm" (ngModelChange) = "chargerArticlebyname()" 
+                               id="demo-input-search2" placeholder="search contacts"
+                                 class="form-control ">
                            </div>
+                           
+                        </div>
+                     </div>
+                     <div class="right-page-header">
+                        <div class="d-flex">
+                        
+                     
+                           <div class="ml-auto mb-2">
+                              <button  type="button" class="btn btn-success btn-circle  my-lg-0" (click)="previousbutton()">
+                                 <i class="ti-angle-double-left "></i> </button>
+                              </div>
+                              <div class="ms-auto mb-2"><button type="button" class="btn btn-success btn-circle  me-auto" (click)="nextbutton()">
+                                 <i class="ti-angle-double-right"></i>
+                                                               </button>
+
+                           </div>
+                     
                         </div>
                      </div>
                      <!-- .left-aside-column-->
@@ -273,23 +291,23 @@
 
                      <div class="row" *ngIf="type=='COM'">
                         <div class="col-lg-2 col-md-6" *ngFor="let item of commandes; index as i;">
-                                          <div class="card" style="background-color:#98ac25b9" (click)="selectArticle(item.Identifiant)">
+                                          <div class="card" style="background-color:#98ac25b9" (click)="selectCommande(item.Identifiant)">
                                              <div class="row ">
                                           
                                                 <div class="col-10">
-                                                   <h3 class="font-medium relative">
+                                                   <h3 class="font-medium text-center">
                                                       {{ item.Numero }}
-                                                   </h3><br/>
-                                                   <h3 class="font-medium relative">
-                                                      {{ item.NomServeur }}
-                                                   </h3><br/>
-                                                   <h3 class="font-medium relative">
-                                                      {{ item.LibelleLocalite }}
+                                                   </h3>
+                                                   <h3 class="font-medium text-center">
+                                                      {{ item.NomServeur }} &nbsp;&nbsp;
+                                                   </h3>
+                                                   <h3 class="font-medium text-center">
+                                                      {{ item.LibelleLocalite }} &nbsp;&nbsp;
                                                    </h3>
                                                   <!--  <div class="col-md-4 col-lg-3 text-center">
                                                       <img [src]="imageSrcArt" width="90" alt="user" class="img-circle img-fluid">
                                                    </div> -->
-                                                   <h5 class="text-muted relative">
+                                                   <h5 class="text-muted text-center">
                                                       {{ item.Montant }} DH
                                                    </h5>
                                                 </div>

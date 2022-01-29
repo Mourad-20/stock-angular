@@ -47031,11 +47031,17 @@ h5.relative {
 }
 
 @media (max-width:1023px) {
+    .h4, h4 {
+        font-size: 0.8rem;
+    }
+       .h6, h6 {
+        font-size: 0.8rem;
+    }
     .inbox-center a {
         width: 200px
     }
     .d-flex {
-        display: block!important
+       /* display: block!important */
     }
     .d-flex.no-block {
         display: flex!important

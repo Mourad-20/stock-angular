@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { CookieService  } from 'ngx-cookie-service';
 import {filter} from 'rxjs/operators';
@@ -22,6 +22,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+	
+
 
   constructor(private g: Globals,private router: Router,private cookieService:CookieService,private utilisateurSvc:UtilisateurSvc
   ,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc,private seanceSvc:SeanceSvc) {
@@ -79,6 +81,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 	  this.loadInitialData();
   }
-		
-	
+
+/*  methode() {
+  console.log("parent component function.");
+  //this.child.showCommandesNonReglees()
+  }
+	 */
 }
