@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService  } from 'ngx-cookie-service';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
-
+import { NgChartsModule } from 'ng2-charts';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
 
@@ -22,7 +22,7 @@ import { OuvertureSeanceComponent } from './home/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { TestComponent } from './home/test.component';
-
+import { PercentComponent } from './rapport/percent.component';
 
 
 
@@ -36,11 +36,12 @@ import { ReglementSvc } from './services/reglementSvc';
 import { CaisseSvc } from './services/caisseSvc';
 
 import Swal from 'sweetalert2';
-import * as $AB from 'jquery';
+import { RapportComponent } from './rapport/rapport.component';
 
 
 @NgModule({
   declarations: [
+    PercentComponent,
     AppComponent,
     LoginComponent,
     HomeComponent,
@@ -52,12 +53,14 @@ import * as $AB from 'jquery';
 	LoginMobileComponent,
 	CaisseMobileComponent,
 	ClotureSeanceComponent,
+ RapportComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    NgChartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, 

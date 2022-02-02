@@ -5,10 +5,15 @@
 @import './vendors/myCss/pages/widget-page.css';
 @import './assets/node_modules/register-steps/steps.css';
 
+@import './vendors/myCss/pages/easy-pie-chart.css';
+
 @import './vendors/myCss/pages/widget-page.css';
 @import './assets/node_modules/bootstrap-table/dist/bootstrap-table.min.css';
 @import './assets/node_modules/footable/css/footable.bootstrap.min.css';
+@import './assets/node_modules/css-chart/css-chart.css';
+
 
 @import './vendors/myCss/pages/register3.css';
 @import './vendors/myCss/style.min.css';
 
+   

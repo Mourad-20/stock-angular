@@ -24,3 +24,4 @@ constructor(public g: Globals, public sharedService:Rxjs) {
 showCommandesNonReglees(){
  this.sharedService.sendClickEvent();}
 }
+

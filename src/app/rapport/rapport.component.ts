@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { Globals } from '../globals';
 import { Categorie } from '../entities/Categorie';
@@ -14,8 +14,7 @@ import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
 import { Recap } from '../entities/Recap';
 
-import { ChartType, ChartOptions } from 'chart.js';
-import  * as $ab from 'ng2-charts';
+
 
 import { CommandeSvc } from '../services/commandeSvc';
 import { LocaliteSvc } from '../services/localiteSvc';
@@ -28,19 +27,16 @@ import { SeanceSvc } from '../services/seanceSvc';
 import {Subscription} from 'rxjs'
 import { Rxjs } from '../services/rxjs';
 import Swal from 'sweetalert2'
-import * as $ from 'jquery';
-
+import * as $AB from 'jquery';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
-
 @Component({
-  selector: 'app-caisse',
-  templateUrl: './caisse.html',
-  styleUrls: []
+  selector: 'app-rapport',
+  templateUrl: './rapport.component.html',
+  styleUrls: ['./rapport.component.css']
 })
-export class CaisseComponent implements OnInit {
+export class RapportComponent implements OnInit {
  public type = "";
- public percentage = 15;
   public table? : boolean | false;
   //--------------------------------------
 public totalColor : string = "box bg-dark text-center";
@@ -104,20 +100,15 @@ public idxThree : number = -1
 public reglement : Reglement = new Reglement();
 //--------------------------------------
 public recaps : Recap[] = [];
-//--------------------------------------
-clickEventSubscription:Subscription;
- 
- public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
-  public pieChartData: any = [30, 50, 20];
-  public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
- 
+ public loadAPI!: Promise<any>;
+ public percent=0
+  public  url1 = '../assets/node_modules/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js';
 
-constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
-	interface JQuery {
-    easyPieChart():void;
-}
+ public  url = '../assets/node_modules/jquery.easy-pie-chart/easy-pie-chart.init.js';
+//--------------------------------------
+
+constructor(public sharedService:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
+	
 	this.g.showLoadingBlock(true);
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
@@ -170,25 +161,38 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
 
 		);
 		
-    this.clickEventSubscription= this.rxjs.getClickEvent().subscribe(()=>{
-      this.showCommandesNonReglees();
-    })
+
 	
 		
 		
 		
 
 	}
-
-  ngOnInit() {
-    var $: any;
-  	this.type="CAT";
-    this.table=true;
-    console.log("table "+this.table);
- 
-    
+  ngOnInit(): void {
+    this.showRecap()
+    this.percent=15
+     this.loadAPI = new Promise((resolve) => {
+            console.log('resolving promise...');
+            this.loadScript();
+        });
   }
-  
+
+
+  	public loadScript() {
+        console.log('preparing to load...')
+      let node1 = document.createElement('script');
+        node1.src = this.url1;
+        node1.type = 'text/javascript';
+      
+        document.getElementsByTagName('body')[0].appendChild(node1);
+
+
+        let node = document.createElement('script');
+        node.src = this.url;
+        node.type = 'text/javascript';
+       
+        document.getElementsByTagName('body')[0].appendChild(node);
+    }	
 
 
 afficherOnCalculator(x : any){
@@ -204,8 +208,10 @@ afficherOnCalculator(x : any){
   }
 
   resetCalculator(){
-    
+     
     this.calcVal = "0";
+    this.percent=75
+     this.sharedService.sendClickEvent();
   }
   
 
@@ -975,6 +981,7 @@ console.log(this.commandes)
           let etatReponse = res["EtatReponse"];
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 			  this.recaps = res['recapVMs'];
+        console.log("recap==",res['recapVMs'])
           }else{ 
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
@@ -986,8 +993,5 @@ console.log(this.commandes)
   cloturerSeance(){
 	  this.router.navigate(['clotureSeance']);
   }
-  
-  
-  
 
 }

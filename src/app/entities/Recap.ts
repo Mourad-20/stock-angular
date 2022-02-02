@@ -3,4 +3,5 @@ export class Recap {
     NomUtilisateur: string = "";
     Montant: number = 0;
     NombreCommande: number = 0;
+    poucentage:number=0;
 }

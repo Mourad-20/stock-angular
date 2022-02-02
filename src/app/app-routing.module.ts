@@ -9,6 +9,7 @@ import { CaisseComponent } from './home/caisse.component';
 import { OuvertureSeanceComponent } from './home/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
+import { RapportComponent } from './rapport/rapport.component';
 
 
 
@@ -27,6 +28,9 @@ const routes: Routes = [
   { path: 'caisseMobile', component: CaisseMobileComponent },
   { path: 'clotureSeance', component: ClotureSeanceComponent },
   { path: 'test', component: TestComponent },
+  { path: 'rapport', component: RapportComponent },
+
+
 
 ];
 
