@@ -6,6 +6,7 @@ import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized }
 import { NgChartsModule } from 'ng2-charts';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
+import {DataTablesModule} from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ import { RapportComponent } from './rapport/rapport.component';
  RapportComponent,
   ],
   imports: [
+    DataTablesModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,

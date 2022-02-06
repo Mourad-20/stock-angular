@@ -102,6 +102,8 @@ public reglement : Reglement = new Reglement();
 public recaps : Recap[] = [];
  public loadAPI!: Promise<any>;
  public percent=0
+ public Chart :any
+
   public  url1 = '../assets/node_modules/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js';
 
  public  url = '../assets/node_modules/jquery.easy-pie-chart/easy-pie-chart.init.js';
@@ -110,6 +112,8 @@ public recaps : Recap[] = [];
 constructor(public sharedService:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
 	
 	this.g.showLoadingBlock(true);
+   
+  
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
 			let etatReponse = res["EtatReponse"];
@@ -169,29 +173,55 @@ constructor(public sharedService:Rxjs, public g: Globals,private commandeSvc:Com
 
 	}
   ngOnInit(): void {
-    this.showRecap()
-    this.percent=15
-     this.loadAPI = new Promise((resolve) => {
-            console.log('resolving promise...');
-            this.loadScript();
+    this.showCommandesNonReglees()
+       this.loadAPI = new Promise(async (resolve) => {
+           await this.showRecap()
+            await this.loadScript()
+           
+             await this.getrecap()
+           
+           
         });
+
+         setTimeout(()=>{   
+    $('#datatableexample').DataTable( {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      lengthMenu : [5, 10, 25]
+  } );
+  }, 1000);
   }
+async getrecap(){
+  console.log("recap")
+      await this.recaps.forEach((item)=>{
+ this.Chart  = $('.'+item.IdUtilisateur).data('easyPieChart');
 
+if(item.poucentage>50){
+this.Chart.options.barColor="green"
+     }
+     else{
+       this.Chart.options.barColor="red"
+     }
+     this.Chart.update(item.poucentage);
+     
+    })
+}
 
-  	public loadScript() {
+  	public async loadScript() {
         console.log('preparing to load...')
       let node1 = document.createElement('script');
         node1.src = this.url1;
         node1.type = 'text/javascript';
       
-        document.getElementsByTagName('body')[0].appendChild(node1);
-
-
         let node = document.createElement('script');
         node.src = this.url;
         node.type = 'text/javascript';
-       
+       await setTimeout(()=>{
+   document.getElementsByTagName('body')[0].appendChild(node1);
         document.getElementsByTagName('body')[0].appendChild(node);
+        },1000)
+      
     }	
 
 
@@ -744,7 +774,7 @@ nextLocalite(){
             for (let i = startIndex; i < endIndex; i++) {
               this.commandes.push(this.commandesOrg[i]);
             }
-console.log(this.commandes)
+console.log("commande=",this.commandes)
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
@@ -968,15 +998,15 @@ console.log(this.commandes)
 	  }
   }
   
-  showRecap(){
-    this.chargerRecap();
-    ($('#recapModal') as any).modal('show');
-  }
+  async showRecap(){
+    await this.chargerRecap();
+/*     ($('#recapModal') as any).modal('show');
+ */  }
   
-  chargerRecap(){
+  async chargerRecap(){
 	  
 	  this.g.showLoadingBlock(true); 
-		  this.commandeSvc.getRecap().subscribe(
+		  await this.commandeSvc.getRecap().subscribe(
         (res:any) => {
           let etatReponse = res["EtatReponse"];
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
