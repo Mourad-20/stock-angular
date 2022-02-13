@@ -753,7 +753,7 @@ console.log(this.commandes)
 
   selectCommande(idCommande : any){
     this.getCommandeById(idCommande);
-    ($('#commandesNonRegleesModal') as any).modal('hide');
+    //($('#commandesNonRegleesModal') as any).modal('hide');
   }
 
   showReglements(){

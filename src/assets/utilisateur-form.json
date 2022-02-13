@@ -1,0 +1,42 @@
+{
+  "controls": [
+    {
+      "name": "Nom",
+      "label": "Nom:",
+      "value": "",
+      "placeholder":"Nom",
+      "type": "text",
+      "validators": {
+        "required": true,
+        "minLength": 5
+      }
+    },
+    {
+      "name": "Prenom",
+      "label": "Prenom:",
+      "value": "",
+      "placeholder":"Prenom",
+      "type": "text",
+      "validators": {"required": true,
+        "minLength": 2}
+    },
+    {
+        "name": "login",
+      "label": "login:",
+      "placeholder":"login",
+      "value": "",
+      "type": "text",
+      "validators": {"required": true,
+        "minLength": 5}
+    },  
+    {
+        "name": "password",
+      "label": "mot de pass:",
+      "value": "",
+      "placeholder":"mot de pass",
+      "type": "text",
+      "validators": {"required": true,
+        "minLength": 5}
+    }
+  ]
+}

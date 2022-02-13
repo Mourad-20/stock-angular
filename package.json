@@ -24,6 +24,7 @@
     "chart.js": "^3.7.0",
     "datatables.net": "^1.11.4",
     "datatables.net-dt": "^1.11.4",
+    "date-fns": "^2.28.0",
     "easy-pie-chart": "^2.1.7",
     "jquery": "^3.6.0",
     "ng2-charts": "^3.0.8",

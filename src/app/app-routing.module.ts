@@ -10,7 +10,7 @@ import { OuvertureSeanceComponent } from './home/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { RapportComponent } from './rapport/rapport.component';
-
+import { FormsComponent } from './forms/forms.component';
 
 
 import { TestComponent } from './home/test.component';
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'clotureSeance', component: ClotureSeanceComponent },
   { path: 'test', component: TestComponent },
   { path: 'rapport', component: RapportComponent },
-
+  { path: 'forms', component: FormsComponent },
 
 
 ];

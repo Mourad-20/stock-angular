@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms'; 
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService  } from 'ngx-cookie-service';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
@@ -35,9 +35,12 @@ import { LocaliteSvc } from './services/localiteSvc';
 import { SeanceSvc } from './services/seanceSvc';
 import { ReglementSvc } from './services/reglementSvc';
 import { CaisseSvc } from './services/caisseSvc';
-
+import { EtatCommandeSvc } from './services/EtatCommandeSvc';
 import Swal from 'sweetalert2';
 import { RapportComponent } from './rapport/rapport.component';
+import { FormsComponent } from './forms/forms.component';
+import { GroupeSvc } from './services/groupeSvc';
+import { JsonFormComponent } from './components/json-form/json-form.component';
 
 
 @NgModule({
@@ -55,11 +58,14 @@ import { RapportComponent } from './rapport/rapport.component';
 	CaisseMobileComponent,
 	ClotureSeanceComponent,
  RapportComponent,
+ FormsComponent,
+ JsonFormComponent,
   ],
   imports: [
     DataTablesModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     NgChartsModule,
@@ -76,7 +82,8 @@ import { RapportComponent } from './rapport/rapport.component';
     SeanceSvc,
     ReglementSvc,
     CaisseSvc,
-    
+    EtatCommandeSvc,
+    GroupeSvc
     ],
   bootstrap: [AppComponent]
 })

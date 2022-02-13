@@ -1,0 +1,76 @@
+<div class="card-body">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-body">
+            <h3 class="card-title">Person Info</h3>
+            <hr>
+            <div class="row p-t-20">
+                <div *ngFor="let control of jsonFormData?.controls" class="col-md-6">
+                    <div class="form-group"
+                        [ngClass]="{'has-danger': submit==true && myForm.controls[control.name].status ==='INVALID'}">
+
+                        <label class="form-label" *ngIf="control.label !== ''">{{ control.label }}</label>
+                        <input placeholder="{{ control.label }}" class="form-control" *ngIf="
+                                        [
+                                          'text',
+                                          'password',
+                                          'email',
+                                          'number',
+                                          'search',
+                                          'tel',
+                                          'url'
+                                        ].includes(control.type)
+                                      " [type]="control.type" [formControlName]="control.name" [value]="control.value">
+                        <select class="form-control form-select" *ngIf="control.type === 'select'">
+                            <option value="">select...</option>
+                            <option *ngFor="let option of control?.option; index as i;" value="{{i}}">
+                                {{option.text}}</option>
+
+                        </select>
+                        <!-- <small class="form-control-feedback"> This is inline help </small> -->
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success text-white"> <i class="fa fa-check"></i>
+                Save</button>
+            <button type="cancel" class="btn btn-inverse">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+<div *ngFor="let control of jsonFormData?.controls">
+    <label class="form-label"*ngIf="control.label !== ''">{{ control.label }}</label>
+    <input  class="form-control" *ngIf="
+        [
+          'text',
+          'password',
+          'email',
+          'number',
+          'search',
+          'tel',
+          'url'
+        ].includes(control.type)
+      "
+      [type]="control.type"
+      [formControlName]="control.name"
+      [value]="control.value">
+
+   <select  class="form-control form-select" *ngIf="control.type === 'select'">
+    <option  value="">select...</option>
+       <option *ngFor="let option of control?.option; index as i;" value="{{i}}">{{option.text}}</option>
+
+   </select>
+    <small  *ngIf=" submit && myForm!=undefined  && myForm.controls[control.name].status =='INVALID'"
+        class="form-control-feedback">"INVALID"</small>
+
+</div>
+<button expand="full" type="submit">Submit</button>
+</form>
+ -->

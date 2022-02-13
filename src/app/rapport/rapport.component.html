@@ -52,20 +52,20 @@
         <div class="col-12">
     
             <div class="card">
-                <div class="card-body">
+                <div >
                 <div class="form-group row">
                     <label for="example-datetime-local-input" class="col-md-auto col-form-label">Date and time</label>
                     <div class="col col-lg-2">
-                        <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                        <input class="form-control" type="datetime-local"  id="example-datetime-local-input" [(ngModel)]="datedebut">
                     </div>
 
                 <label for="example-datetime-local-input" class="col-md-auto col-form-label">Etat Commande</label>
                 <div class="col col-lg-2">
-                    <select class="form-select col-12" id="example-month-input2">
-                        <option selected="">Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select col-12" id="example-month-input2" [(ngModel)]="etatCommande" name="EtatCommande" (change)="refrechtable()">
+()"> 
+                        <option selected="" value="">Choose...</option>
+                        <option *ngFor="let item of etatCommandes; index as i;">{{item.Code}}</option>
+                        
                     </select>
                 </div>
 
@@ -74,22 +74,21 @@
             <div class="form-group row">
                     <label for="example-datetime-local-input" class="col-md-auto col-form-label">Date and time</label>
                     <div class="col col-lg-2">
-                        <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                        <input class="form-control" type="datetime-local" [(ngModel)]="datefin" id="example-datetime-local-input">
                     </div>
 
                     <label for="example-datetime-local-input" class="col-md-auto col-form-label">Serveur&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="col col-lg-2">
-                        <select class="form-select col-12" id="example-month-input2">
-                            <option selected="">Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-select col-12" id="example-month-input2" [(ngModel)]="serveur" name="Serveur" (change)="refrechtable()">
+                            <option selected="" value="">Choose...</option>
+                            <option *ngFor="let item of serveurs; index as i;">{{item.Nom}}</option>
+                            
                         </select>
                                             
 
                     </div>
-                    <div class="col col-lg-2"> <button type="submit" class="btn btn-primary text-white">Submit</button></div>
+                    <div class="col col-lg-3"> <button type="submit" class="btn btn-primary text-white"(click)="chargerCommandes()">Submit</button></div>
                    
                 </div>
                     <div class="table-responsive m-t-40">

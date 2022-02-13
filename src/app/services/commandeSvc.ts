@@ -34,6 +34,7 @@ export class CommandeSvc {
 	
 	getCommandeById(idCommande: number) {
 		let paramInt = {"Valeur" : idCommande};
+			//let paramInt2 = {"Valeur2" : idCommande};
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandeById', data, options);
@@ -44,6 +45,14 @@ export class CommandeSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandesNonReglees', data, options);
 	}
+
+		getCommandes(datedebut: string,datefin: string) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandes', data, options);
+	}
+		
 	
 	envoyerTicketPrepation(idCommande: number) {
 		let paramInt = {"Valeur" : idCommande};
