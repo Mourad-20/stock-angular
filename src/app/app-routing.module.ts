@@ -11,11 +11,11 @@ import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { RapportComponent } from './rapport/rapport.component';
 import { FormsComponent } from './forms/forms.component';
-
-
+import { UtilisateursComponent } from './listes/utilisateurs/utilisateurs.component';
+import { ArticlesComponent } from './listes/articles/articles.component';
 import { TestComponent } from './home/test.component';
-
-
+import { CategoriesComponent } from './listes/categories/categories.component';
+import { CaissesComponent } from './listes/caisses/caisses.component';
 const routes: Routes = [
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,8 +30,11 @@ const routes: Routes = [
   { path: 'test', component: TestComponent },
   { path: 'rapport', component: RapportComponent },
   { path: 'forms', component: FormsComponent },
-
-
+  { path: 'forms/:id', component: FormsComponent },
+  { path: 'liste/utilisateurs', component: UtilisateursComponent },
+  { path: 'liste/articles', component: ArticlesComponent },
+{ path: 'liste/categories', component: CategoriesComponent },
+{ path: 'liste/caisses', component: CaissesComponent },
 ];
 
 

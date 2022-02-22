@@ -130,8 +130,8 @@ constructor(public EtatCommandeSvc:EtatCommandeSvc,public sharedService:Rxjs, pu
 				  (res:any) => {
 					let etatReponse = res["EtatReponse"];
 					if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-					  this.commandesOrg = res["commandeVMs"];
-            this.commandes = res["commandeVMs"];
+					  //this.commandesOrg = res["commandeVMs"];
+            //this.commandes = res["commandeVMs"];
 					  //.totalPageCat = this.calculatePagesCountCat(this.pageSizeCat,this.g.categories.length);
 					  //this.chargerListeCat();
 					  //----------------------------------------------------
@@ -187,12 +187,10 @@ constructor(public EtatCommandeSvc:EtatCommandeSvc,public sharedService:Rxjs, pu
 async refrechtable(){
   var datatable = $('#datatableexample').DataTable();
               //datatable reloading 
-                datatable.destroy();
+    datatable.destroy();
   this.getcommandebyparam().then(
 
      res=>this.commandes=res
-
-
   )
 
 setTimeout(()=>{  
@@ -220,8 +218,8 @@ return liste;
 
   ngOnInit(): void {
     
-    console.log("etatCommande=",this.etatCommande)
-    //this.chargerCommandes()
+  
+    this.chargerCommandes()
        this.loadAPI = new Promise(async (resolve) => {
            await this.showRecap()
             await this.loadScript()
@@ -231,14 +229,7 @@ return liste;
            
         });
 
-         setTimeout(()=>{   
-    $('#datatableexample').DataTable( {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      processing: true,
-      lengthMenu : [5, 10, 25]
-  } );
-  }, 100);
+       
   }
 
 async getrecap(){

@@ -19,6 +19,17 @@ export class CategorieSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/categorie/getCategories', data, options);
 	}
+
+	addCategorie(categorie: any) {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(categorie);
+		return this.http.post(this.g.baseUrl +  '/api/categorie/addCategorie', data, options);
+	}
+	updateCategories(categorie: any) {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(categorie);
+		return this.http.post(this.g.baseUrl +  '/api/categorie/updateCategorie', data, options);
+	}
 	
 	getCategoriesCommercialisees() {
 		let options = {	headers: this.headers,withCredentials: true	};

@@ -3,4 +3,5 @@ export class Article {
     IdCategorie: number = 0;
     Montant: number = 0;
     Libelle: string = "";
+    _categorie: string = "";
 }

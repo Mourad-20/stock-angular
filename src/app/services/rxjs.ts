@@ -12,6 +12,10 @@ export class Rxjs {
 
   }
 
+   sendClickEventparametre(param:any){
+    this.subject.next(param);
+
+  }
   getClickEvent():Observable<any>{
      return this.subject.asObservable();
   }

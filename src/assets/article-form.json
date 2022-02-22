@@ -1,0 +1,25 @@
+{
+  "controls": [
+    {
+      "name": "Libelle",
+      "label": "Libelle:",
+      "value": "",
+      "placeholder":"Libelle",
+      "type": "text",
+      "validators": {
+        "required": true,
+        "minLength": 5
+      }
+    },
+    {
+      "name": "Montant",
+      "label": "Montant:",
+      "value": "",
+      "placeholder":"Montant",
+      "type": "text",
+      "validators": {"required": true,
+        "minLength": 1}
+    }
+    
+  ]
+}

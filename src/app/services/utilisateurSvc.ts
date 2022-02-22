@@ -26,7 +26,11 @@ export class UtilisateurSvc {
 		}
 		
 	}
-	
+	updatUtilisateur(utilisateur:any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(utilisateur);
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/updateUtilisateur', data, options);
+	}
 	isUtilisateurOnGroupes(codesGroupes : string[]){
 		let appartient = false;
 		if(codesGroupes != null && codesGroupes.length > 0){					
@@ -40,7 +44,11 @@ export class UtilisateurSvc {
 		}
 		return appartient;
 	}
-	
+	getAllUtilisateur(){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getAllUtilisateur', data, options);
+	}
 	isUserConnected(){
 		let connected = false;
 		if(this.cookieService.get('mytoken').length > 0){
@@ -82,7 +90,11 @@ export class UtilisateurSvc {
 	}
 	
 	
-	
+	addUtilisateur(utilisateur: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(utilisateur);
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/AddUtilisateur', data, options);
+	}
 	
 	deconnexion() {
 		let options = {	headers: this.headers,withCredentials: true	};

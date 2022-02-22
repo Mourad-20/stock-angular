@@ -22,7 +22,7 @@ export class Globals{
     public categories : Categorie[] = [];
     public articles : Article[] = [];
     public articlesOrg : Article[] = [];
-    
+    public typeform :string=""
 
 	
 	
@@ -34,4 +34,7 @@ export class Globals{
         $("#loadingBlock").css({ "display": (value == true) ? "block" : "none" });
     }
 
+    async settype(typeform:string|any){
+ this.typeform=typeform
+}
 }

@@ -1,0 +1,27 @@
+{
+  "controls": [
+    {
+      "name": "Libelle",
+      "label": "Libelle:",
+      "value": "",
+      "placeholder":"Libelle",
+      "type": "text",
+      "validators": {
+        "required": true,
+        "minLength": 5
+      }
+    },
+        {
+      "name": "Solde",
+      "label": "Solde:",
+      "value": "",
+      "placeholder":"Solde",
+      "type": "text",
+      "validators": {
+        "required": false,
+        "minLength": 2
+      }
+    }
+    
+  ]
+}

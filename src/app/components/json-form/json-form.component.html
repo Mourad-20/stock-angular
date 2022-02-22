@@ -21,9 +21,11 @@
                                           'url'
                                         ].includes(control.type)
                                       " [type]="control.type" [formControlName]="control.name" [value]="control.value">
-                        <select class="form-control form-select" *ngIf="control.type === 'select'">
-                            <option value="">select...</option>
-                            <option *ngFor="let option of control?.option; index as i;" value="{{i}}">
+                                      
+                        <select class="form-control form-select" [formControlName]="control.name" *ngIf="control.type === 'select'" [value]='control.value'>
+                            
+                            <option value="" disabled selected>select...</option>
+                            <option *ngFor="let option of control?.option" [ngValue]="option.value" >
                                 {{option.text}}</option>
 
                         </select>

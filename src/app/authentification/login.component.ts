@@ -54,12 +54,13 @@ this.jetonValue=this.jetonValue+event.key ;
 }
   }
 	ngOnInit() {	
+		this.getListeLogins();
 		//this.methode = "JETON";
 		this.methode = "STANDARD";
-		this.loginValue = "caissier 1";
-		this.passwordValue = "123456";
+	this.loginValue = "caissier 1";
+	this.passwordValue = "123456";
 		setTimeout(() => { $('#txtJeton').focus(); }, 50);
-		this.getListeLogins();
+		
 		
   }
   
@@ -69,7 +70,7 @@ this.jetonValue=this.jetonValue+event.key ;
 				let etatReponse = res["EtatReponse"];
 				if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 				  this.loginVMs = res["loginVMs"];
-				  console.log(this.loginVMs);
+				 
 				}else{
 				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 				}

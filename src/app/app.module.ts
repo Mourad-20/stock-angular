@@ -36,11 +36,16 @@ import { SeanceSvc } from './services/seanceSvc';
 import { ReglementSvc } from './services/reglementSvc';
 import { CaisseSvc } from './services/caisseSvc';
 import { EtatCommandeSvc } from './services/EtatCommandeSvc';
+import { Objettoupdate } from './forms/objettoupdate';
 import Swal from 'sweetalert2';
 import { RapportComponent } from './rapport/rapport.component';
 import { FormsComponent } from './forms/forms.component';
 import { GroupeSvc } from './services/groupeSvc';
 import { JsonFormComponent } from './components/json-form/json-form.component';
+import { UtilisateursComponent } from './listes/utilisateurs/utilisateurs.component';
+import { ArticlesComponent } from './listes/articles/articles.component';
+import { CategoriesComponent } from './listes/categories/categories.component';
+import { CaissesComponent } from './listes/caisses/caisses.component';
 
 
 @NgModule({
@@ -60,6 +65,10 @@ import { JsonFormComponent } from './components/json-form/json-form.component';
  RapportComponent,
  FormsComponent,
  JsonFormComponent,
+ UtilisateursComponent,
+ ArticlesComponent,
+ CategoriesComponent,
+ CaissesComponent
   ],
   imports: [
     DataTablesModule,
@@ -83,7 +92,8 @@ import { JsonFormComponent } from './components/json-form/json-form.component';
     ReglementSvc,
     CaisseSvc,
     EtatCommandeSvc,
-    GroupeSvc
+    GroupeSvc,
+    Objettoupdate
     ],
   bootstrap: [AppComponent]
 })

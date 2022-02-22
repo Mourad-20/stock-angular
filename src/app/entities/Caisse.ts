@@ -1,4 +1,6 @@
 export class Caisse {
-    Identifiant: number = null;
+    Identifiant: number = 0;
     Libelle: string = "";
+    
+
 }

@@ -12,7 +12,7 @@ import{Rxjs} from '../services/rxjs';
 })
 export class LeftsidebareComponent implements OnInit {
 
-constructor(public g: Globals, public sharedService:Rxjs) {
+constructor(public g: Globals, public sharedService:Rxjs , public router:Router) {
 	console.log('--------------------------------------');
 	console.log('Home constructor()');	
 }
@@ -23,5 +23,14 @@ constructor(public g: Globals, public sharedService:Rxjs) {
 
 showCommandesNonReglees(){
  this.sharedService.sendClickEvent();}
+
+async forme(typeform:string|any){
+await this.g.settype(typeform)
+this.router.navigate(['forms']);	 
 }
+
+
+}
+
+
 

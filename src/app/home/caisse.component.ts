@@ -175,9 +175,6 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
     })
 	
 		
-		
-		
-
 	}
 
   ngOnInit() {

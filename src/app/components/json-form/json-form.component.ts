@@ -55,8 +55,8 @@ submit=false
   }
 public groupe:any = {
         "name": "Groupe",
-      "label": "Groupe:",
-      "value": "",
+      "label": "Groupe;",
+      "value": "null",
       "type": "select",
       "option":[],
       "validators": {"required": true,
@@ -73,7 +73,7 @@ public groupe:any = {
 
   public createForm(controls: JsonFormControls[]) {
     for (const control of controls) {
-      console.log("Data2==",control)
+     // console.log("Data2==",control)
       const validatorsToAdd = [];
       for (const [key, value] of Object.entries(control.validators)) {
         switch (key) {
@@ -120,13 +120,15 @@ public groupe:any = {
         control.name,
         this.fb.control(control.value, validatorsToAdd)
       );
-       console.log('Form valid201: ', this.myForm);
+     //  console.log('Form valid201: ', this.myForm);
     }
   }
   onSubmit() {
     this.submit=true;
-    console.log('Form valid: ', this.myForm.status);
-    this.submite.emit(this.myForm);
+   // console.log('Form valid: ', this.myForm.status);
+    if(this.myForm.status=="VALID"){
+this.submite.emit(this.myForm);
+    }
     //console.log('Form values: ', this.myForm.value);
   }
 
