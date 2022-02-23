@@ -64,10 +64,8 @@
             </div>
          </div> -->
          <!-- Column -->
-         <div class="col-md-6 col-lg-4 col-xlg-2">
-
-
-            
+         <div class="col-md-6 col-lg-3 col-xlg-2">
+ 
             <div class="card">
                <div class={{totalColor}}>
                   <h4 class="font-light text-white">{{ totalVal }} DH</h4>
@@ -75,8 +73,17 @@
                </div>
             </div>
          </div>
+         <div class="col-md-6 col-lg-3 col-xlg-2">
+         
+            <div class="card">
+               <div class={{totalColor}}>
+                  <h4 class="font-light text-white">{{ totalVal }} DH</h4>
+                  <h6 class="text-white">A Payer</h6>
+               </div>
+            </div>
+         </div>
          <!-- Column -->
-         <div class="col-md-6 col-lg-4 col-xlg-2">
+         <div class="col-md-6 col-lg-3 col-xlg-2">
             <div class="card">
                <div class={{serveurColor}}>
                   <h4 class="font-light text-white">&nbsp;{{ commande.NomServeur }}</h4>
@@ -85,7 +92,7 @@
             </div>
          </div>
          <!-- Column -->
-         <div class="col-md-6 col-lg-4 col-xlg-2">
+         <div class="col-md-6 col-lg-3 col-xlg-2">
             <div class="card">
                <div class={{tableColor}}>
                   <h4 class="font-light text-white">&nbsp;{{ commande.LibelleLocalite }}</h4>
@@ -198,11 +205,16 @@
                         <div class="card-body">
                         <div class="d-flex no-block align-items-center">
                            <div>
-                              <button (click)="nouvCommande()" type="button" class="btn btn-info btn-circle btn-lg text-white"><i class="ti-plus"></i> </button>
-                              &nbsp;<button (click)="remove()" type="button" class="btn btn-danger btn-circle btn-lg text-white"><i class="ti-trash"></i> </button>
+                              <button (click)="nouvCommande()" type="button" class="btn btn-outline-info btn-circle btn-lg "><i class="ti-plus"></i> </button>
+                              &nbsp;<button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle btn-lg "><i class="ti-trash"></i> </button>
                            </div>
+                              
                            <div class="ms-auto">
-                           <button (click)="valider()" type="button" class=" btn btn-success btn-circle btn-lg text-white"><i class="ti-check"></i> </button>
+                              <button (click)="valider()" type="button" class=" btn btn-outline-primary btn-circle btn-lg ">
+                                 <i class="icons-Printer"></i> </button>
+                              &nbsp;<button (click)="valider()" type="button" class=" btn btn-outline-warning btn-circle btn-lg ">
+                                 <i class="icons-Dollar-Sign2"></i> </button>
+                           &nbsp;<button (click)="valider()" type="button" class=" btn btn-outline-success btn-circle btn-lg "><i class="ti-check"></i> </button>
                            </div>
                         </div>
 
@@ -211,17 +223,18 @@
                         <br>
 
                                        <input type="text" [(ngModel)]="calcVal" id="demo-input-search2" placeholder="0" disabled><br>
-                                        <input type="button" class="btn btn-secondary btn-circle" (click)="afficherOnCalculator(0)"  value="0" name="next" />
+                                        
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(1)" value="1" name="next" />
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(2)" value="2" name="next" />
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(3)" value="3" name="next" />
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(4)" value="4" name="next" />
                            
                                    <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(5)" value="5" name="next" />
-                                       <br> <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(6)" value="6" name="next" /> 
-                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(7)" value="7" name="next" />
+                                  <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(6)" value="6" name="next" /> 
+                                            <br>  <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(7)" value="7" name="next" />
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(8)" value="8" name="next" />
                                        <input type="button" class="btn btn-secondary btn-circle"  (click)="afficherOnCalculator(9)" value="9" name="next" />
+                                       <input type="button" class="btn btn-secondary btn-circle" (click)="afficherOnCalculator(0)" value="0" name="next" />
                                       <input type="button" class="btn btn-secondary btn-circle" (click)="afficherOnCalculator('.')" value="." name="next">
                                        <input type="button" class="btn btn-secondary btn-circle" (click)="resetCalculator()" value="C" name="next">
                                       

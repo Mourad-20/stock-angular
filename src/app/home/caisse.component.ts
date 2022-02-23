@@ -669,6 +669,7 @@ nextLocalite(){
 
   selectLocalite(idLocalite : any){
     //alert('selectLocalite idArticle : ' + idLocalite);
+    this.tableColor="box bg-megna text-center";
     let localite = this.localites.filter(x => x.Identifiant === idLocalite)[0];
     this.commande.LibelleLocalite = localite.Libelle;
     this.commande.IdLocalite = localite.Identifiant;
@@ -680,12 +681,13 @@ nextLocalite(){
 
   selectServeur(idServeur : any){
     //alert('selectS idArticle : ' + idLocalite);
+    this.serveurColor="box bg-primary text-center";
     let serveur = this.serveurs.filter(x => x.Identifiant === idServeur)[0];
     this.commande.NomServeur = serveur.Nom;
     this.commande.IdServeur = serveur.Identifiant;
     this.idnav=1;
     ($('#serveurModal') as any).modal('hide');
-    this.serveurColor="box bg-primary text-center";
+    
   }
 
   showCommandesNonReglees(){
