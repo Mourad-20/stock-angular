@@ -77,7 +77,9 @@ Form icheck
   padding-top: 10px; }
 
 .icheck-list li {
-  padding-bottom: 5px; }
+  padding-bottom: 11px;
+  padding-left: 10px;
+ }
 
 .icheck-list li label {
   padding-left: 10px; }

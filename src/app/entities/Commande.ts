@@ -12,6 +12,5 @@ export class Commande {
     public IdLocalite? : number | null;
     public LibelleLocalite : string = "";    
     public IdCreePar: number = 0;
-    public DetailCommandes : DetailCommande[] = [];
-    public DetailCommandesNonRegles : DetailCommande[] = [];	
+    public DetailCommandes : DetailCommande[] = [];	
 }

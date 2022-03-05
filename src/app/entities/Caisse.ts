@@ -1,6 +1,4 @@
-export class Caisse {
-    Identifiant: number = 0;
+export class Caisse {    
+    public Identifiant: number = 0;
     Libelle: string = "";
-    
-
 }

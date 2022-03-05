@@ -6,7 +6,7 @@ import { LoginMobileComponent } from './authentification/loginMobile.component';
 import { LogoutComponent } from './authentification/logout.component';
 import { HomeComponent } from './home/home.component';
 import { CaisseComponent } from './home/caisse.component';
-import { OuvertureSeanceComponent } from './home/ouvertureSeance.component';
+import { OuvertureSeanceComponent } from './seances/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { RapportComponent } from './rapport/rapport.component';
@@ -16,6 +16,7 @@ import { ArticlesComponent } from './listes/articles/articles.component';
 import { TestComponent } from './home/test.component';
 import { CategoriesComponent } from './listes/categories/categories.component';
 import { CaissesComponent } from './listes/caisses/caisses.component';
+import { CaisseparamComponent } from './param/caisse/caisse.component';
 const routes: Routes = [
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'liste/articles', component: ArticlesComponent },
 { path: 'liste/categories', component: CategoriesComponent },
 { path: 'liste/caisses', component: CaissesComponent },
+{ path: 'caisseparam', component: CaisseparamComponent },
 ];
 
 

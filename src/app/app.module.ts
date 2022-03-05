@@ -19,7 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header.component';
 import { LeftsidebareComponent } from './home/leftsidebare.component';
 import { CaisseComponent } from './home/caisse.component';
-import { OuvertureSeanceComponent } from './home/ouvertureSeance.component';
+import{OuvertureSeanceComponent} from './seances/ouvertureSeance.component'
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { TestComponent } from './home/test.component';
@@ -36,6 +36,9 @@ import { SeanceSvc } from './services/seanceSvc';
 import { ReglementSvc } from './services/reglementSvc';
 import { CaisseSvc } from './services/caisseSvc';
 import { EtatCommandeSvc } from './services/EtatCommandeSvc';
+import { CommercialisationSvc } from './services/commercialisationSvc';
+import { AffectationCaisseSvc } from './services/affectationCaisseSvc';
+import { ActeurSeanceSvc } from './services/acteurSeanceSvc';
 import { Objettoupdate } from './forms/objettoupdate';
 import Swal from 'sweetalert2';
 import { RapportComponent } from './rapport/rapport.component';
@@ -46,6 +49,7 @@ import { UtilisateursComponent } from './listes/utilisateurs/utilisateurs.compon
 import { ArticlesComponent } from './listes/articles/articles.component';
 import { CategoriesComponent } from './listes/categories/categories.component';
 import { CaissesComponent } from './listes/caisses/caisses.component';
+import { CaisseparamComponent } from './param/caisse/caisse.component';
 
 
 @NgModule({
@@ -68,7 +72,9 @@ import { CaissesComponent } from './listes/caisses/caisses.component';
  UtilisateursComponent,
  ArticlesComponent,
  CategoriesComponent,
- CaissesComponent
+ CaissesComponent,
+CaisseparamComponent
+
   ],
   imports: [
     DataTablesModule,
@@ -93,7 +99,10 @@ import { CaissesComponent } from './listes/caisses/caisses.component';
     CaisseSvc,
     EtatCommandeSvc,
     GroupeSvc,
-    Objettoupdate
+    Objettoupdate,
+    CommercialisationSvc,
+    AffectationCaisseSvc,
+    ActeurSeanceSvc
     ],
   bootstrap: [AppComponent]
 })

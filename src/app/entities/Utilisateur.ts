@@ -1,8 +1,8 @@
-import { Login } from "./Login";
 export class Utilisateur {
     Identifiant: number = 0;
+    Login: string = "";
     Nom: string = "";
-    Prenom: string = "";
+    Prenom: string = "";	
+	EnActivite: boolean = false;
 	CodesGroupes : string[] = [];
-    _Login:Login[]=[];
 }

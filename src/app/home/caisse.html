@@ -120,7 +120,35 @@
                         <!-- Tab panes -->
                         <div class="tab-content tabcontent-border">
                            <div class="tab-pane " [ngClass]="{'active': idnav === 1}" id="home8" role="tabpanel">
-                              <div class="card-body">
+                             <!--==================================================================================-->
+                     <div id="table-wrapper">
+                        <div id="table-scroll">
+                             <table >
+                              <thead>
+                                 <tr>
+                                    <th style="width: 70%;"><span style="width: 70%;" class="text ">Name</span></th>
+                                    <th style="width: 15%;"><span style="width: 15%;" class="text">Qut</span></th>
+                                    <th style="width: 15%;"><span style="width: 15%;" class="text">P.U</span></th>
+                              
+                                 </tr>
+                              </thead>
+                          
+                           <tbody>
+                           
+                              <tr *ngFor="let item of commande.DetailCommandes; index as i;">
+                        
+                                 <td style="width: 70%;"> {{ item.LibelleArticle }} </td>
+                                 <td style="width: 15%;"> {{ item.Quantite }} </td>
+                                 <td style="width: 15%;"> {{ item.Montant }} </td>
+                              </tr>
+                           
+                             
+                           </tbody>
+                        </table>
+                        </div>
+                        </div>
+                             <!--==================================================================================-->
+                              <!-- <div class="card-body">
                                  <div class="table-responsive">
                                     <table id="montab"  data-bs-toggle="table" data-height="350"  >
                                     
@@ -156,8 +184,10 @@
                                        
                                     </table>
                                  </div>
-                              </div>
+                              </div>  -->
                            </div>
+
+
                            <!-- serveurmodal -->
                            <div class="tab-pane  p-20" [ngClass]="{'active': idnav === 2}" id="profile8" role="tabpanel">
                              
@@ -212,7 +242,9 @@
                            <div class="ms-auto">
                               <button (click)="valider()" type="button" class=" btn btn-outline-primary btn-circle btn-lg ">
                                  <i class="icons-Printer"></i> </button>
-                              &nbsp;<button (click)="valider()" type="button" class=" btn btn-outline-warning btn-circle btn-lg ">
+                              &nbsp;
+                              <button *ngIf="utilisateurSvc.isUtilisateurOnGroupes([GroupeCode.CAISSIER])" (click)="showReglements()" type="button" class=" btn btn-outline-warning btn-circle btn-lg "
+                              data-bs-toggle="modal" data-bs-target="#responsive-modal">
                                  <i class="icons-Dollar-Sign2"></i> </button>
                            &nbsp;<button (click)="valider()" type="button" class=" btn btn-outline-success btn-circle btn-lg "><i class="ti-check"></i> </button>
                            </div>
@@ -259,7 +291,7 @@
                           
                            <div class="ms-auto ">
                               <input type="text"[(ngModel)] = "searchTerm" (ngModelChange) = "chargerArticlebyname()" 
-                               id="demo-input-search2" placeholder="search contacts"
+                               id="demo-input-search2" placeholder="search "
                                  class="form-control ">
                            </div>
                            
@@ -303,6 +335,8 @@
                            </div>
                         </div>
                        
+
+                      
                      </div>
 
                      <div class="row" *ngIf="type=='COM'">
@@ -380,5 +414,132 @@
    <!-- ============================================================== -->
    <!-- End Container fluid  -->
    <!-- ============================================================== -->
+   <!-- reglementModal -->
+   <div class="modal" id="responsive-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Reglements</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+<div class="row">
+   <div class="col-lg-5">
+      <div class="card">
+         <div class="card-body">
+           
+            <div class="table-responsive">
+<table class="table color-table info-table">
+
+   <thead>
+      <tr>
+         
+         <th>QTE</th>
+         <th>Article</th>
+         <th>Montant</th>
+      </tr>
+   </thead>
+   <tbody *ngFor="let item of detailReglementsNonRegle; index as i;">
+      <tr (click)="getRowIdxSix(i)" [ngClass]="{'table-danger': idxSix === i } ">
+        
+         <td [ngClass]="{'dataSelected': idxSix === i}">{{ item.Quantite }}</td>
+         <td [ngClass]="{'dataSelected': idxSix === i}">{{ item.LibelleArticle }}</td>
+         <td [ngClass]="{'dataSelected': idxSix === i}">{{ item.Montant }}</td>
+
+      </tr>
+   </tbody>
+  
+</table>
+
+             
+            </div>
+         </div>
+      </div>
+   </div>
+
+<div class="col-lg-2">
+   <div class="card">
+      <div class="card-body">
+<div class="form-group">
+   <label class="form-label">User Name</label>
+   <div class="input-group mb-0">
+      <span class="input-group-text"><i class="mdi mdi-minus"></i></span>
+      <input type="number" class="form-control"  aria-label="quantite" [(ngModel)]="quantiteToRegler"style="-moz-appearance: textfield">
+      <span class="input-group-text"><i class="mdi mdi-plus"></i></span>
+   </div>
+</div>
+   <div class="input-group mb-2">
+      <button type="button" class="btn w-25 btn-lg btn-info " (click)="untagToReglement()"><i class="mdi mdi-arrow-left"></i></button>&nbsp;
+   
+      <button type="button" class="btn w-70 btn-lg btn-success" (click)="tagToReglement()">Ligne<i class="mdi mdi-arrow-right"></i></button></div>
+      
+<div class="input-group mb-2"> 
+   <button type="button" class="btn w-70 btn-lg btn-success" (click)="untagAllToReglement()"><i class="mdi mdi-arrow-left"></i>Ticket</button>&nbsp;
+     <button type="button" class="btn w-25 btn-lg btn-info" (click)="tagAllToReglement()"><i class="mdi mdi-arrow-right"></i></button></div>
+     
+      
+     
+   </div>
+      </div>
+   
+</div>
+   <div class="col-lg-5">
+      <div class="card">
+         <div class="card-body">
+           
+            <div class="table-responsive">
+               <table class="table color-table warning-table">
+               
+                  <thead>
+                     <tr>
+                       
+                        <th>QTE</th>
+                        <th>Article</th>
+                        <th>Montant</th>
+                     </tr>
+                  </thead>
+                  <tbody *ngFor="let item of detailReglementsToRegler; index as i;">
+                     <tr (click)="getRowIdxSix(i)" [ngClass]="{'table-danger': idxSeven === i } ">
+                        <td [ngClass]="{'dataSelected': idxSeven === i}">{{ item.Quantite }}</td>
+                        <td [ngClass]="{'dataSelected': idxSeven === i}">{{ item.LibelleArticle }}</td>
+                        <td [ngClass]="{'dataSelected': idxSeven === i}">{{ item.Montant }}</td>
+               
+                     </tr>
+                  </tbody>
+                  <tbody>
+                     <tr>
+                        <td class="col-md-7"></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                  </tbody>
+               </table>
+
+              
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <button type="button" class="btn w-70 btn-lg btn-success" (click)="effectuerReglement()">Effectuer reglement<i class="icons-Dollar-Sign2"></i></button>
+  
+</div>
+
+
+
+
+              
+             
+   
+   
+   
+   
+               <br>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
 </div>
    

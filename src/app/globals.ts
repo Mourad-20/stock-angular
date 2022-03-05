@@ -22,9 +22,10 @@ export class Globals{
     public categories : Categorie[] = [];
     public articles : Article[] = [];
     public articlesOrg : Article[] = [];
-    public typeform :string=""
-
-	
+    public typeform :string="";
+    public idcaisseparam:number=0;
+    public namecaisseparam:string=""
+	public typecaisseparam:string=""
 	
     setTitle(newTitle : string) {
         document.title = newTitle;
@@ -36,5 +37,10 @@ export class Globals{
 
     async settype(typeform:string|any){
  this.typeform=typeform
+}
+    async setparam(idcaisse:number|any,nameparamcaisse:string|any,paramcaisse:string|any){
+        this.namecaisseparam=nameparamcaisse;
+ this.idcaisseparam=idcaisse;
+ this.typecaisseparam=paramcaisse;
 }
 }

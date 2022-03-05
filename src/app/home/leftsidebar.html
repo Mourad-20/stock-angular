@@ -33,79 +33,76 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="nav-small-cap">--- PERSONAL</li>
-                <li> <a href="#"><i class="icon-speedometer"></i>
-                        <span class="hide-menu">Dashboard </span></a>
+     
+
+            
+
+                <li (click)="goto('caisse')"> <a  href="javascript:void(0)"><i class="icon-speedometer"></i>
+                        <span class="hide-menu" >Caisse_Home </span></a>
 
                 </li>
-                <li (click)='showCommandesNonReglees()'>  <a ><i class="ti-layout-grid2" target="_self"></i><span class="hide-menu">Apps</span></a>
+                <li (click)='showCommandesNonReglees()'>  <a  href="javascript:void(0)"><i class="ti-layout-grid2" target="_self"></i><span class="hide-menu">Commandes</span></a>
 
                 </li>
-                <li (click)='forme("utilisateur")'> <a ><i class="ti-email"></i><span class="hide-menu">Inbox</span></a>
+<!--                 <li (click)='forme("utilisateur")'> <a ><i class="ti-email"></i><span class="hide-menu">Utilisateur</span></a>  </li>
+ -->
+    <li>
+         <a [ngClass]="collapse==1?'has-arrow waves-effect waves-dark active':'has-arrow waves-effect waves-dark'"
+            href="javascript:void(0)" aria-expanded="false" (click)="Collapse(1)">
+            <i class="icon-speedometer"></i><span class="hide-menu">Utilisateur <!-- <span
+                    class="badge rounded-pill bg-cyan ms-auto">4</span> --></span></a>
+        <ul aria-expanded="false" class="collapse" [ngClass]="collapse==1?'collapse in':'collapse'">
+            <li (click)='forme("utilisateur")'><a href="javascript:void(0)" >Nouveau </a></li>
+            <li (click)='liste("utilisateurs")'><a href="javascript:void(0)">Liste</a></li>
+            
+        </ul>
+    </li>
+            <!--=======================================================================================================================================-->  
 
-                </li>
-                <li (click)='forme("article")'> <a ><i class="ti-palette"></i><span class="hide-menu">Ui Elements</span> </a>
-
-                </li>
-                <li class="nav-small-cap">--- FORMS, TABLE &amp; WIDGETS</li>
-                <li (click)='forme("categorie")'> <a><i class="ti-layout-media-right-alt"></i><span class="hide-menu">Forms</span></a>
-
-                </li>
-                <li (click)='forme("caisse")'> <a>
-                    <i class="ti-layout-accordion-merged"></i><span class="hide-menu">Tables</span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-settings"></i><span class="hide-menu">Widgets</span></a>
-
-                </li>
-                <li class="nav-small-cap">--- EXTRA COMPONENTS</li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-gallery"></i><span class="hide-menu">Page Layout</span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-files"></i><span class="hide-menu">Sample Pages <span
-                                class="badge rounded-pill bg-info">25</span></span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-pie-chart"></i><span class="hide-menu">Charts</span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-light-bulb"></i><span class="hide-menu">Icons</span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-location-pin"></i><span class="hide-menu">Maps</span></a>
-
-                </li>
-                <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i
-                            class="ti-align-left"></i><span class="hide-menu">Multi level dd</span></a>
-
-                </li>
-                <li class="nav-small-cap">--- SUPPORT</li>
-                <li>
-                    <a class="waves-effect waves-dark"
-                        href="http://eliteadmin.themedesigner.in/demos/bt4/documentation/documentation.html"
-                        aria-expanded="false">
-                        <i class="far fa-circle text-danger"></i>
-                        <span class="hide-menu">Documentation</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="waves-effect waves-dark" href="pages-login.html" aria-expanded="false">
-                        <i class="far fa-circle text-success"></i>
-                        <span class="hide-menu">Log Out</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="waves-effect waves-dark" href="pages-faq.html" aria-expanded="false">
-                        <i class="far fa-circle text-info"></i>
-                        <span class="hide-menu">FAQs</span>
-                    </a>
-                </li>
+            <li>
+                 <a [ngClass]="collapse==2?'has-arrow waves-effect waves-dark active':'has-arrow waves-effect waves-dark'"
+                    href="javascript:void(0)" aria-expanded="false" (click)="Collapse(2)">
+                    <i class="icon-speedometer"></i><span class="hide-menu">Categorie
+                        <!-- <span
+                                class="badge rounded-pill bg-cyan ms-auto">4</span> -->
+                    </span></a>
+                <ul aria-expanded="false" class="collapse" [ngClass]="collapse==2?'collapse in':'collapse'">
+                    <li (click)='forme("categorie")'><a href="javascript:void(0)">Nouveau </a></li>
+                    <li (click)='liste("categories")'><a href="javascript:void(0)">Liste</a></li>
+            
+                </ul>
+            </li>
+        <!--=======================================================================================================================================-->
+                    <li> 
+                        <a [ngClass]="collapse==3?'has-arrow waves-effect waves-dark active':'has-arrow waves-effect waves-dark'"
+                            href="javascript:void(0)" aria-expanded="false" (click)="Collapse(3)">
+                            <i class="icon-speedometer"></i><span class="hide-menu">Article
+                                <!-- <span
+                                                    class="badge rounded-pill bg-cyan ms-auto">4</span> -->
+                            </span></a>
+                        <ul aria-expanded="false" class="collapse" [ngClass]="collapse==3?'collapse in':'collapse'">
+                            <li (click)='forme("article")'><a href="javascript:void(0)">Nouveau </a></li>
+                            <li (click)='liste("articles")'><a href="javascript:void(0)">Liste</a></li>
+                    
+                        </ul>
+                    </li>
+                    <!--=======================================================================================================================================-->
+              
+            <li>
+                 <a [ngClass]="collapse==4?'has-arrow waves-effect waves-dark active':'has-arrow waves-effect waves-dark'"
+                    href="javascript:void(0)" aria-expanded="false" (click)="Collapse(4)">
+                    <i class="icon-speedometer"></i><span class="hide-menu">Caisse
+                        <!-- <span
+                                                                class="badge rounded-pill bg-cyan ms-auto">4</span> -->
+                    </span></a>
+                <ul aria-expanded="false" class="collapse" [ngClass]="collapse==4?'collapse in':'collapse'">
+                    <li (click)='forme("caisse")'><a href="javascript:void(0)">Nouveau </a></li>
+                    <li (click)='liste("caisses")'><a href="javascript:void(0)">Liste</a></li>
+            
+                </ul>
+            </li>
+            <!--=======================================================================================================================================-->      
+           
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

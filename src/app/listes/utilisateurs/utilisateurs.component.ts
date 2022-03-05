@@ -52,7 +52,7 @@ async update(idutilisateur:any){
 async chargerUtilisateurs(){
 
    //this.g.showLoadingBlock(true);  
-   await this.utilisateurSvc.getAllUtilisateur().subscribe(
+   await this.utilisateurSvc.getListeUtilisateurs().subscribe(
        (res:any) => {
         let etatReponse = res["EtatReponse"];
 

@@ -26,29 +26,54 @@ export class UtilisateurSvc {
 		}
 		
 	}
-	updatUtilisateur(utilisateur:any){
+	
+	ajouterUtilisateur(utilisateur: any){
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(utilisateur);
-		return this.http.post(this.g.baseUrl +  '/api/utilisateur/updateUtilisateur', data, options);
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/ajouterUtilisateur', data, options);
 	}
+	
+	modifierUtilisateur(utilisateur: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(utilisateur);
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/modifierUtilisateur', data, options);
+	}
+	
+	getListeUtilisateurs(){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getListeUtilisateurs', data, options);
+	}
+	
+	
+	getListeAppartenances(idUtilisateur:any){
+		let paramInt = {"Valeur" : idUtilisateur};
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramInt);
+		return this.http.post(this.g.baseUrl +  '/api/appartenance/getAppartenances', data, options);
+	}
+	
+	validerAppartenance(appartenanceVMs: any) {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(appartenanceVMs);
+		return this.http.post(this.g.baseUrl +  '/api/appartenance/validerAppartenance', data, options);		
+	}
+	
 	isUtilisateurOnGroupes(codesGroupes : string[]){
 		let appartient = false;
 		if(codesGroupes != null && codesGroupes.length > 0){					
 			for(let cg of codesGroupes){
-			  let result = this.g.utilisateur?.CodesGroupes.filter(x => x == cg) || [];
+			  let result = this.g.utilisateur!.CodesGroupes.filter(x => x == cg) || [];
 			  if(result.length > 0){
 				  appartient = true;
 				  break;
 			  }
 			}
 		}
+	
 		return appartient;
 	}
-	getAllUtilisateur(){
-		let options = {	headers: this.headers,withCredentials: true	};
-		let data = {};
-		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getAllUtilisateur', data, options);
-	}
+	
 	isUserConnected(){
 		let connected = false;
 		if(this.cookieService.get('mytoken').length > 0){
@@ -87,13 +112,6 @@ export class UtilisateurSvc {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(currAuthentificationVM);
 		return this.http.post(this.g.baseUrl +  '/api/utilisateur/AuthentificationJeton', data, options);
-	}
-	
-	
-	addUtilisateur(utilisateur: any){
-		let options = {	headers: this.headers,withCredentials: true	};
-		let data = JSON.stringify(utilisateur);
-		return this.http.post(this.g.baseUrl +  '/api/utilisateur/AddUtilisateur', data, options);
 	}
 	
 	deconnexion() {
@@ -137,10 +155,6 @@ export class UtilisateurSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getGroupeTemporaire', data, options);
 	}
-	
-
-	
-
 
 	loadInfoUtilisateur(){
 		
@@ -160,25 +174,5 @@ export class UtilisateurSvc {
 		
 		
 	}
-
-
-/*
-	seDeconnecter(){
-		this.deconnexion().subscribe(
-			res => {
-				let etatReponse = res["EtatReponse"];
-				if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-					let utilisateurVM = res["utilisateurVM"];
-					this.g.utilisateur = null;
-					this.g.isConnected = false;
-					this.cookieService.deleteAll();
-					console.log('SUPPRESSION DES INFORMATIONS DE COOKIE');
-				}else{
-					Swal.fire({ type: 'error', text: etatReponse.Message });
-				}
-				// this.g.showLoadingBlock(false); à decommenter 
-			}
-		);
-	}*/
 	
 }

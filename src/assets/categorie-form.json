@@ -10,6 +10,16 @@
         "required": true,
         "minLength": 5
       }
+    },
+       {
+      "name": "Image",
+      "label": "Image:",
+      "value": "",
+      "placeholder":"image",
+      "type": "file",
+      "validators": {
+        "required": false
+      }
     }
     
   ]

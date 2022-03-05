@@ -33,7 +33,7 @@ public title:string=""
 public id:number=0
 public login:Login|any
 public logins:Login[]=[]
-
+public  $: any;
 
     
   sub: any;
@@ -65,7 +65,7 @@ public logins:Login[]=[]
  
 
  async  ngOnInit() {
-  
+ console.log("xxxx")
 this.sub = this.route.params.subscribe(params => {
 
    this.g.showLoadingBlock(true)
@@ -76,7 +76,7 @@ this.sub = this.route.params.subscribe(params => {
       }})
 
  setTimeout(() => {
-
+ 
     this.http
       .get(this.url)
       .subscribe((formData: JsonFormData|any) => {
@@ -85,7 +85,7 @@ if(this.g.typeform=="utilisateur"){
   //console.log("sub==", this.sub)
        
           this.objettoupdat.rechargerutilisateurformdata(formData).subscribe((form:any)=>{
-            // console.log("test01===",form)
+             //console.log("test01===",form)
             formData.controls=JSON.parse(form)
    
   //console.log("formData",formData.controls)
@@ -95,7 +95,7 @@ if(this.g.typeform=="utilisateur"){
     setTimeout(()=>{
       this.formData = formData
        this.g.showLoadingBlock(false);
-    },300)
+    },1000)
 }
 
 if(this.g.typeform=="article"){
@@ -117,9 +117,10 @@ if(this.g.typeform=="article"){
 
 if(this.g.typeform=="categorie"){
   //console.log("sub==", this.sub)
-       
-          this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{
-            // console.log("test01===",form)
+      
+          this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{ 
+           
+             //console.log("test01===",JSON.parse(form))
             formData.controls=JSON.parse(form)
    
   //console.log("formData",formData.controls)
@@ -157,8 +158,8 @@ if(this.g.typeform=="caisse"){
 
 
   submit(forms: FormGroup|any){
-
-   		if(this.objettoupdat.id == undefined || this.objettoupdat.id === 0){
+console.log(forms)
+  /*  		if(this.objettoupdat.id == undefined || this.objettoupdat.id === 0){
          if(this.g.typeform=="utilisateur"){
 this.ajouterUtilisateur(forms);
          }
@@ -171,10 +172,10 @@ this.ajouterCategorie(forms);
           if(this.g.typeform=="caisse"){
 this.ajouterCaisse(forms);
          } 
-		}
+		} */
     
     
-    else{
+/*     else{
        if(this.g.typeform=="utilisateur"){
 this.modifierUtilisateur(forms);
          }
@@ -187,14 +188,14 @@ this.modifierArticle(forms);
       if(this.g.typeform=="caisse"){
         this.modifierCaisse(forms)
       }
-		}
+		} */
 
   }
 
   ajouterUtilisateur(forms:FormGroup|any){
 this.objettoupdat.getutilisateur(forms).then((result)=>{
     this.g.showLoadingBlock(true);
-      this.utilisateurSvc.addUtilisateur(result).subscribe(
+      this.utilisateurSvc.ajouterUtilisateur(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -232,7 +233,7 @@ this.objettoupdat.getarticle(forms).then((result)=>{
     ajouterCategorie(forms:FormGroup|any){
 this.objettoupdat.getcategorie(forms).then((result)=>{
     this.g.showLoadingBlock(true);
-      this.CategorieSvc.addCategorie(result).subscribe(
+      this.CategorieSvc.ajouterCategorie(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -272,7 +273,7 @@ this.objettoupdat.getcaisse(forms).then((result)=>{
 this.objettoupdat.getutilisateur(forms).then((result)=>{
   //console.log("resltat",result)
     this.g.showLoadingBlock(true);
-      this.utilisateurSvc.updatUtilisateur(result).subscribe(
+      this.utilisateurSvc.modifierUtilisateur(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -313,7 +314,7 @@ this.objettoupdat.getarticle(forms).then((result)=>{
 this.objettoupdat.getcategorie(forms).then((result)=>{
   //console.log("resltat",result)
     this.g.showLoadingBlock(true);
-      this.CategorieSvc.updateCategories(result).subscribe(
+      this.CategorieSvc.modifierCategorie(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {

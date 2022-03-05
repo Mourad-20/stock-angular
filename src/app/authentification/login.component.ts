@@ -91,13 +91,16 @@ this.jetonValue=this.jetonValue+event.key ;
   authentification(){
     this.g.showLoadingBlock(true);
 	if(this.methode == "STANDARD"){
+	
 			this.utilisateurSvc.authentifier(this.loginValue,this.passwordValue).subscribe(
 			  (res:any) => {
+					console.log('succed')
 				let etatReponse = res["EtatReponse"];
 				if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 				  this.g.utilisateur = res["utilisateurVM"];
 				  this.g.isConnected = true;
-				  this.router.navigate(['caisse']);
+					this.router.navigate(['caisse']);
+				
 				}else{
 				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 				}
@@ -111,7 +114,8 @@ this.jetonValue=this.jetonValue+event.key ;
 				if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 				  this.g.utilisateur = res["utilisateurVM"];
 				  this.g.isConnected = true;
-				  this.router.navigate(['caisse']);
+				   window.location.href='/caisse';
+				  //this.router.navigate(['caisse']);
 				}else{
 				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 				}

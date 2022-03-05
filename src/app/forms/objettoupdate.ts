@@ -14,11 +14,14 @@ import { FormGroup } from '@angular/forms';
 import { CategorieSvc } from '../services/categorieSvc';
 import { Caisse } from '../entities/Caisse';
 import { CaisseSvc } from '../services/caisseSvc';
+import{GroupeCode}from '../entities/GroupeCode'; 
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class Objettoupdate{
     public sub:any
     public id:number|any
     public utilisateur:Utilisateur|any
+    public GroupeCode : GroupeCode = new GroupeCode();
 public groupe :any= {
         "name": "Groupe",
       "label": "Groupe:",
@@ -28,7 +31,7 @@ public groupe :any= {
       "validators": {"required": true,
         }
     };
-  constructor(public CaisseSvc:CaisseSvc,public CategorieSvc:CategorieSvc,public ArticleSvc:ArticleSvc,public GroupeSvc:GroupeSvc,public route:ActivatedRoute,private g: Globals,public utilisateurSvc:UtilisateurSvc) {
+  constructor(private http: HttpClient,public CaisseSvc:CaisseSvc,public CategorieSvc:CategorieSvc,public ArticleSvc:ArticleSvc,public GroupeSvc:GroupeSvc,public route:ActivatedRoute,private g: Globals,public utilisateurSvc:UtilisateurSvc) {
   this.sub = this.route.params.subscribe(params => {
       if(params['id']!=null) {
         this.id=params['id']}
@@ -43,7 +46,7 @@ public groupe :any= {
 switch (this.g.typeform) {
     case 'utilisateur':
       
-       this.utilisateurSvc.getAllUtilisateur().subscribe(
+       this.utilisateurSvc.getListeUtilisateurs().subscribe(
        (res:any) => {
         let etatReponse = res["EtatReponse"];
 
@@ -52,7 +55,6 @@ switch (this.g.typeform) {
 
           let utilisateurs:Utilisateur[] = res["utilisateurVMs"];
         let objet:Utilisateur=utilisateurs.filter(x => x.Identifiant==this.id)[0]
-console.log(utilisateurs)
       
 
             subject.next (JSON.stringify(objet)) 
@@ -85,7 +87,7 @@ console.log(utilisateurs)
       }
     );
         break;
-               case 'categorie':
+       case 'categorie':
        this.CategorieSvc.getCategories().subscribe(
        (res:any) => {
         let etatReponse = res["EtatReponse"];
@@ -144,7 +146,8 @@ console.log(utilisateurs)
       "validators": {"required": true,
         }
     }
-this.GroupeSvc.getAllGroupe().subscribe(
+  groupestring.next(JSON.stringify(groupe))
+ this.GroupeSvc.getListeGroupes().subscribe(
 		   (res:any) => {
 			let etatReponse = res["EtatReponse"];
 			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -156,7 +159,7 @@ this.GroupeSvc.getAllGroupe().subscribe(
       groupestring.next(JSON.stringify(groupe))
       }
      
-      )
+      ) 
      
         //return this.groupe;
         return groupestring.asObservable();
@@ -205,7 +208,7 @@ rechargerutilisateurformdata(formData: JsonFormData|any):Observable<string>{
 
       let objet=JSON.parse(res)
   formData.controls.forEach((control:any) => {
-    console.log(objet.CodesGroupes[0])
+    console.log(objet)
 switch (control.name) {
     case 'Nom':
         control.value=objet!=undefined? objet.Nom:""
@@ -214,11 +217,9 @@ switch (control.name) {
         control.value=objet!=undefined?objet.Prenom:""
         break;
   case 'login':
-          control.value=objet!=undefined?objet._Login[0].Login:""
+          control.value=objet!=undefined?objet.Login:""
         break;
-         case 'password':
-          control.value=objet!=undefined?objet._Login[0].Password:""
-        break;
+        
          case 'Groupe':
           
           control.value=objet.CodesGroupes!=undefined?objet.CodesGroupes[0]:""
@@ -309,14 +310,20 @@ return form.asObservable();
 
 }
 rechargercategorieformdata(formData: JsonFormData|any):Observable<string>{
+  
   var form = new Subject<string>();
     
         this._objettoupdate().subscribe(
-      (res:Categorie|any)=>{
-
-      let objet=JSON.parse(res)
+      (res:Categorie|any)=>{ 
+       
+let objet =JSON.parse(res)
+        
+      
      // console.log(objet)
+     
   formData.controls.forEach((control:any) => {
+   
+
 //console.log("controle===",objet)
 
 switch (control.name) {
@@ -326,6 +333,7 @@ switch (control.name) {
         break;
 }
 })
+  console.log("ok==",formData.controls)
     form.next(JSON.stringify(formData.controls)) 
   })
    
@@ -338,10 +346,8 @@ let util:Utilisateur={
     Prenom:forms.value.Prenom,
   CodesGroupes:[forms.value.Groupe],
 Identifiant:this.id,
-_Login:[{
-  Login:forms.value.login,
-  Password:forms.value.password,
-}]
+Login:forms.value.login,
+EnActivite:true,
   }
 
     return util
@@ -353,9 +359,9 @@ let article:Article={
     Montant:forms.value.Montant,
   IdCategorie:forms.value.IdCategorie,
 Identifiant:this.id,
-_categorie:"",
-
-  }
+EnActivite:true,
+Libellecategorie:'',
+ }
 
     return article
 }
@@ -363,6 +369,8 @@ async getcategorie(forms: FormGroup|any){
 let categorie:Categorie={
     Libelle:forms.value.Libelle,
 Identifiant:this.id,
+Code:'',
+EnActivite:true,
   }
 
     return categorie

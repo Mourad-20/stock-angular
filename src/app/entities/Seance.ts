@@ -8,5 +8,7 @@ export class Seance {
     public DateFin : string = "";
     public Numero? : string = "";
     public LibelleCaisse? : string = "";
+    public IdUtilisateur?: number = 0;
+    public NomPrenom? : string = "";
 	
 }

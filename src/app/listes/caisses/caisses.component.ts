@@ -41,9 +41,10 @@ public caissesOrg : Caisse[] = [];
 
 } 
 
-async update(idcaisse:any){
-  await this.g.settype("caisse")
- this.router.navigate(['/forms/'+idcaisse]);}
+async update(_caisse:Caisse|any,param:string|any){
+  await this.g.setparam(_caisse.Identifiant,_caisse.Libelle,param)
+  //this.g.settype("caisse")
+ this.router.navigate(['/caisseparam']);}
 
 
 async chargerCaisse(){

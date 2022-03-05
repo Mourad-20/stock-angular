@@ -48,12 +48,15 @@ export class JsonFormComponent implements OnChanges  {
  @Output("submite") submite: EventEmitter<any> = new EventEmitter();
  public myForm: FormGroup = this.fb.group({});
  public resultat:[]|any
+ public img:any;
+ public reader = new FileReader();
  public GroupeCode : GroupeCode = new GroupeCode();
 submit=false
   constructor(private fb: FormBuilder,private GroupeSvc:GroupeSvc,public g:Globals) { 
    
   }
 public groupe:any = {
+ 
         "name": "Groupe",
       "label": "Groupe;",
       "value": "null",
@@ -62,16 +65,33 @@ public groupe:any = {
       "validators": {"required": true,
         }
     };
-
+public  $: any;
+   fileChangeEvent() {
     
+    // Not supported in Safari for iOS.
+   const image:any=document.getElementById("yourImgTag")
+   const file:any=(<any>document.querySelector('input[type=file]')).files[0]
+
+  const reader=new FileReader()
+  reader.addEventListener('load', () =>{
+    image.src = reader.result;
+    
+  },false);
+  if(file){
+    reader.readAsDataURL(file);
+  }
+  
+
+}  
     ngOnChanges(changes: SimpleChanges) {
-    if (!changes.jsonFormData.firstChange) {
-      //console.log("this.jsonFormData==",this.jsonFormData)
+     if (!changes.jsonFormData.firstChange) {
+      console.log("this.jsonFormData==",this.jsonFormData)
       this.createForm(this.jsonFormData.controls);
-    }
+    } 
   }
 
   public createForm(controls: JsonFormControls[]) {
+ 
     for (const control of controls) {
      // console.log("Data2==",control)
       const validatorsToAdd = [];

@@ -28,15 +28,7 @@
       "type": "text",
       "validators": {"required": true,
         "minLength": 5}
-    },  
-    {
-        "name": "password",
-      "label": "mot de pass:",
-      "value": "",
-      "placeholder":"mot de pass",
-      "type": "text",
-      "validators": {"required": true,
-        "minLength": 5}
     }
+   
   ]
 }

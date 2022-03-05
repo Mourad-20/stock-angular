@@ -24,7 +24,7 @@ import { UtilisateurSvc } from '../services/utilisateurSvc';
 import { CategorieSvc } from '../services/categorieSvc';
 import { ArticleSvc } from '../services/articleSvc';
 import { SeanceSvc } from '../services/seanceSvc';
-
+import {Message}from '../entities/Message';
 import {Subscription} from 'rxjs'
 import { Rxjs } from '../services/rxjs';
 import Swal from 'sweetalert2'
@@ -36,7 +36,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-caisse',
   templateUrl: './caisse.html',
-  styleUrls: []
+  styleUrls: ['./caisse.css']
 })
 export class CaisseComponent implements OnInit {
  public type = "";
@@ -105,6 +105,18 @@ public reglement : Reglement = new Reglement();
 //--------------------------------------
 public recaps : Recap[] = [];
 //--------------------------------------
+//--------------------------------------
+public messages : Message[] = [];
+public idxFour : number = -1
+public idxFive : number = -1
+//--------------------------------------
+public reglementVMs : Reglement[] = [];
+public detailReglementsNonRegle : DetailReglement[] = [];
+public detailReglementsToRegler : DetailReglement[] = [];
+public idxSix : number = -1;
+public idxSeven : number = -1;
+public quantiteToRegler : number = 0;
+
 clickEventSubscription:Subscription;
  
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
@@ -112,7 +124,8 @@ clickEventSubscription:Subscription;
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
- 
+ public loadAPI!: Promise<any>;
+ public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 
 constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
 	interface JQuery {
@@ -182,11 +195,21 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
   	this.type="CAT";
     this.table=true;
     console.log("table "+this.table);
- 
-    
+     this.loadScript()
+        
   }
+  	public async loadScript() {
+     
+      console.log(this.url)
+        let node = document.createElement('script');
+        node.src = this.url;
+        node.type = 'text/javascript';
+       await setTimeout(()=>{
   
-
+        document.getElementById("script")?.appendChild(node);
+        },0)
+      
+    }	
 
 afficherOnCalculator(x : any){
     if(this.calcVal == "0" && x != "."){
@@ -205,7 +228,6 @@ afficherOnCalculator(x : any){
     this.calcVal = "0";
   }
   
-
   calculatePagesCountCat(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
@@ -353,11 +375,11 @@ console.log(idArticle)
       this.calcVal = '1';
     }
 
-    if(this.commande.DetailCommandes.filter(x => x.IdArticle === idArticle).length > 0) {
+    /* if(this.commande.DetailCommandes.filter(x => x.IdArticle === idArticle).length > 0) {
       //alert('Existe déja');
       let detailCommande = this.commande.DetailCommandes.filter(x => x.IdArticle === idArticle)[0];
       detailCommande.Quantite = detailCommande.Quantite + Number(this.calcVal);
-    }else{
+    }else{ */
 
       let article = this.g.articlesOrg.filter(x => x.Identifiant === idArticle)[0];
       console.log(this.g.articlesOrg)
@@ -368,7 +390,7 @@ console.log(idArticle)
       detailCommande.Quantite = Number(this.calcVal);
       detailCommande.Montant = article.Montant;
       this.commande.DetailCommandes.push(detailCommande);
-    }    
+    //}    
     this.commande.DetailCommandes = this.commande.DetailCommandes;
     this.idxOne = this.commande.DetailCommandes.length - 1;
     this.calcVal = '0';
@@ -666,7 +688,6 @@ nextLocalite(){
     this.chargerListServeur();
   }
   
-
   selectLocalite(idLocalite : any){
     //alert('selectLocalite idArticle : ' + idLocalite);
     this.tableColor="box bg-megna text-center";
@@ -677,7 +698,6 @@ nextLocalite(){
     ($('#localiteModal') as any).modal('hide');
     this.tableColor="box bg-megna text-center";
   }
-
 
   selectServeur(idServeur : any){
     //alert('selectS idArticle : ' + idLocalite);
@@ -748,133 +768,59 @@ console.log(this.commandes)
     
   }
 
- 
-
   selectCommande(idCommande : any){
     this.getCommandeById(idCommande);
     //($('#commandesNonRegleesModal') as any).modal('hide');
   }
 
   showReglements(){
-    if(this.commande.Identifiant > 0){
-	this.detailsCommandeARegles = [];
-      //this.g.showLoadingBlock(true);  
-      this.commandeSvc.getCommandeById(this.commande.Identifiant).subscribe(
-        (res:any) => {
-          let etatReponse = res["EtatReponse"];
-          if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-            this.commandeReg = res["commandeVM"];
-            if(this.commandeReg == null){
-              this.commandeReg = new Commande();
-            }
-            this.getReglementsByIdCommande(this.commande.Identifiant);
-			if(this.commandeReg.DetailCommandesNonRegles == null) {
-				this.commandeReg.DetailCommandesNonRegles = [];
-			}
-			this.idxTwo = this.commandeReg.DetailCommandesNonRegles.length - 1;
-			this.selectArticleToRegler();
-          }else{ 
-            Swal.fire({ text: etatReponse.Message , icon: 'error'});
-          }
-          //this.g.showLoadingBlock(false);    
-        }
-      );
-
-      ($('#reglementsModal') as any).modal('show');
-    }    
-  }
-  
-  goUpDetComReg(){
-    if(this.idxTwo > 0){
-      this.idxTwo--;
-	  this.selectArticleToRegler();
-    }
-  }
-  
-  goDownDetComReg(){
-    if(this.idxTwo < this.commandeReg.DetailCommandesNonRegles.length - 1){
-      this.idxTwo++;
-	  this.selectArticleToRegler();
-    }
-  }
-  
-  selectArticleToRegler(){
-	  this.quantiteARegler = 0;
-	  if(this.commandeReg.DetailCommandesNonRegles.length > 0){
-		  this.quantiteARegler = this.commandeReg.DetailCommandesNonRegles[this.idxTwo].Quantite;
-	  }
-  }
-  
-  validerArticleToRegler(){
-	  if(this.commandeReg.DetailCommandesNonRegles.length > 0){
-		let detailCommande = Object.assign({}, this.commandeReg.DetailCommandesNonRegles[this.idxTwo]) ;
-		if(detailCommande.Quantite >= this.quantiteARegler && this.quantiteARegler > 0){
-			if(this.detailsCommandeARegles.filter(x => x.Identifiant === detailCommande.Identifiant).length > 0) {
-			//alert('EXISTE');
-			detailCommande = this.detailsCommandeARegles.filter(x => x.Identifiant === detailCommande.Identifiant)[0];
-			detailCommande.Quantite = Number(detailCommande.Quantite) + Number(this.quantiteARegler);
-		}else{
-			//alert('NEW');
-			detailCommande.Quantite = this.quantiteARegler;
-			this.detailsCommandeARegles.push(Object.assign({}, detailCommande));
-		}
-		this.commandeReg.DetailCommandesNonRegles[this.idxTwo].Quantite = this.commandeReg.DetailCommandesNonRegles[this.idxTwo].Quantite - this.quantiteARegler;
-		if(this.commandeReg.DetailCommandesNonRegles[this.idxTwo].Quantite <= 0){
-			  this.commandeReg.DetailCommandesNonRegles.splice(this.idxTwo,1);
-			  if(this.idxTwo == this.commandeReg.DetailCommandesNonRegles.length){
-				this.idxTwo--;
-				
+	  this.idxSix = -1;
+	  this.quantiteToRegler = 0;
+	  this.detailReglementsNonRegle = [];
+	  this.detailReglementsToRegler = [];
+	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+		  if(this.commande.DetailCommandes.length > 0){
+			  
+			  
+			  
+			  
+			  this.commandeSvc.getDetailCommandesNonReglees(this.commande.Identifiant).subscribe(
+          
+				(res:any) => {
+         
+				let etatReponse = res["EtatReponse"];
+        
+				if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+				  
+				  let detailCommandesNonReglees = res["detailCommandeVMs"];
+				   
+				  
+				  if(detailCommandesNonReglees.length > 0){
+					for(let dc of detailCommandesNonReglees){
+						let detailReglement = new DetailReglement();
+						detailReglement.IdDetailCommande = dc.Identifiant;
+						detailReglement.LibelleArticle = dc.LibelleArticle;
+						detailReglement.Quantite = dc.Quantite;
+						detailReglement.Montant = dc.Montant;
+						this.detailReglementsNonRegle.push(detailReglement);	
+            console.log("etatReponse",this.detailReglementsNonRegle)			
+					}
+				}
+           ($('#responsive-modal') as any).modal('show');
+				  
+				}else{ 
+				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
+				}
+				this.g.showLoadingBlock(false);    
 			  }
+			);
+			  
+			  
+			  
+			  
+				
 		  }
-		  this.selectArticleToRegler();
-		}		
-	  }	  
-  }
-      
-  moveAllDetailCommande(){
-	  this.commandeReg.DetailCommandesNonRegles.forEach(obj => {
-			if(this.detailsCommandeARegles.filter(x => x.Identifiant === obj.Identifiant).length > 0) {
-				let detailCommande = this.detailsCommandeARegles.filter(x => x.Identifiant === obj.Identifiant)[0];
-				detailCommande.Quantite = Number(detailCommande.Quantite) + Number(obj.Quantite);
-				this.commandeReg.DetailCommandesNonRegles = this.commandeReg.DetailCommandesNonRegles.filter(obj => obj.Identifiant !== detailCommande.Identifiant);
-			}else{
-				this.detailsCommandeARegles.push(Object.assign({}, obj));
-				this.commandeReg.DetailCommandesNonRegles = this.commandeReg.DetailCommandesNonRegles.filter(obj => obj.Identifiant !== obj.Identifiant);
-			}
-			
-		});
-		console.log(this.detailsCommandeARegles);
-  }
-  
-  effectuerReglement(){
-	this.g.showLoadingBlock(true);
-    if(this.detailsCommandeARegles.length > 0) {
-		let reglement = new Reglement();
-		reglement.IdCommande = this.commandeReg.Identifiant;
-		reglement.DetailReglements = [];
-		this.detailsCommandeARegles.forEach(obj => {
-			let detailReglement = new DetailReglement();			
-			detailReglement.IdDetailCommande =  obj.Identifiant;
-			detailReglement.Montant =  obj.Montant;
-			detailReglement.Quantite =  obj.Quantite;
-			reglement.DetailReglements.push(detailReglement);
-		});	
-
-      
-      this.reglementSvc.etablirReglement(reglement).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-          let idReglement = res["idReglement"];
-		  ($('#reglementsModal') as any).modal('hide');
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    );
-    }
+	  }	
   }
   
   getReglementsByIdCommande(idCommande : number){
@@ -986,7 +932,117 @@ console.log(this.commandes)
 	  this.router.navigate(['clotureSeance']);
   }
   
+   getRowIdxSix(x : any){
+		this.idxSix = x;
+		let detailReglementSrc = this.detailReglementsNonRegle[this.idxSix];
+		this.quantiteToRegler = detailReglementSrc.Quantite;		
+  }
   
+  getRowIdxSeven(x : any){
+	  this.idxSeven = x;
+		let detailReglementSrc = this.detailReglementsToRegler[this.idxSeven];
+		this.quantiteToRegler = detailReglementSrc.Quantite;	
+  }
+  
+  tagToReglement(){
+	if(this.idxSix >= 0 && this.detailReglementsNonRegle.length > 0){
+		let detailReglementSrc = this.detailReglementsNonRegle[this.idxSix]; 
+		let detailReglement = new DetailReglement();
+		detailReglement.IdDetailCommande = detailReglementSrc.IdDetailCommande;
+		detailReglement.LibelleArticle = detailReglementSrc.LibelleArticle;
+		detailReglement.Quantite = detailReglementSrc.Quantite;
+		detailReglement.Montant = detailReglementSrc.Montant;
+		this.detailReglementsToRegler.push(detailReglement);
+		this.detailReglementsNonRegle.splice(this.idxSix, 1);
+		if(this.idxSix > 0){
+			this.idxSix = this.idxSix - 1;
+		}
+		this.idxSeven = this.detailReglementsToRegler.length - 1;
+		
+	}
+  }
+  
+  untagToReglement(){
+	  if(this.idxSeven >= 0 && this.detailReglementsToRegler.length > 0){
+		let detailReglementSrc = this.detailReglementsToRegler[this.idxSeven]; 
+		let detailReglement = new DetailReglement();
+		detailReglement.IdDetailCommande = detailReglementSrc.IdDetailCommande;
+		detailReglement.LibelleArticle = detailReglementSrc.LibelleArticle;
+		detailReglement.Quantite = detailReglementSrc.Quantite;
+		detailReglement.Montant = detailReglementSrc.Montant;
+		this.detailReglementsNonRegle.push(detailReglement);
+		this.detailReglementsToRegler.splice(this.idxSeven, 1);
+		if(this.idxSeven > 0){
+			this.idxSeven = this.idxSeven - 1;
+		}
+		this.idxSix = this.detailReglementsNonRegle.length - 1;
+	}
+  }
+  
+  tagAllToReglement(){
+	if(this.detailReglementsNonRegle.length > 0){
+		let i = 0;
+		for(let dr of this.detailReglementsNonRegle){
+			let detailReglement = new DetailReglement();
+			detailReglement.IdDetailCommande = dr.IdDetailCommande;
+			detailReglement.LibelleArticle = dr.LibelleArticle;
+			detailReglement.Quantite = dr.Quantite;
+			detailReglement.Montant = dr.Montant;
+			this.detailReglementsToRegler.push(detailReglement);
+		}
+		this.detailReglementsNonRegle = [];	
+		this.idxSeven = this.detailReglementsToRegler.length - 1;
+	}
+  }
+  
+  untagAllToReglement(){
+	  if(this.detailReglementsToRegler.length > 0){
+		let i = 0;
+		for(let dr of this.detailReglementsToRegler){
+			let detailReglement = new DetailReglement();
+			detailReglement.IdDetailCommande = dr.IdDetailCommande;
+			detailReglement.LibelleArticle = dr.LibelleArticle;
+			detailReglement.Quantite = dr.Quantite;
+			detailReglement.Montant = dr.Montant;
+			this.detailReglementsNonRegle.push(detailReglement);
+		}
+		this.detailReglementsToRegler = [];	
+		this.idxSix = this.detailReglementsNonRegle.length - 1;	
+	}
+  }
+  
+  
+  effectuerReglement(){
+	  if(this.detailReglementsToRegler.length > 0){
+		  let reglement = new Reglement();
+		  reglement.IdCommande = this.commande.Identifiant;
+		  reglement.IdModeReglement = 1;
+		  reglement.DetailReglements = [];
+		  for(let dr of this.detailReglementsToRegler){
+				let detailReglement = new DetailReglement();
+				detailReglement.IdDetailCommande = dr.IdDetailCommande;
+				detailReglement.LibelleArticle = dr.LibelleArticle;
+				detailReglement.Quantite = dr.Quantite;
+				detailReglement.Montant = dr.Montant;
+				reglement.DetailReglements.push(detailReglement);				
+			}
+
+	   this.g.showLoadingBlock(true);  
+	   this.reglementSvc.etablirReglement(reglement).subscribe(
+		(res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+		  Swal.fire({ text: etatReponse.Message , icon: 'success'});
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    );
+	   
+	
+	  }
+  }
   
 
 }

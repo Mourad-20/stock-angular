@@ -18,8 +18,7 @@ export class CaisseSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/caisse/getCaisses', data, options);
 	}
-
-		addCaisse(caisse: any){
+	addCaisse(caisse: any){
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(caisse);
 		return this.http.post(this.g.baseUrl +  '/api/caisse/AddCaisse', data, options);

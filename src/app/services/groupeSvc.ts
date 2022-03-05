@@ -14,10 +14,10 @@ export class GroupeSvc {
 	}
 	
 	
-	getAllGroupe() {
+	getListeGroupes() {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = {};
-		return this.http.post(this.g.baseUrl +  '/api/groupe/getAllGroupe', data, options);
+		return this.http.post(this.g.baseUrl +  '/api/groupe/getListeGroupes', data, options);
 	}
 	
 }

@@ -12,8 +12,10 @@
 @import './assets/node_modules/footable/css/footable.bootstrap.min.css';
 @import './assets/node_modules/css-chart/css-chart.css';
 
+@import"./assets/node_modules/dropify/dist/css/dropify.min.css";
 
 @import './vendors/myCss/pages/register3.css';
 @import './vendors/myCss/style.min.css';
+@import './vendors/myCss/pages/form-icheck.css';
 
-   
+   @import './assets/node_modules/icheck/skins/all.css';
