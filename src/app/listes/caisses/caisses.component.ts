@@ -5,7 +5,7 @@ import { Article } from 'src/app/entities/Article';
 import { Caisse } from 'src/app/entities/Caisse';
 import { ArticleSvc } from 'src/app/services/articleSvc';
 import { CaisseSvc } from 'src/app/services/caisseSvc';
-
+import { ReglementSvc } from 'src/app/services/reglementSvc';
 import {Subscription} from 'rxjs'
 import { Rxjs } from '../../services/rxjs';
 import Swal from 'sweetalert2'
@@ -18,7 +18,8 @@ import Swal from 'sweetalert2'
 export class CaissesComponent implements OnInit {
 public caisses : Caisse[] = [];
 public caissesOrg : Caisse[] = [];
-  constructor(public CaisseSvc:CaisseSvc,public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
+public total:any=[]
+  constructor(public CaisseSvc:CaisseSvc,public ReglementSvc:ReglementSvc,public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
 
   ngOnInit(): void {
 
@@ -40,34 +41,57 @@ public caissesOrg : Caisse[] = [];
  }, 100);
 
 } 
-
+ 
+   getTotal(_Caisse:Caisse){
+ 
+ console.log(_Caisse)
+	let itemt:any=[_Caisse]
+ this.ReglementSvc.getMontantTotalReglementForCaisse(_Caisse.Identifiant).subscribe(
+		  (res:any) => {
+			let etatReponse = res["EtatReponse"];
+			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+			 itemt.push(res["montantTotal"])
+			
+			}else{
+         itemt.push("0")
+         
+			 // Swal.fire({ text: etatReponse.Message , icon: 'error'});
+			}
+			//this.g.showLoadingBlock(false);    
+		  }
+		)
+			 this.total.push(itemt) ;
+console.log(this.total)
+ 
+}
 async update(_caisse:Caisse|any,param:string|any){
-  await this.g.setparam(_caisse.Identifiant,_caisse.Libelle,param)
+  await this.g.setparamcaisse(_caisse.Identifiant,_caisse.Libelle,param)
   //this.g.settype("caisse")
  this.router.navigate(['/caisseparam']);}
 
 
 async chargerCaisse(){
-
    //this.g.showLoadingBlock(true);  
    await this.CaisseSvc.getCaisse().subscribe(
        (res:any) => {
         let etatReponse = res["EtatReponse"];
-
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-              console.log("resultat==",res["caisseVMs"])
-
+        
           this.caisses = res["caisseVMs"];
           this.caissesOrg=res["caisseVMs"];
+          this.caisses.forEach((item)=>{
+           this.getTotal(item)
+     
+    
+          })
            this.refrechtable()
-
-         
+//this.getTotal(1)
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         //this.g.showLoadingBlock(false);    
       }
     );
-   return this.caisses
+   return this.total
   }
 }

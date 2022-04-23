@@ -19,7 +19,17 @@ export class MessageSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/message/getMessages', data, options);
 	}
+		ajouterMessage(message: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(message);
+		return this.http.post(this.g.baseUrl +  '/api/message/ajouterMessage', data, options);
+	}
 	
+	modifierMessage(message: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(message);
+		return this.http.post(this.g.baseUrl +  '/api/message/modifierMessage', data, options);
+	}
 
 
 }

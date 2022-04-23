@@ -2,9 +2,8 @@ import { Component,EventEmitter,Input,OnInit, Output, ViewChild } from '@angular
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../globals';
 import { UtilisateurSvc } from '../services/utilisateurSvc';
-
+import { GroupeCode } from '../entities/GroupeCode';
 import{Rxjs} from '../services/rxjs';
-
 @Component({
   selector: 'app-leftsidebare',
   templateUrl: './leftsidebar.html',
@@ -12,7 +11,8 @@ import{Rxjs} from '../services/rxjs';
 })
 export class LeftsidebareComponent implements OnInit {
 public collapse:number=0
-constructor(public g: Globals, public sharedService:Rxjs , public router:Router) {
+GroupeCode:GroupeCode=new GroupeCode()
+constructor(public g: Globals, public sharedService:Rxjs , public router:Router,public utilisateurSvc:UtilisateurSvc) {
 	console.log('--------------------------------------');
 	console.log('Home constructor()');	
 }
@@ -21,12 +21,20 @@ constructor(public g: Globals, public sharedService:Rxjs , public router:Router)
 	console.log('Home ngOnInit()');
   }
 goto(link:string|any){
-  console.log(link)
-  this.router.navigate([link])
+  this.router.navigateByUrl(link, { skipLocationChange: true }).then(() => {
+    this.router.navigate([link]);
+}); 
 
 }
 showCommandesNonReglees(){
  this.sharedService.sendClickEvent();}
+initcaisse(){
+  this.sharedService.initcaisseEvent();
+}
+
+ showCommandesNonControler(){
+ this.sharedService.controleEvent();}
+
 
 async forme(typeform:string|any){
  

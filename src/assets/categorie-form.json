@@ -1,6 +1,7 @@
 {
   "controls": [
     {
+      "id": "1",
       "name": "Libelle",
       "label": "Libelle:",
       "value": "",
@@ -12,6 +13,7 @@
       }
     },
        {
+         "id": "4",
       "name": "Image",
       "label": "Image:",
       "value": "",
@@ -20,7 +22,29 @@
       "validators": {
         "required": false
       }
+    },
+      {
+        "id": "3",
+      "name": "EnActivite",
+      "label": "En-Activite",
+      "value": "true",
+      "placeholder":"",
+      "type": "checkbox",
+      "validators": {}
+    },
+     {
+       "id": "2",
+      "name": "Code",
+      "label": "code",
+      "value": "",
+      "placeholder":"cde",
+     "type": "text",
+      "validators": {
+        "required": true,
+        "minLength": 2
+      }
     }
+   
     
   ]
 }

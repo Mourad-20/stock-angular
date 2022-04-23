@@ -11,19 +11,20 @@ import {DataTablesModule} from 'angular-datatables';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Globals } from './globals';
-
+import { ZoneSvc } from './services/zoneSvc';
 import { LoginComponent } from './authentification/login.component';
 import { LoginMobileComponent } from './authentification/loginMobile.component';
 
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/header.component';
 import { LeftsidebareComponent } from './home/leftsidebare.component';
-import { CaisseComponent } from './home/caisse.component';
+import { CaisseComponent } from './caisse/caisse.component';
 import{OuvertureSeanceComponent} from './seances/ouvertureSeance.component'
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
 import { TestComponent } from './home/test.component';
 import { PercentComponent } from './rapport/percent.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 
@@ -39,8 +40,10 @@ import { EtatCommandeSvc } from './services/EtatCommandeSvc';
 import { CommercialisationSvc } from './services/commercialisationSvc';
 import { AffectationCaisseSvc } from './services/affectationCaisseSvc';
 import { ActeurSeanceSvc } from './services/acteurSeanceSvc';
+import { TypeUniteSvc } from './services/typeuniteSvc';
 import { Objettoupdate } from './forms/objettoupdate';
 import Swal from 'sweetalert2';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { RapportComponent } from './rapport/rapport.component';
 import { FormsComponent } from './forms/forms.component';
 import { GroupeSvc } from './services/groupeSvc';
@@ -50,8 +53,27 @@ import { ArticlesComponent } from './listes/articles/articles.component';
 import { CategoriesComponent } from './listes/categories/categories.component';
 import { CaissesComponent } from './listes/caisses/caisses.component';
 import { CaisseparamComponent } from './param/caisse/caisse.component';
+import { LocaliteComponent } from './components/localite/localite.component';
+import { FermetureSeanceComponent } from './seances/fermeture-seance/fermeture-seance.component';
+import { SeancesComponent } from './listes/seances/seances.component';
+import { ListeLocaliteComponent } from './listes/localite/localite.component';
+import { MessageSvc } from './services/messageSvc';
+import { AssociationMessageSvc } from './services/associationMessageSvc';
+import { ArticlerapportComponent } from './rapport/articlerapport/articlerapport.component';
+import { CaisserapportComponent } from './rapport/caisserapport/caisserapport.component';
+import { MessageComponent } from './listes/message/message.component';
+import { ArticleparamComponent } from './param/article/article.component';
+import { HomerapportComponent } from './rapport/homerapport/homerapport.component';
+import { SeancerapportComponent } from './rapport/seancerapport/seancerapport.component';
+import { DaterapportComponent } from './rapport/daterapport/daterapport.component';
+import { VentComponent } from './vent/vent.component';
+import { DevisComponent } from './devis/devis.component';
+import { DtransfertComponent } from './dtransfert/dtransfert.component';
+import { listedevisComponent } from './listes/devis/devis.component';
 
-
+import { listeCommandesComponent } from './listes/commandes/commandes.component';
+import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
+import { DataTableDirective } from 'angular-datatables';
 @NgModule({
   declarations: [
     PercentComponent,
@@ -73,10 +95,29 @@ import { CaisseparamComponent } from './param/caisse/caisse.component';
  ArticlesComponent,
  CategoriesComponent,
  CaissesComponent,
-CaisseparamComponent
+CaisseparamComponent,
+LocaliteComponent,
+FermetureSeanceComponent,
+SeancesComponent,
+ArticlerapportComponent,
+CaisserapportComponent,
+ListeLocaliteComponent,
+MessageComponent,
+ArticleparamComponent,
+HomerapportComponent,
+SeancerapportComponent,
+DaterapportComponent,
+VentComponent,
+DevisComponent,
+listeCommandesComponent,
+listedevisComponent,
+DtransfertComponent,
+listeallimentationsComponent
 
   ],
   imports: [
+    ColorPickerModule,
+    NgMultiSelectDropDownModule.forRoot(),
     DataTablesModule,
     BrowserModule,
     FormsModule,
@@ -94,6 +135,7 @@ CaisseparamComponent
     ArticleSvc,
     CommandeSvc,
     LocaliteSvc,
+    TypeUniteSvc,
     SeanceSvc,
     ReglementSvc,
     CaisseSvc,
@@ -102,7 +144,11 @@ CaisseparamComponent
     Objettoupdate,
     CommercialisationSvc,
     AffectationCaisseSvc,
-    ActeurSeanceSvc
+    ActeurSeanceSvc,
+    ZoneSvc,
+    MessageSvc,
+    AssociationMessageSvc,
+    
     ],
   bootstrap: [AppComponent]
 })

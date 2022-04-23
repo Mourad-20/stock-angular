@@ -20,6 +20,24 @@ export class LocaliteSvc {
 		return this.http.post(this.g.baseUrl +  '/api/localite/getLocalites', data, options);
 	}
 	
-
+	getLocalitesDisponible() {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/localite/getLocalitesDisponible', data, options);
+	}
+	
+	
+	
+	ajouterLocalite(localite: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(localite);
+		return this.http.post(this.g.baseUrl +  '/api/localite/ajouterLocalite', data, options);
+	}
+	
+	modifierLocalite(localite: any){
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(localite);
+		return this.http.post(this.g.baseUrl +  '/api/localite/modifierLocalite', data, options);
+	}
 
 }

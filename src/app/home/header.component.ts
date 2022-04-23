@@ -15,12 +15,15 @@ export class HeaderComponent implements OnInit {
 constructor(public g: Globals,private router: Router,public utilisateurSvc:UtilisateurSvc) {
 		
   }
-
+fullscreen(){
+  this.g.toggle()
+}
   ngOnInit() {
   	//alert("je suis header");
   }
   
   logout(){
+    this.g.typelogin=""
 	  this.router.navigate(['logout']);
   }
   

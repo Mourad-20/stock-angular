@@ -13,7 +13,13 @@ export class SeanceSvc {
 
 	}
 	
-	
+	getSeances(datedebut: string,datefin: string) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+		return this.http.post(this.g.baseUrl +  '/api/seance/getSeances', data, options);
+	}
+
 	getSeanceActive() {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = {};

@@ -27,9 +27,14 @@ export class ArticleSvc {
 	}
 
 updateArticle(article:any){
+	console.log("okok")
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(article);
 		return this.http.post(this.g.baseUrl +  '/api/article/updateArticle', data, options);
 	}
-
+	getDefaultImageAsBase64() {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/article/getDefaultImageAsBase64', data, options);
+	}
 }

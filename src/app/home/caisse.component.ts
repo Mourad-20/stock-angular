@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,HostListener,OnInit } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { Globals } from '../globals';
 import { Categorie } from '../entities/Categorie';
@@ -13,10 +13,10 @@ import { Seance } from '../entities/Seance';
 import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
 import { Recap } from '../entities/Recap';
-
+import { LocaliteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import  * as $ab from 'ng2-charts';
-
+import { AffectationMessage } from '../entities/AffectationMessage';
 import { CommandeSvc } from '../services/commandeSvc';
 import { LocaliteSvc } from '../services/localiteSvc';
 import { ReglementSvc } from '../services/reglementSvc';
@@ -24,11 +24,13 @@ import { UtilisateurSvc } from '../services/utilisateurSvc';
 import { CategorieSvc } from '../services/categorieSvc';
 import { ArticleSvc } from '../services/articleSvc';
 import { SeanceSvc } from '../services/seanceSvc';
+import { MessageSvc } from '../services/messageSvc';
+import { AssociationMessageSvc } from '../services/associationMessageSvc';
 import {Message}from '../entities/Message';
 import {Subscription} from 'rxjs'
 import { Rxjs } from '../services/rxjs';
 import Swal from 'sweetalert2'
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -46,14 +48,16 @@ export class CaisseComponent implements OnInit {
 public totalColor : string = "box bg-dark text-center";
 public serveurColor : string = "box bg-dark text-center";
 public tableColor : string = "box bg-dark text-center";
-
-
+public showlocale:boolean=false;
+public showcaisse:boolean=true;
+public showserveur:boolean=false;
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
 public GroupeCode : GroupeCode = new GroupeCode();
+public LocaliteCode:LocaliteCode=new LocaliteCode()
 public seance? : Seance  | null;
 //--------------------------------------
-
+public affectationMessageVMs : AffectationMessage[] = [];
 public imageSrcCat : string =  'assets/categorie.jpg';
 public imageSrcArt : string =  'assets/article.jpg';
 //--------------------------------------
@@ -64,30 +68,32 @@ public searchTerm: string = "";
 public categories : Categorie[] = [];
 public currentPageCat : number = 1;
 public totalPageCat : number = 1;
-public pageSizeCat : number = 6;
+public pageSizeCat : number = 20;
 //--------------------------------------
 public articles : Article[] = [];
 public currentPageArt : number = 1;
 public totalPageArt : number = 1;
-public pageSizeArt : number = 9;
+public pageSizeArt : number = 20;
 //--------------------------------------
 public localites : Localite[] = [];
+public codelocalites :string[] = [];
+
 public localitesOrg : Localite[] = [];
 public currentPageLoc : number = 1;
 public totalPageLoc : number = 1;
-public pageSizeLoc : number = 6;
+public pageSizeLoc : number = 20;
 //--------------------------------------
 public serveurs : Utilisateur[] = [];
 public serveursOrg : Utilisateur[] = [];
 public currentPageServ : number = 1;
 public totalPageServ : number = 1;
-public pageSizeServ : number = 6;
+public pageSizeServ : number = 20;
 //--------------------------------------
 public commandes : Commande[] = [];
 public commandesOrg : Commande[] = [];
 public currentPageCom : number = 1;
 public totalPageCom : number = 1;
-public pageSizeCom : number = 6;
+public pageSizeCom : number = 20;
 //--------------------------------------
 public commande : Commande = new Commande();
 public commandeReg : Commande = new Commande();
@@ -116,18 +122,26 @@ public detailReglementsToRegler : DetailReglement[] = [];
 public idxSix : number = -1;
 public idxSeven : number = -1;
 public quantiteToRegler : number = 0;
-
+public localeactive:string="";
+public commandeCount:number=0
 clickEventSubscription:Subscription;
+controleEventSubscription:Subscription;
+
  
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
   public pieChartData: any = [30, 50, 20];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
+  public backgroundcategorie:string=""
  public loadAPI!: Promise<any>;
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
+public colorMessage:string=""
 
-constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,private articleSvc:ArticleSvc) {
+constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
+  private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
+  private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,
+  private articleSvc:ArticleSvc,private associationMessageSvc :AssociationMessageSvc,private messageSvc:MessageSvc) {
 	interface JQuery {
     easyPieChart():void;
 }
@@ -145,6 +159,9 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
 					let etatReponse = res["EtatReponse"];
 					if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 					  this.g.categories = res["categorieVMs"];
+             for(let o of this.g.categories){
+						  o.PathImage = this.g.baseUrl + '/api/Categorie/showImageCategorie?identifiant=' + o.Identifiant;
+					  }
 					  this.totalPageCat = this.calculatePagesCountCat(this.pageSizeCat,this.g.categories.length);
 					  this.chargerListeCat();
 					  //----------------------------------------------------
@@ -155,6 +172,9 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
 						  let etatReponse = res["EtatReponse"];
 						  if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 							this.g.articlesOrg = res["articleVMs"];
+              for(let a of this.g.articlesOrg){
+								  a.PathImage = this.g.baseUrl + '/api/Article/showImageArticle?identifiant=' + a.Identifiant;
+							  }
 						  }else{
 							Swal.fire({ text: etatReponse.Message , icon: 'error'});
 						  }
@@ -184,23 +204,113 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
 		);
 		
     this.clickEventSubscription= this.rxjs.getClickEvent().subscribe(()=>{
+this.currentPageCom=0
+          if(this.commande.DetailCommandes.length>0){
+      this.commande.DetailCommandes.forEach(element => {
+        if(element.IdCreePar===0){
+         Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.isConfirmed) {
+  this.showCommandesNonReglees();
+      this.initcommande()
+  }
+})
+        }
+        else{
+           this.showCommandesNonReglees();
+      this.initcommande()
+        }
+      });
+
+    }
+    else{
       this.showCommandesNonReglees();
+      this.initcommande()
+    }
+      
     })
-	
+
+
+	  this.controleEventSubscription= this.rxjs.getControleEvent().subscribe(()=>{
+      this.currentPageCom=0
+       if(this.commande.DetailCommandes.length>0){
+      this.commande.DetailCommandes.forEach(element => {
+        if(element.IdCreePar===0){
+         Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.isConfirmed) {
+   this.chargerCommandesNonControler();
+       this.initcommande()
+  }
+})
+        }
+         else{
+           this.chargerCommandesNonControler();
+      this.initcommande()
+        }
+      });
+
+    }
+    else{
+      this.chargerCommandesNonControler();
+       this.initcommande()
+    }
+    
+     
+    })
 		
 	}
-
+@HostListener('window:keydown', ['$event'])
+      handleKeyDown(event: KeyboardEvent) {
+        this.g.handleKeyDown(event)
+      }
   ngOnInit() {
     var $: any;
   	this.type="CAT";
     this.table=true;
-    console.log("table "+this.table);
+    //console.log("table "+this.table);
      this.loadScript()
+     for(const x in this.LocaliteCode){
+        if(x!=this.LocaliteCode.EMPORTER){
+      this.codelocalites.push(x)}
+     }
+     this. getcountcommande()
+  }
+  getcountcommande(){
+       this.commandeSvc.getCommandesNonReglees().subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+         console.log("code",etatReponse.Code)
         
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+           let commandes:Commande[]=res["commandeVMs"]
+           commandes = commandes.filter(x=>x.IdCreePar==this.g.utilisateur?.Identifiant);
+      this.commandeCount=commandes.length
+          }})
+ 
+  }
+  initcommande(){
+    
+this.localeactive=""
+    this.commande=new Commande();
   }
   	public async loadScript() {
      
-      console.log(this.url)
+      //console.log(this.url)
         let node = document.createElement('script');
         node.src = this.url;
         node.type = 'text/javascript';
@@ -210,7 +320,39 @@ constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
         },0)
       
     }	
+show(showparam:string){
+  //console.log(showparam)
+switch (showparam){
+  case "localite":
+    if(this.showlocale==false){
+this.showcaisse=false
+this.showlocale=true
+this.showserveur=false
+    }
+    else{
+      this.showcaisse=true
+this.showlocale=false
+this.showserveur=false
+    }
 
+    break;
+     case "serveur":
+    if(this.showserveur==false){
+      this.showListeServeur()
+this.showcaisse=false
+this.showserveur=true
+this.showlocale=false
+    }
+    else{
+      this.showcaisse=true
+this.showlocale=false
+this.showserveur=false
+    }
+
+    break;
+}
+
+}
 afficherOnCalculator(x : any){
     if(this.calcVal == "0" && x != "."){
       this.calcVal = "";
@@ -222,19 +364,16 @@ afficherOnCalculator(x : any){
     }
     this.calcVal = this.calcVal + x;
   }
-
   resetCalculator(){
     
     this.calcVal = "0";
   }
-  
   calculatePagesCountCat(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
-
-
   chargerListeCat(){
       this.categories.length = 0;
+      console.log(this.categories)
     if (this.currentPageCat < 1)
         {
             this.currentPageCat = 1;
@@ -321,6 +460,7 @@ nextArticle(){
 
   chargerArticle(idCategorie : any) {
     this.type="ARTICLE";
+    console.log(this.g.articlesOrg)
     this.g.articles = this.g.articlesOrg.filter(x => x.IdCategorie === idCategorie);
     this.totalPageArt = this.calculatePagesCountArt(this.pageSizeArt,this.g.articles.length);
     this.chargerListeArt();
@@ -369,7 +509,7 @@ calculatePagesCountArt(elementPerPage : number, totalCount : number) {
 
   selectArticle(idArticle : any){
 	//this.scrollToBottom();
-console.log(idArticle)
+//console.log(idArticle)
 	if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 		if(this.calcVal == '0'){
       this.calcVal = '1';
@@ -382,19 +522,21 @@ console.log(idArticle)
     }else{ */
 
       let article = this.g.articlesOrg.filter(x => x.Identifiant === idArticle)[0];
-      console.log(this.g.articlesOrg)
-      console.log("article",article)
+      //console.log(this.g.articlesOrg)
+     
       let detailCommande = new DetailCommande();
       detailCommande.IdArticle = idArticle;
       detailCommande.LibelleArticle = article.Libelle;
       detailCommande.Quantite = Number(this.calcVal);
       detailCommande.Montant = article.Montant;
+      detailCommande.LibelleTypeUnite=article.LibelleTypeUnite
       this.commande.DetailCommandes.push(detailCommande);
+       console.log("article",detailCommande)
     //}    
     this.commande.DetailCommandes = this.commande.DetailCommandes;
     this.idxOne = this.commande.DetailCommandes.length - 1;
     this.calcVal = '0';
-	console.log(this.commande.DetailCommandes.length);
+	//console.log(this.commande.DetailCommandes.length);
     this.updateTotalVal();
 	
 	this.scrollToBottom();
@@ -406,7 +548,7 @@ console.log(idArticle)
   
   
   getRowIndex(x : any){
-		console.log(x);
+	//	console.log(x);
 		this.idxOne = x;
 	   //console.log("Row index is: " + x.rowIndex);
 	  
@@ -440,7 +582,8 @@ chargercat(){
   this.type="CAT";
 }
   remove() {
-    if(this.commande.DetailCommandes.length > 0 && this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+
+    if( this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[this.idxOne].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
       this.commande.DetailCommandes.splice(this.idxOne, 1);
       if(this.idxOne == this.commande.DetailCommandes.length){
         this.idxOne--;
@@ -458,7 +601,7 @@ chargercat(){
     this.totalColor= (mnt == 0 )? "box bg-dark text-center" : "box bg-success text-center";
   }
 
-  valider(){
+  async valider(){
 	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 		  
 		if(this.commande.Identifiant == null || this.commande.Identifiant === 0){
@@ -466,7 +609,9 @@ chargercat(){
 		}else{
 		  this.modifierCommande();
 		}
+
 	}
+  this.getcountcommande()
 
   }
 
@@ -495,6 +640,7 @@ chargercat(){
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           let idCommande = res["idCommande"];
           this.getCommandeById(idCommande);
+          this.getcountcommande()
           //Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
@@ -533,6 +679,7 @@ chargercat(){
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.commande = res["commandeVM"];
+          console.log(this.commande)
           if(this.commande == null){
             this.commande = new Commande();
           }
@@ -547,11 +694,11 @@ chargercat(){
   }
   
   updateComponentView(){
-	  console.log(this.commande);
+	 // console.log(this.commande);
   }
 
   nouvCommande(){
-    this.getCommandeById(0);
+    this.initcaisse()
   }
 
   calculatePagesCountLoc(elementPerPage : number, totalCount : number) {
@@ -561,17 +708,74 @@ chargercat(){
   calculatePagesCountServ(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
+   actionMessage(x : any){
 
-  chargerListLocalite(){
+    if(this.Messageisexiste(x)){
+          // console.log("ok==",x)
+     
+  this.removeMessage(x)
+    }
+    else{
+       //console.log("no==",x)
+      this. addMessage(x)
+     
+    }
+  }
+  Messageisexiste(y:any){
 
+    	if(this.commande.DetailCommandes[this.idxOne].AffectationMessages.filter(x => x.IdMessage === this.affectationMessageVMs[y].IdMessage).length == 0){
+          return false
+         
+      }
+  return true
+  }
 
-    /* this.g.showLoadingBlock(true);   */
-    this.localiteSvc.getLocalites().subscribe(
+styleObject(x:any){
+if(this.Messageisexiste(x)){
+  return {'background-color': "#98ac25b9"}
+}
+ return {'background-color': "#ac3525b9"}
+}
+  chargerListLocalite(code:string){
+console.log("ok")
+if(this.type=='CONTROLE'|| this.type=='COM'){
+  console.log("liste commande")
+   this.localiteSvc.getLocalites().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.localitesOrg = res["localiteVMs"];
+          console.log( this.localitesOrg)
+this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
+          //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
+    
 
+          this.localites.length = 0;
+          this.localites = [];
+
+         
+
+
+            for (let i = 0; i < this.localitesOrg.length; i++) {
+              this.localites.push(this.localitesOrg[i]);
+            }
+
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    );
+}
+else{
+  console.log("liste commande dispo")
+    this.localiteSvc.getLocalitesDisponible().subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+          this.localitesOrg = res["localiteVMs"];
+         // console.log( this.localitesOrg[0])
+this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
           //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
     
 
@@ -606,6 +810,9 @@ chargercat(){
       }
     );
 
+}
+    /* this.g.showLoadingBlock(true);   */
+   
 
     
   }
@@ -614,7 +821,7 @@ chargercat(){
 
 
    /*  this.g.showLoadingBlock(true);   */
-    this.utilisateurSvc.getServeurs().subscribe(
+    this.utilisateurSvc.getServeurs(null).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -658,25 +865,29 @@ chargercat(){
     );
   }
 
-  showListeLocalite(){
-    this.idnav=3
-    this.chargerListLocalite();
-    //($('#localiteModal') as any).modal('show');
+  showListeLocalite(code:string){
+     if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+		  this.localeactive=code
+   // this.idnav=3
+    this.chargerListLocalite(code);
+	  }
+   
   }
 
 nextLocalite(){
     this.currentPageLoc++;
-    this.chargerListLocalite();
+    this.chargerListLocalite("");
   }
   previousLocalite(){
     this.currentPageLoc--;
-    this.chargerListLocalite();
+    this.chargerListLocalite("");
   }
 
   showListeServeur(){
-    this.idnav=2
+    
+   // this.idnav=2
     this.chargerListServeur();
-    ($('#serveurModal') as any).modal('show');
+    //($('#serveurModal') as any).modal('show');
   }
 
   nextServeur(){
@@ -690,13 +901,22 @@ nextLocalite(){
   
   selectLocalite(idLocalite : any){
     //alert('selectLocalite idArticle : ' + idLocalite);
+    if(this.type=='CONTROLE'|| this.type=='COM'){
+this.commandes=this.commandesOrg.filter(x=>x.IdLocalite==idLocalite)
+    }
+    else{
+
+   
     this.tableColor="box bg-megna text-center";
     let localite = this.localites.filter(x => x.Identifiant === idLocalite)[0];
     this.commande.LibelleLocalite = localite.Libelle;
     this.commande.IdLocalite = localite.Identifiant;
-       this.idnav=1;
-    ($('#localiteModal') as any).modal('hide');
+       this.idnav=1; }
+    //($('#localiteModal') as any).modal('hide');
     this.tableColor="box bg-megna text-center";
+    this.localites=[]
+    this.localeactive=""
+    this.show('localite')
   }
 
   selectServeur(idServeur : any){
@@ -706,8 +926,9 @@ nextLocalite(){
     this.commande.NomServeur = serveur.Nom;
     this.commande.IdServeur = serveur.Identifiant;
     this.idnav=1;
-    ($('#serveurModal') as any).modal('hide');
     
+    //($('#serveurModal') as any).modal('hide');
+    this.show('serveur')
   }
 
   showCommandesNonReglees(){
@@ -723,9 +944,12 @@ nextLocalite(){
 
 
     //this.g.showLoadingBlock(true);  
+   
     this.commandeSvc.getCommandesNonReglees().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
+         console.log(etatReponse.Code)
+        
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
               this.type="COM";
 
@@ -757,7 +981,8 @@ nextLocalite(){
             for (let i = startIndex; i < endIndex; i++) {
               this.commandes.push(this.commandesOrg[i]);
             }
-console.log(this.commandes)
+            this.g.typecommande="COMMANDENONREGLEE"
+//console.log(this.commandes)
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
@@ -774,10 +999,10 @@ console.log(this.commandes)
   }
 
   showReglements(){
-	  this.idxSix = -1;
+	   this.idxSix = -1;
 	  this.quantiteToRegler = 0;
 	  this.detailReglementsNonRegle = [];
-	  this.detailReglementsToRegler = [];
+	  this.detailReglementsToRegler = []; 
 	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 		  if(this.commande.DetailCommandes.length > 0){
 			  
@@ -803,10 +1028,10 @@ console.log(this.commandes)
 						detailReglement.Quantite = dc.Quantite;
 						detailReglement.Montant = dc.Montant;
 						this.detailReglementsNonRegle.push(detailReglement);	
-            console.log("etatReponse",this.detailReglementsNonRegle)			
+            //console.log("etatReponse",this.detailReglementsNonRegle)			
 					}
 				}
-           ($('#responsive-modal') as any).modal('show');
+          ($('#responsive-modal') as any).modal('show');
 				  
 				}else{ 
 				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
@@ -820,7 +1045,7 @@ console.log(this.commandes)
 			  
 				
 		  }
-	  }	
+	  }	 
   }
   
   getReglementsByIdCommande(idCommande : number){
@@ -832,7 +1057,7 @@ console.log(this.commandes)
             this.lstReglements = res["reglementVMs"];
 			this.idxThree = this.lstReglements.length - 1;
 			this.reglement = this.lstReglements[this.idxThree];
-            console.log(this.lstReglements);
+           // console.log(this.lstReglements);
           }else{ 
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
@@ -873,13 +1098,16 @@ console.log(this.commandes)
 	  }	  
   }
   
-  imprimerPreparation(){
+  async imprimerPreparation(){
+   // this.valider()
 	  if(this.commande.Identifiant > 0){
 	  this.g.showLoadingBlock(true); 
 		  this.commandeSvc.envoyerTicketPrepation(this.commande.Identifiant).subscribe(
         (res:any) => {
           let etatReponse = res["EtatReponse"];
+          console.log("etatReponse",etatReponse)
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+            this.initcaisse()
 			  //Swal.fire({ text: etatReponse.Message , icon: 'success'});
           }else{ 
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
@@ -915,7 +1143,7 @@ console.log(this.commandes)
   chargerRecap(){
 	  
 	  this.g.showLoadingBlock(true); 
-		  this.commandeSvc.getRecap().subscribe(
+		  this.commandeSvc.getRecap(undefined).subscribe(
         (res:any) => {
           let etatReponse = res["EtatReponse"];
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -1032,10 +1260,26 @@ console.log(this.commandes)
 		(res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+           this.initcommande();
+           let idx=0
+             let y:Commande
+	     for(y of this.commandes){
+if(y.Identifiant===this.commande.Identifiant){
+
+  break
+}
+else{
+  idx+=1
+}
+
+     }
+     console.log(idx)
+this.commandes.splice(idx, 1)
 		  Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
+        ($('#responsive-modal') as any).modal('hide');
         this.g.showLoadingBlock(false);    
       }
     );
@@ -1043,6 +1287,178 @@ console.log(this.commandes)
 	
 	  }
   }
-  
 
+  	showListeMessage(){
+      console.log("ccccccc")
+      this.type="MESSAGE";
+		this.affectationMessageVMs = [];
+		this.chargerMessagesLibre();
+	
+	}
+	
+	chargerMessagesLibre(){
+		
+		let detailCommande = this.commande.DetailCommandes[this.idxOne];
+		this.associationMessageSvc.getAssociationMessages(detailCommande.IdArticle).subscribe(
+        (res:any) => {
+          let etatReponse = res["EtatReponse"];
+          if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+			  let associationMessageVMs = res['associationMessageVMs'];
+			  console.log(associationMessageVMs);
+			  for(let am of associationMessageVMs){
+				  
+				  if(am.EnActivite === 1){
+					  if(detailCommande.AffectationMessages.filter(x => x.IdMessage === am.IdMessage).length == 0){
+						let affectationMessage = new AffectationMessage();
+						affectationMessage.IdDetailCommande = detailCommande.Identifiant;
+						affectationMessage.IdMessage = am.IdMessage;
+						affectationMessage.LibelleMessage = am.LibelleMessage;
+						this.affectationMessageVMs.push(affectationMessage);
+					   }
+				  
+					
+				  }
+			   }
+          }else{ 
+            Swal.fire({ text: etatReponse.Message , icon: 'error'});
+          }
+          this.g.showLoadingBlock(false);    
+        }
+      );
+  }
+  
+  
+  addMessage(x : any){
+		this.idxFour = x;
+		let detailCommande = this.commande.DetailCommandes[this.idxOne];		
+		let affectationMessageTemp = this.affectationMessageVMs[this.idxFour];
+		if(detailCommande.AffectationMessages.filter(x => x.IdMessage === affectationMessageTemp.IdMessage).length == 0){
+			let affectationMessage = new AffectationMessage();
+			affectationMessage.Identifiant = affectationMessageTemp.Identifiant;
+			affectationMessage.IdDetailCommande = detailCommande.Identifiant;
+			affectationMessage.IdMessage = affectationMessageTemp.IdMessage;
+			affectationMessage.LibelleMessage = affectationMessageTemp.LibelleMessage;			
+			detailCommande.AffectationMessages.push(affectationMessage);
+			//this.affectationMessageVMs.splice(x, 1);
+		}
+  }
+removeMessage(x : any){
+	  
+	  this.idxFive = x;
+    let y:any
+	  let detailCommande = this.commande.DetailCommandes[this.idxOne];	  
+	  let affectationMessageTemp =  this.affectationMessageVMs[x];
+	   let idx=0
+	     for(y of detailCommande.AffectationMessages){
+          console.log(affectationMessageTemp)
+if(y.IdMessage===affectationMessageTemp.IdMessage){
+
+
+  break
+}
+else{
+  idx+=1
+}
+     }
+     	  detailCommande.AffectationMessages.splice(idx, 1);
+
+	  let affectationMessage = new AffectationMessage();
+	  affectationMessage.Identifiant = affectationMessageTemp.Identifiant;			
+	  affectationMessage.IdMessage = affectationMessageTemp.IdMessage;
+	  affectationMessage.LibelleMessage = affectationMessageTemp.LibelleMessage;
+  }
+  initcaisse(){
+    this.type="CAT"
+    this.commandes=[]
+    this.commandes.length=0
+    this.getCommandeById(0);
+    this.currentPageCat=0
+  }
+  controler(){
+
+ this.g.showLoadingBlock(true);
+      this.commandeSvc.controlerCommande(this.commande).subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+          this.initcommande();
+          let idCommande = res["idCommande"];
+             let idx=0
+             let y:Commande
+	     for(y of this.commandes){
+if(y.Identifiant===idCommande){
+
+  break
+}
+else{
+  idx+=1
+}
+
+     }
+     console.log(idx)
+this.commandes.splice(idx, 1)
+          //this.getCommandeById(idCommande);
+          Swal.fire({ text: etatReponse.Message , icon: 'success'});
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    );
+  }
+  getstyle(item:Categorie){
+ return    {'background-color': item.Background}
+  }
+    chargerCommandesNonControler(){
+
+    //this.g.showLoadingBlock(true);  
+   this.searchTerm=""
+    this.commandeSvc.getCommandesNonControle().subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+         console.log(etatReponse.Code)
+        
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              this.type="CONTROLE";
+
+          this.commandesOrg = res["commandeVMs"];
+          console.log(this.commandesOrg)
+
+          this.totalPageCom = this.calculatePagesCountCom(this.pageSizeCom,this.commandesOrg.length);
+    
+
+          this.commandes.length = 0;
+          this.commandes = [];
+
+          if (this.currentPageCom < 1)
+              {
+                  this.currentPageCom = 1;
+              }
+              else if (this.currentPageCom > this.totalPageCom)
+              {
+                this.currentPageCom = this.totalPageCom;
+            }
+
+            let startIndex = this.currentPageCom * this.pageSizeCom - this.pageSizeCom;
+            let endIndex = startIndex + this.pageSizeCom;
+
+            if(endIndex > this.commandesOrg.length) {
+              endIndex = this.commandesOrg.length;
+            }
+
+
+            for (let i = startIndex; i < endIndex; i++) {
+              this.commandes.push(this.commandesOrg[i]);
+            }
+            this.g.typecommande="COMMANDENONCONTROLER"
+//console.log(this.commandes)
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        //this.g.showLoadingBlock(false);    
+      }
+    );
+
+    
+  }
 }

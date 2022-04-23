@@ -15,6 +15,7 @@
 @import"./assets/node_modules/dropify/dist/css/dropify.min.css";
 
 @import './vendors/myCss/pages/register3.css';
+@import './vendors/myCss/pages/inbox.css';
 @import './vendors/myCss/style.min.css';
 @import './vendors/myCss/pages/form-icheck.css';
 

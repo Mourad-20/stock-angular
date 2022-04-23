@@ -39,7 +39,11 @@ public articlesOrg : Article[] = [];
  }, 100);
 
 } 
-
+async param(_article:Article|any,param:string|any){
+  await this.g.setparamcaisse(_article.Identifiant,_article.Libelle,param)
+  //this.g.settype("caisse")
+ this.router.navigate(['/articleparam']);}
+ 
 async update(idarticle:any){
   await this.g.settype("article")
  this.router.navigate(['/forms/'+idarticle]);}

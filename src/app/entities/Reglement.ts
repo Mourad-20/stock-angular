@@ -11,4 +11,8 @@ export class Reglement {
     public IdCreePar: number = 0;
     public EnActivite: number = 0;
     public DetailReglements : DetailReglement[] = [];
+    public  Datecheque : string = "";
+    public  Ncheque: string = "";
+    public  NomBanque: string = "";
+    public  NCompte : string = "";
 }

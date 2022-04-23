@@ -14,12 +14,14 @@ import { ActeurSeanceSvc } from '../../services/acteurSeanceSvc';
 import Swal from 'sweetalert2';
 
 
+
 @Component({
   selector: 'app-caisse',
   templateUrl: './caisse.component.html',
   styleUrls: ['./caisse.component.css']
 })
 export class CaisseparamComponent implements OnInit {
+
 public idxOne : number = -1;
 public caisseVMs : Caisse[] = [];
 public caisse : Caisse = new Caisse();

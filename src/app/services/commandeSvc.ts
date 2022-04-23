@@ -14,10 +14,18 @@ export class CommandeSvc {
 
 	}
 	
-	getRecap(){
+	getRecap(idSeance:number|any){
+			let paramInt = {"Valeur" : idSeance};
+			let data = JSON.stringify(paramInt);
 		let options = {	headers: this.headers,withCredentials: true	};
-		let data = {};
+	
 		return this.http.post(this.g.baseUrl +  '/api/commande/getRecap', data, options);
+	}
+	
+	allimentationstock(commande: any) {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(commande);
+		return this.http.post(this.g.baseUrl +  '/api/commande/allimentationstock', data, options);
 	}
 	
 	etablirCommande(commande: any) {
@@ -38,7 +46,18 @@ export class CommandeSvc {
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandeById', data, options);
 	}
+		getDetailCommandesstockparam(idArticle: number) {
+		let paramInt = {"Valeur" : idArticle};
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramInt);
+		return this.http.post(this.g.baseUrl +  '/api/detailcommande/getDetailCommandesstockparam', data, options);
+	}
 	
+	getCommandesNonControle() {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandesNonControle', data, options);
+	}
 	getCommandesNonReglees() {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = {};
@@ -50,6 +69,36 @@ export class CommandeSvc {
 		let data = JSON.stringify(paramDate);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandes', data, options);
 	}
+
+		getCommandeSeance(idSeance: number) {
+		let paramInt = {"Valeur" : idSeance};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramInt);
+		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandeSeance', data, options);
+	}
+
+	getCommandesbycaisse(datedebut: string,datefin: string,listidcaisse:number[]) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin,"listeidcaisse":listidcaisse};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+
+		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandes', data, options);
+	}
+
+		getCommandesbycodes(datedebut: string,datefin: string,_code:string) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin,"_code":_code};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+
+		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandes', data, options);
+	}
+	getRecapArticles(datedebut: string,datefin: string) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+		return this.http.post(this.g.baseUrl +  '/api/commande/getRecapArticles', data, options);
+	}
+
 	envoyerTicketPrepation(idCommande: number) {
 		let paramInt = {"Valeur" : idCommande};
 		let options = {	headers: this.headers,withCredentials: true	};
@@ -70,6 +119,12 @@ export class CommandeSvc {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getDetailCommandesNonReglees', data, options);
+	}
+	
+		controlerCommande(commande: any) {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(commande);
+		return this.http.post(this.g.baseUrl +  '/api/commande/controlerCommande', data, options);
 	}
 	
 	

@@ -49,8 +49,13 @@ export class JsonFormComponent implements OnChanges  {
  public myForm: FormGroup = this.fb.group({});
  public resultat:[]|any
  public img:any;
+ public libelle:string=""
+ 
+ public color1: string="";
  public reader = new FileReader();
  public GroupeCode : GroupeCode = new GroupeCode();
+ public imageAsBase64 : string = '';
+public defaultImageAsBase64 : string = '';
 submit=false
   constructor(private fb: FormBuilder,private GroupeSvc:GroupeSvc,public g:Globals) { 
    
@@ -66,26 +71,35 @@ public groupe:any = {
         }
     };
 public  $: any;
-   fileChangeEvent() {
+   fileChangeEvent(event:any) {
     
     // Not supported in Safari for iOS.
    const image:any=document.getElementById("yourImgTag")
-   const file:any=(<any>document.querySelector('input[type=file]')).files[0]
-
+   const img2:any=document.getElementById("yourImgTag1")
+   //const file:any=(<any>document.querySelector('input[type=file]')).files[0]
+  let file = event.target.files[0];
   const reader=new FileReader()
+
   reader.addEventListener('load', () =>{
+     console.log("result==",(this.myForm))
     image.src = reader.result;
-    
+     img2.src = reader.result;
+         this.myForm.patchValue({
+     
+          Image: (<string>reader.result).split(',')[1]
+       });
   },false);
   if(file){
+   
     reader.readAsDataURL(file);
   }
   
-
 }  
+
     ngOnChanges(changes: SimpleChanges) {
      if (!changes.jsonFormData.firstChange) {
-      console.log("this.jsonFormData==",this.jsonFormData)
+       
+      //console.log("this.jsonFormData==",this.jsonFormData)
       this.createForm(this.jsonFormData.controls);
     } 
   }
@@ -147,6 +161,7 @@ public  $: any;
     this.submit=true;
    // console.log('Form valid: ', this.myForm.status);
     if(this.myForm.status=="VALID"){
+      console.log("this.myForm===",this.myForm)
 this.submite.emit(this.myForm);
     }
     //console.log('Form values: ', this.myForm.value);

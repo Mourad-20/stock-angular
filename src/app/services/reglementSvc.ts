@@ -53,7 +53,12 @@ export class ReglementSvc {
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/reglement/getMontantTotalReglementForSeance', data, options);
 	}
-	
+		getMontantTotalReglementForCaisse(idCaisse: number) {
+		let paramInt = {"Valeur" : idCaisse};
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramInt);
+		return this.http.post(this.g.baseUrl +  '/api/reglement/getMontantTotalReglementForCaisse', data, options);
+	}
 	
 	
 

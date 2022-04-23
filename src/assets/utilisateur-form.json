@@ -1,6 +1,7 @@
 {
   "controls": [
     {
+      "id": "1",
       "name": "Nom",
       "label": "Nom:",
       "value": "",
@@ -12,6 +13,7 @@
       }
     },
     {
+      "id": "1",
       "name": "Prenom",
       "label": "Prenom:",
       "value": "",
@@ -21,9 +23,20 @@
         "minLength": 2}
     },
     {
-        "name": "login",
-      "label": "login:",
+      "id": "1",
+        "name": "Login",
+      "label": "Login:",
       "placeholder":"login",
+      "value": "",
+      "type": "text",
+      "validators": {"required": true,
+        "minLength": 5}
+    },
+       {
+      "id": "1",
+        "name": "Password",
+      "label": "Mot de passe:",
+      "placeholder":"Mot de passe",
       "value": "",
       "type": "text",
       "validators": {"required": true,

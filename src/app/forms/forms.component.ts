@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RouterModule, Routes, Router } from '@angular/router';
+
 import { Globals } from '../globals';
 import { JsonFormData } from '../components/json-form/json-form.component';
 import { GroupeSvc } from '../services/groupeSvc';
@@ -8,7 +10,6 @@ import { Utilisateur } from '../entities/Utilisateur';
 import {Login} from '../entities/Login';
 import { Rxjs } from '../services/rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 import { ActivatedRoute } from '@angular/router'
 import Swal from 'sweetalert2';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -16,6 +17,7 @@ import { Objettoupdate } from './objettoupdate';
 import { ArticleSvc } from '../services/articleSvc';
 import { CategorieSvc } from '../services/categorieSvc';
 import { CaisseSvc } from '../services/caisseSvc';
+import { LocaliteSvc } from '../services/localiteSvc';
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -38,7 +40,7 @@ public  $: any;
     
   sub: any;
 
-  constructor(public CaisseSvc:CaisseSvc,public CategorieSvc:CategorieSvc,public articleSvc:ArticleSvc,public objettoupdat:Objettoupdate, public route:ActivatedRoute,public GroupeSvc:GroupeSvc,private http: HttpClient,private g:Globals,public utilisateurSvc:UtilisateurSvc,public rxjs:Rxjs) { 
+  constructor(public router:Router,public LocaliteSvc:LocaliteSvc,public CaisseSvc:CaisseSvc,public CategorieSvc:CategorieSvc,public articleSvc:ArticleSvc,public objettoupdat:Objettoupdate, public route:ActivatedRoute,public GroupeSvc:GroupeSvc,private http: HttpClient,private g:Globals,public utilisateurSvc:UtilisateurSvc,public rxjs:Rxjs) { 
     
   if(this.g.typeform=="utilisateur"){ 
     this.url='/assets/utilisateur-form.json'
@@ -50,6 +52,12 @@ public  $: any;
  this.title="Forms->Article"
 
 }
+  if(this.g.typeform=="localite"){ 
+    this.url='/assets/localite-form.json'
+ this.title="Forms->localite"
+
+}
+
   if(this.g.typeform=="categorie"){ 
     this.url='/assets/categorie-form.json'
  this.title="Forms->Categorie"
@@ -65,101 +73,96 @@ public  $: any;
  
 
  async  ngOnInit() {
- console.log("xxxx")
 this.sub = this.route.params.subscribe(params => {
-
-   this.g.showLoadingBlock(true)
-      if(params['id']!=null) {
-        this.objettoupdat.id=params['id']}
+   //this.g.showLoadingBlock(true)
+      if(params['id']!=null ) {
+        
+        this.objettoupdat.id= Number(params['id'])>=0?params['id']:0 }
       else{
-        this.objettoupdat.id=undefined
+        
+        this.objettoupdat.id=0
       }})
 
  setTimeout(() => {
- 
     this.http
       .get(this.url)
       .subscribe((formData: JsonFormData|any) => {
-
 if(this.g.typeform=="utilisateur"){
-  //console.log("sub==", this.sub)
        
           this.objettoupdat.rechargerutilisateurformdata(formData).subscribe((form:any)=>{
              //console.log("test01===",form)
-            formData.controls=JSON.parse(form)
-   
-  //console.log("formData",formData.controls)
+            formData.controls=JSON.parse(form) 
+                this.formData = formData
+     this.g.showLoadingBlock(false);
           })
-    
 
-    setTimeout(()=>{
-      this.formData = formData
-       this.g.showLoadingBlock(false);
-    },1000)
 }
 
 if(this.g.typeform=="article"){
-  //console.log("sub==", this.sub)
-       
-          this.objettoupdat.rechargerarticleformdata(formData).subscribe((form:any)=>{
-            // console.log("test01===",form)
-            formData.controls=JSON.parse(form)
-   
-  //console.log("formData",formData.controls)
-          })
+  
+           this.objettoupdat.getCategorie().subscribe((res)=>{
+            
+     formData.controls.push(JSON.parse(res))
+     formData.controls.push(this.objettoupdat.getTVAs())
     
 
-    setTimeout(()=>{
-      this.formData = formData
-       this.g.showLoadingBlock(false);
-    },300)
+    this.objettoupdat.rechargerarticleformdata(formData).subscribe((form:any)=>{
+            formData.controls=JSON.parse(form)
+                this.formData = formData
+                 this.g.showLoadingBlock(false);
+    }) 
+         
+          })
 }
 
 if(this.g.typeform=="categorie"){
-  //console.log("sub==", this.sub)
-      
-          this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{ 
-           
+  
+       this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{ 
              //console.log("test01===",JSON.parse(form))
             formData.controls=JSON.parse(form)
-   
+              this.formData = formData
+       this.g.showLoadingBlock(false);
   //console.log("formData",formData.controls)
           })
-    
-
-    setTimeout(()=>{
-      this.formData = formData
+   
+       
+  /*  setTimeout(()=>{
+     this.formData = formData
        this.g.showLoadingBlock(false);
-    },300)
+    },1000)  */
 }
 if(this.g.typeform=="caisse"){
-  //console.log("sub==", this.sub)
-       
           this.objettoupdat.rechargercaisseformdata(formData).subscribe((form:any)=>{
-            // console.log("test01===",form)
             formData.controls=JSON.parse(form)
-   
-  //console.log("formData",formData.controls)
-          })
-    
-
-    setTimeout(()=>{
-      this.formData = formData
+     this.formData = formData
        this.g.showLoadingBlock(false);
-    },300)
+      
+          })
+}
+if(this.g.typeform=="localite"){
+    
+       
+    formData.controls.push(this.objettoupdat.getLocaliteCode())
+
+
+          this.objettoupdat.rechargerlocaliteformdata(formData).subscribe((form:any)=>{
+             //console.log("test01===",form)
+            formData.controls=JSON.parse(form) 
+                this.formData = formData
+     this.g.showLoadingBlock(false);
+          })
+      
+
 }
       });
- }, 200);
+ }, 1000);
  
- 
-      
   }
 
-
-
   submit(forms: FormGroup|any){
-console.log(forms)
-  /*  		if(this.objettoupdat.id == undefined || this.objettoupdat.id === 0){
+    console.log("submit===",forms)
+console.log("id==",typeof this.objettoupdat.id)
+   		if(this.objettoupdat.id === NaN || this.objettoupdat.id === 0){
          if(this.g.typeform=="utilisateur"){
 this.ajouterUtilisateur(forms);
          }
@@ -172,10 +175,13 @@ this.ajouterCategorie(forms);
           if(this.g.typeform=="caisse"){
 this.ajouterCaisse(forms);
          } 
-		} */
+            if(this.g.typeform=="localite"){
+this.ajouterLocalite(forms);
+         } 
+		} 
     
     
-/*     else{
+    else{
        if(this.g.typeform=="utilisateur"){
 this.modifierUtilisateur(forms);
          }
@@ -188,13 +194,19 @@ this.modifierArticle(forms);
       if(this.g.typeform=="caisse"){
         this.modifierCaisse(forms)
       }
-		} */
-
+         if(this.g.typeform=="localite"){
+        this.modifierLocalite(forms)
+      }
+      let url=this.g.typeform+"s"
+      this.router.navigate(['liste/'+url]);
+		} 
+forms.reset();
   }
 
   ajouterUtilisateur(forms:FormGroup|any){
 this.objettoupdat.getutilisateur(forms).then((result)=>{
     this.g.showLoadingBlock(true);
+    console.log("result==",result)
       this.utilisateurSvc.ajouterUtilisateur(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
@@ -212,9 +224,28 @@ this.objettoupdat.getutilisateur(forms).then((result)=>{
   }
 
     ajouterArticle(forms:FormGroup|any){
+      console.log("forms",forms)
 this.objettoupdat.getarticle(forms).then((result)=>{
     this.g.showLoadingBlock(true);
       this.articleSvc.addArticle(result).subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+        //console.log("Succes")
+          Swal.fire({ text: etatReponse.Message , icon: 'success'});
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    ); 
+
+})
+  }
+    ajouterLocalite(forms:FormGroup|any){
+this.objettoupdat.getlocalite(forms).then((result)=>{
+    this.g.showLoadingBlock(true);
+      this.LocaliteSvc.ajouterLocalite(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -269,9 +300,9 @@ this.objettoupdat.getcaisse(forms).then((result)=>{
   }
 
     modifierUtilisateur(forms:FormGroup|any){
-      //console.log('forms',forms)
+    
 this.objettoupdat.getutilisateur(forms).then((result)=>{
-  //console.log("resltat",result)
+  console.log("resltat",result)
     this.g.showLoadingBlock(true);
       this.utilisateurSvc.modifierUtilisateur(result).subscribe(
       (res:any) => {
@@ -290,11 +321,30 @@ this.objettoupdat.getutilisateur(forms).then((result)=>{
   }
 
      modifierArticle(forms:FormGroup|any){
-      //console.log('forms',forms)
-this.objettoupdat.getarticle(forms).then((result)=>{
-  //console.log("resltat",result)
+  console.log("modifier")
+  this.objettoupdat.getarticle(forms).then((result)=>{
+  console.log("resltatxx==",result)
     this.g.showLoadingBlock(true);
       this.articleSvc.updateArticle(result).subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+        //console.log("Succes")
+          Swal.fire({ text: etatReponse.Message , icon: 'success'});
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    ); 
+
+})
+  }
+     modifierLocalite(forms:FormGroup|any){
+this.objettoupdat.getlocalite(forms).then((result)=>{
+  console.log("resltat==",result)
+    this.g.showLoadingBlock(true);
+      this.LocaliteSvc.modifierLocalite(result).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {

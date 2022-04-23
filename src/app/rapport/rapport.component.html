@@ -22,7 +22,7 @@
                 <div class="d-flex justify-content-end align-items-center">
                     <ol class="breadcrumb justify-content-end">
 
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">{{ (g.seance != null) ? (' Caisse : ' +
+                        <li class="breadcrumb-item" (click)="NBR()"><a href="javascript:void(0)" >{{ (g.seance != null) ? (' Caisse : ' +
                                 g.seance.LibelleCaisse ) : '' }}</a></li>
                         <li class="breadcrumb-item active">{{ (g.utilisateur != null ?
                             g.utilisateur!.Nom : '' ) }}</li>
@@ -39,9 +39,10 @@
         <!-- ============================================================== -->
         <div class="row">
           
-        <div class="col-lg-2 col-md-6 m-b-30" *ngFor="let item of recaps; index as i;">
+        <div class="col-lg-2 col-md-6 m-b-30" *ngFor="let item of recaps| slice:0:nbr; index as i;">
             
-            <div class="chart easy-pie-chart-1" attr.data-percent="{{item.poucentage}}"> <span class="percent">{{item.poucentage}}</span> <br>
+            <div class="{{item.IdUtilisateur}} chart" [ngClass]="item.poucentage<=max? 'easy-pie-chart-1':'easy-pie-chart-2'" attr.data-percent="{{item.poucentage}}">
+                 <span class="percent">{{item.poucentage}}</span> <br>
                 <h5>{{item.NomUtilisateur}}</h5>
                 <h6>({{item.NombreCommande}}){{item.Montant}}DH</h6><canvas height="200"
                     width="200" style="height: 100px; width: 100px;"></canvas></div>
@@ -115,7 +116,7 @@
                                     <td>{{item.NomServeur}}</td>
                                     <td>{{item.CodeEtatCommande}}</td>
                                     <td>{{item.LibelleLocalite}}</td>
-                                    <td><i class="ti-settings"></i> </td>
+                                    <td><i class="ti-settings" (click)="modale(item.Identifiant)"></i> </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -138,5 +139,57 @@
     </div>
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
-    <!-- ============================================================== -->
+    <!-- ============================DetailcommandeModale================================== -->
+    <div id="grid-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="grid-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="grid-title">Detail Commande</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div id="table-wrapper">
+                            <div id="table-scroll">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 55%;"><span style="width: 70%;" class="text ">Name</span></th>
+                                            <th style="width: 15%;"><span style="width: 15%;" class="text">Qut</span></th>
+                                            <th style="width: 15%;"><span style="width: 15%;" class="text">P.U</span></th>
+                                            <th style="width: 15%;"><span style="width: 15%;" class="text">minute</span></th>
+                        
+                                        </tr>
+                                    </thead>
+                        
+                                    <tbody>
+                        
+                                        <tr *ngFor="let item of commande.DetailCommandes; index as i;" 
+                                            [ngClass]="idxOne === i ?'table-danger01':'table-init'">
+                        
+                                            <td style="width: 55%;"> {{ item.LibelleArticle }} </td>
+                                            <td style="width: 15%;"> {{ item.Quantite }} </td>
+                                            <td style="width: 15%;"> {{ item.Montant }} </td>
+                                            <td style="width: 15%;"> {{ datedif(item)}}min </td>
+                                           
+                                        </tr>
+                        
+                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info waves-effect text-white"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 </div>

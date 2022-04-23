@@ -12,12 +12,17 @@ export class CategorieSvc {
 	constructor(private http: HttpClient,private g: Globals) {
 
 	}
-	
+
 	
 	getCategories() {
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/categorie/getCategories', data, options);
+	}
+		getCategoriesForUI() {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/categorie/getCategoriesForUI', data, options);
 	}
 	
 	getCategoriesCommercialisees() {
@@ -25,7 +30,11 @@ export class CategorieSvc {
 		let data = {};
 		return this.http.post(this.g.baseUrl +  '/api/categorie/getCategoriesCommercialisees', data, options);
 	}
-	
+		getDefaultImageAsBase64() {
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/categorie/getDefaultImageAsBase64', data, options);
+	}
 	ajouterCategorie(categorie: any){
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(categorie);

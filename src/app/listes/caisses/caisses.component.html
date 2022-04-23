@@ -51,19 +51,34 @@
                                 <thead>
                                     <tr>
                                         <th>Libelle</th>
-
+<th>solde actuel</th>
 
                                         <th>Option</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    <tr *ngFor="let item of caisses; index as i;">
-                                        <td>{{(item.Libelle)}}</td>
-                                        
-                                        <td><i (click)="update(item,'commercialisation')" class="ti-settings"></i>
-                                        <i (click)="update(item,'affectation')" class="ti-settings"></i> 
-                                        <i (click)="update(item,'presence')" class="ti-settings"></i> </td>
+                                    <tr *ngFor="let item of total; index as i;">
+                                        <td>{{(item[0].Libelle)}}</td>
+                                        <td>{{(item[1])}}</td>
+                                        <td>
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">Action</button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="javascript:void(0)">Modifier</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'commercialisation')">Commercialisation</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'affectation')">Affectation</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'presence')">Presence</a>
+                                                </div>
+                                            </div>
+                                          <!--   <i (click)="update(item[0],'commercialisation')" class="ti-settings"></i>
+                                        <i (click)="update(item[0],'affectation')" class="ti-settings"></i> 
+                                        <i (click)="update(item[0],'presence')" class="ti-settings"></i>  -->
+                                    </td>
                                     </tr>
                                 </tbody>
                             </table>

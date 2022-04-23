@@ -19,7 +19,7 @@ export class OuvertureSeanceComponent implements OnInit {
 	public GroupeCode : GroupeCode = new GroupeCode();
   isSeanceExist : boolean = false;
   seance : Seance  = new Seance();
-
+calcVal:string="0"
 constructor(private g: Globals,public utilisateurSvc:UtilisateurSvc,private seanceSvc:SeanceSvc,private router: Router) {
 		this.getSeanceActive();
   }
@@ -36,7 +36,7 @@ constructor(private g: Globals,public utilisateurSvc:UtilisateurSvc,private sean
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.seance = res["seanceVM"];
           if(this.seance != null){
-            this.router.navigate(['home']);
+       this.router.navigate(['caisse']);
           }else{
 			  this.seance = new Seance();
 		  }
@@ -47,7 +47,26 @@ constructor(private g: Globals,public utilisateurSvc:UtilisateurSvc,private sean
       }
     );
   }
+  afficherOnCalculator(x : any){
+    if(this.calcVal == "0" && x != "."){
+      this.calcVal = "";
+    }
+    if(x == '.'){
+      if(this.calcVal.includes(".") == true) {
+        return;
+      }
+    }
+    this.calcVal = this.calcVal + x;
+    this.parstotal()
+  }
 
+  async resetCalculator(){
+   this.calcVal = "0";
+   this.parstotal()
+  }
+    parstotal(){
+  this.seance.MontantDebut =+this.calcVal  
+  }
   ouvrirSeance(){
 
 

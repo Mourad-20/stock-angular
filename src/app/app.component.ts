@@ -5,7 +5,7 @@ import {filter} from 'rxjs/operators';
 
 import { Globals } from './globals';
 import { UtilisateurSvc } from './services/utilisateurSvc';
-
+import { ZoneSvc } from './services/zoneSvc';
 import { CategorieSvc } from './services/categorieSvc';
 import { ArticleSvc } from './services/articleSvc';
 import { SeanceSvc } from './services/seanceSvc';

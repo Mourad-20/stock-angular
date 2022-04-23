@@ -6,20 +6,20 @@
 
        
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row" *ngIf="g.typecaisseparam==='commercialisation'">
                         
                         <!-- column -->
-                        <div class="col-md-12">
+                        <div class="col-12">
                             <div class="skin skin-line m-t-30">
                                 <form>
                                    
                                     <div class="form-group">
                                         <label class="form-label">{{(g.namecaisseparam)}}</label>
                                         <div class="input-group">
-                                            <ul class="icheck-list d-flex flex-row flex-wrap">
+                                            <ul class="icheck-list d-flex flex-row flex-wrap col-md-12 col-12">
                                                 <li (click)="check(i)" class="w-20 list-group-item-action" *ngFor="let item of commercialisationVMs; index as i;">
                                                     <div  [ngClass]="item.Coche?'icheckbox_line-green checked':'icheckbox_line-red'">
                                                         <input type="checkbox" class="check" data-checkbox="icheckbox_line-red"
@@ -46,7 +46,7 @@
                     <div class="row" *ngIf="g.typecaisseparam==='affectation'">
                     
                         <!-- column -->
-                        <div class="col-md-12">
+                        <div class="col-12">
                             <div class="skin skin-line m-t-30">
                                 <form>
                     
@@ -86,7 +86,7 @@
                   
                     </div>
                         <!-- column -->
-                        <div class="col-md-12">
+                        <div class="col-12">
                             <div class="skin skin-line m-t-30">
                                 <form>
                     

@@ -28,8 +28,10 @@ export class UtilisateurSvc {
 	}
 	
 	ajouterUtilisateur(utilisateur: any){
+	
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(utilisateur);
+			console.log("utilisateur==",data)
 		return this.http.post(this.g.baseUrl +  '/api/utilisateur/ajouterUtilisateur', data, options);
 	}
 	
@@ -60,6 +62,7 @@ export class UtilisateurSvc {
 	}
 	
 	isUtilisateurOnGroupes(codesGroupes : string[]){
+		//console.log(this.g.utilisateur)
 		let appartient = false;
 		if(codesGroupes != null && codesGroupes.length > 0){					
 			for(let cg of codesGroupes){
@@ -144,12 +147,18 @@ export class UtilisateurSvc {
 		return this.http.post(this.g.baseUrl +  '/api/utilisateur/GetInfoUtilisateur', data, options);
 	}
 
-	getServeurs() {
+	getServeurs(idSeance:Number|any) {
 		let options = {	headers: this.headers,withCredentials: true	};
-		let data = {};
+		let paramInt = {"Valeur" : idSeance};
+
+		let data=JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getListeServeurs', data, options);
 	}
-
+getListeCaissiers(){
+	let options = {	headers: this.headers,withCredentials: true	};
+		let data = {};
+		return this.http.post(this.g.baseUrl +  '/api/utilisateur/getListeCaissiers', data, options);
+}	
 	getGroupeTemporaire(){
 	let options = {	headers: this.headers,withCredentials: true	};
 		let data = {};
