@@ -1,5 +1,5 @@
 import { Component,HostListener,OnInit } from '@angular/core';
-import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized, ActivatedRoute } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized,ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { Categorie } from '../entities/Categorie';
 import { Article } from '../entities/Article';
@@ -25,28 +25,25 @@ import { CategorieSvc } from '../services/categorieSvc';
 import { ArticleSvc } from '../services/articleSvc';
 import { SeanceSvc } from '../services/seanceSvc';
 import { MessageSvc } from '../services/messageSvc';
-import{TypeUniteSvc} from '../services/typeuniteSvc';
 import { AssociationMessageSvc } from '../services/associationMessageSvc';
 import {Message}from '../entities/Message';
-import{CaisseSvc} from '../services/caisseSvc';
 import {Subscription} from 'rxjs'
 import { Rxjs } from '../services/rxjs';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
-
 
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CategoriesComponent } from '../listes/categories/categories.component';
-import { Caisse } from '../entities/Caisse';
+
 @Component({
-  selector: 'app-caisse',
-  templateUrl: './caisse.component.html',
-  styleUrls: ['./caisse.component.css']
+  selector: 'app-boncommande',
+  templateUrl: './boncommande.component.html',
+  styleUrls: ['./boncommande.component.css']
 })
-export class CaisseComponent implements OnInit {
-public type = "";
+export class BonCommandeComponent implements OnInit {
+ public type = "";
  public percentage = 15;
-  public table? : boolean | false;
+ public table? : boolean | false;
   //--------------------------------------
 public totalColor : string = "box bg-dark text-center";
 public serveurColor : string = "box bg-dark text-center";
@@ -72,6 +69,9 @@ public categories : Categorie[] = [];
 public currentPageCat : number = 1;
 public totalPageCat : number = 1;
 public pageSizeCat : number = 20;
+public detailCommande:DetailCommande=new DetailCommande()
+public detailCommandes:DetailCommande[]=[]
+public detailCommandesOrg:DetailCommande[]=[]
 //--------------------------------------
 public articles : Article[] = [];
 public article : Article =new Article();
@@ -109,14 +109,15 @@ public detailsCommandeARegles : DetailCommande[] = [];
 public quantiteARegler : number = 0;
 public idxTwo : number = -1
 public dateexpiration:string=""
-public Message:string=""
 public quantite:number=0
+public tva:number=0
+public prix:number=0
 public numlot:string=''
 public description:string=''
 public numcommande:string=""
-public caisses:Caisse[]=[]
-public caissesOrg:Caisse[]=[]
-public Unite:number=0
+public TotaleHT:number=0
+public TotaleTTC:number=0
+public TotaleTVA:number=0
 //--------------------------------------
 public lstReglements : Reglement[] = [];
 public idxThree : number = -1
@@ -132,63 +133,46 @@ public idxFive : number = -1
 public reglementVMs : Reglement[] = [];
 public detailReglementsNonRegle : DetailReglement[] = [];
 public detailReglementsToRegler : DetailReglement[] = [];
-public typeunite:any
 public idxSix : number = -1;
 public idxSeven : number = -1;
 public quantiteToRegler : number = 0;
 public localeactive:string="";
 public commandeCount:number=0
-public caisse:Caisse|any=new Caisse()
 //clickEventSubscription:Subscription;
 //controleEventSubscription:Subscription;
-
- 
+public Message:string=""
+ public isReadOnly:boolean=false;
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
   public pieChartData: any = [30, 50, 20];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
-  public id:number|any=0;
-  public isReadOnly:boolean=false
   public backgroundcategorie:string=""
  public loadAPI!: Promise<any>;
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 public colorMessage:string=""
 
-  constructor(public route:ActivatedRoute,public TypeUniteSvc:TypeUniteSvc,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,public CaisseSvc:CaisseSvc,
+  constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,
   private articleSvc:ArticleSvc,private associationMessageSvc :AssociationMessageSvc,private messageSvc:MessageSvc) {
-    this.g.showLoadingBlock(true);
-   this.route.params.subscribe(params => {
-      if(params['id']!=null) {
-       
-       	this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
-			let etatReponse = res["EtatReponse"];
-			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-			  this.commande = res["commandeVM"];
-        this.numcommande=this.commande.Numero
-     this.isReadOnly=true
-    }
-  });
-      }
-        })
 
-
-    this.TypeUniteSvc.getListeTypeUnites().subscribe(
-      (res:any) => {
-      let etatReponse = res["EtatReponse"];
-      if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        this.typeunite = res["typeUniteVMs"];
-        console.log( this.typeunite)
-      }})
-
-  this.CaisseSvc.getCaisse().subscribe(
-    (res:any) => {
+  this.g.showLoadingBlock(true);
+  this.route.params.subscribe(params => {
+    if(params['id']!=null) {
+     
+       this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
     let etatReponse = res["EtatReponse"];
     if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-      this.caissesOrg = res["caisseVMs"];
-    }})
+      this.commande = res["commandeVM"];
+      this.numcommande=this.commande.Numero
+   this.isReadOnly=true
+   this.updatetotale()
+  }
+});
+    }
+      })
+
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
 			let etatReponse = res["EtatReponse"];
@@ -206,7 +190,7 @@ public colorMessage:string=""
 						  o.PathImage = this.g.baseUrl + '/api/Categorie/showImageCategorie?identifiant=' + o.Identifiant;
 					  } */
 					  this.totalPageCat = this.calculatePagesCountCat(this.pageSizeCat,this.g.categories.length);
-					  this.chargerListeCat();
+					 // this.chargerListeCat();
 					  //----------------------------------------------------
 
 					  this.g.showLoadingBlock(true);
@@ -248,6 +232,7 @@ public colorMessage:string=""
    }
 
   ngOnInit(): void {
+    this.commande.CodeCommande="BONCOMMANDE"
         var $: any;
   	this.type="CAT";
     this.table=true;
@@ -257,8 +242,39 @@ public colorMessage:string=""
         if(x!=this.LocaliteCode.EMPORTER){
       this.codelocalites.push(x)}
      }
-     this. getcountcommande()
+    // this. getcountcommande()
   }
+  
+     async refrechtableste(){
+   
+    var datatable = $('#datatableste').DataTable();
+                //datatable reloading 
+                  datatable.destroy();
+    setTimeout(() => {
+     $('#datatableste').DataTable( {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu : [5, 10, 25]
+    } );
+   }, 200);
+  
+  } 
+   async refrechtabledc(){
+   
+    var datatable = $('#datatabledc').DataTable();
+                //datatable reloading 
+                  datatable.destroy();
+    setTimeout(() => {
+     $('#datatabledc').DataTable( {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        lengthMenu : [5, 10, 25]
+    } );
+   }, 200);
+  
+  } 
   async refrechtable(){
    
     var datatable = $('#datatableexample').DataTable();
@@ -339,18 +355,39 @@ this.showserveur=false
 }
 setarticle(item:Article){
  
-this.article=item;
-console.log(item)
-this.Unite=item.IdTypeUnite;
-($('#responsive-modal') as any).modal('hide');
+  this.article=item;
+ // this.prix=  this.article.Montant;
+  this.tva= this.article.TauxTva;
+  ($('#responsive-modal') as any).modal('hide');
+  }
+//===================================================================
+setdc(item:DetailCommande){
+  console.log(this.article)
+  this.article=this.g.articlesOrg.filter(x=>x.Identifiant==item.IdArticle)[0]
+  this.detailCommande=item;
+  this.numlot=item.NumerodeLot;
+ this.prix=  this.article.Montant;
+  this.tva= this.article.TauxTva;
+
+  ($('#responsive-modal') as any).modal('hide');
 }
 
-setcaisse(item:Caisse){
- 
-  this.caisse=item;
-  ($('#stock-modal') as any).modal('hide');
-  }
-
+getdetailcommandes(item:Article){
+ this.commandeSvc.getDetailCommandesstockparam(item.Identifiant).subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+      
+        
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+            
+           this.detailCommandes=res["detailCommandeVMs"]
+         console.log(this.detailCommandes)
+          this.detailCommandes= this.detailCommandes.filter(x=>x.IdValiderPar!=null)
+           this.refrechtabledc()
+           //commandes = commandes.filter(x=>x.IdCreePar==this.g.utilisateur!.Identifiant);
+      //this.commandeCount=commandes.length
+          }})
+}
 afficherOnCalculator(x : any){
     if(this.calcVal == "0" && x != "."){
       this.calcVal = "";
@@ -369,32 +406,7 @@ afficherOnCalculator(x : any){
   calculatePagesCountCat(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
-  chargerListeCat(){
-      this.categories.length = 0;
-      console.log(this.categories)
-    if (this.currentPageCat < 1)
-        {
-            this.currentPageCat = 1;
-        }
-        else if (this.currentPageCat > this.totalPageCat)
-        {
-          this.currentPageCat = this.totalPageCat;
-      }
-
-      let startIndex = this.currentPageCat * this.pageSizeCat - this.pageSizeCat;
-      let endIndex = startIndex + this.pageSizeCat;
-
-      if(endIndex > this.g.categories.length) {
-        endIndex = this.g.categories.length;
-      }
-
-
-      for (let i = startIndex; i < endIndex; i++) {
-        this.categories.push(this.g.categories[i]);
-      }
-
-
-  }
+ 
 
     chargerArticle(event :any) {
      
@@ -412,50 +424,31 @@ else{
    else{
     this.articles = this.g.articlesOrg;
    }
-   
-  
-    this.refrechtable()
-    //this.totalPageArt = this.calculatePagesCountArt(this.pageSizeArt,this.g.articles.length);
-    //this.chargerListeArt();
-  }
-
-  chargerstock(event :any) {
-     console.log(this.caissesOrg)
-   if(event){
-    let id:number= event.target.value   
-if(id!=0){
- //this.caisses = this.caissesOrg.filter(x=>x.Identifiant==id)
-}
-else{
-  this.caisses = this.caissesOrg;
-}
-   }
-   else{
-    this.caisses = this.caissesOrg;
-   }
-   
-  
     this.refrechtable()
     //this.totalPageArt = this.calculatePagesCountArt(this.pageSizeArt,this.g.articles.length);
     //this.chargerListeArt();
   }
 showarticle(){
+  this.searchTerm="";
    ($('#responsive-modal') as any).modal('show');
    this.chargerArticle(null)
    
 }
- showstock(){
-  ($('#stock-modal') as any).modal('show');
-  this.chargerstock(null)
-  
-} 
+showcomercial(){
+  this.searchTerm="";
+   ($('#responsive-modal') as any).modal('show');
+   this.chargerArticle(null)
+   
+}
 
    chargerArticlebyname() {
      console.log('this.searchTerm')
     this.type="ARTICLE";
     this.articles = this.g.articlesOrg.filter(x => x.Libelle.toLowerCase().includes(this.searchTerm.toLowerCase()));
   }
-
+chargerlocalbyname(){
+  this.localites=this.localitesOrg.filter(x=>x.Libelle.toLowerCase().includes(this.searchTerm.toLowerCase()))
+}
 calculatePagesCountArt(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
@@ -518,12 +511,12 @@ previousbutton(){
 
   nextCategorie(){
     this.currentPageCat++;
-    this.chargerListeCat();
+  //  this.chargerListeCat();
   }
 
   previousCategorie(){
     this.currentPageCat--;
-    this.chargerListeCat();
+  //  this.chargerListeCat();
   }
   //====================================================================================================
 nextArticle(){
@@ -549,69 +542,89 @@ nextArticle(){
   //====================================================================================================
 
   
-
-  selectArticle(){
-	//this.scrollToBottom();
-//console.log(idArticle)
-	if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-		if(this.calcVal == '0'){
-      this.calcVal = '1';
-    }
-      let detailCommande = new DetailCommande();
-      detailCommande.IdArticle = this.article.Identifiant;
-      detailCommande.LibelleArticle = this.article.Libelle;
-      detailCommande.IdTypeUnite=this.article.IdTypeUnite;
-      detailCommande.Quantite = Number(this.quantite);
-      detailCommande.Montant = this.article.Montant;
-      detailCommande.TauxTVA=this.article.TauxTva;
-      detailCommande.LibelleTypeUnite=this.article.LibelleTypeUnite
-      detailCommande.DateExpiration=this.dateexpiration
-      detailCommande.Description=this.description
-      detailCommande.NumerodeLot=this.numlot
-      detailCommande.idCaisse=this.caisse.Identifiant
-if(this.validatepush(detailCommande)){
-  this.commande.DetailCommandes.push(detailCommande);
-      this.calcVal = '0';
-    this.initdetailcommande()
-}
-    
-	}
-
-  }
-   validatepush(detailCommande:DetailCommande){
+ validatepush(detailCommande:DetailCommande){
    let res:boolean
 if(detailCommande.IdArticle==0){
 res= false
 this.Message="selectioner article"
 }
-else if(detailCommande.Quantite==0 ){
+else if(detailCommande.Quantite==0){
 res=false
 this.Message="erreur de quanite saisie"
 }
-else if(detailCommande.DateExpiration=="" ){
-res=false
-this.Message="erreur date expiration"
-}
-else if(detailCommande.IdTypeUnite==0 ){
-  res=false
-  this.Message="erreur Unite"
-  }
-  else if(detailCommande.idCaisse==0 ){
-    res=false
-    this.Message="erreur Stock"
-    }
 else{
   res=true
 }
 return res
 }
+  selectArticle(){
+	
+	if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+		if(this.calcVal == '0'){
+      this.calcVal = '1';
+    }
+
+   
+    
+      let detailCommande = new DetailCommande();
+      detailCommande.IdArticle = this.article.Identifiant;
+      detailCommande.LibelleArticle = this.article.Libelle;
+      detailCommande.Quantite = Number(this.quantite);
+     // detailCommande.Montant = this.article.Montant;
+      detailCommande.LibelleTypeUnite=this.article.LibelleTypeUnite
+      detailCommande.IdTypeUnite=this.article.IdTypeUnite
+      detailCommande.Montant=this.prix
+      detailCommande.TauxTVA=this.tva
+    
+      detailCommande.Description=this.description
+      detailCommande.NumerodeLot=this.numlot
+if(this.validatepush(detailCommande)){
+
+  
+
+  this.commande.DetailCommandes.push(detailCommande);
+      this.calcVal = '0';
+    this.initdetailcommande()
+    this.updatetotale()
+}
+else{
+   Swal.fire({ text: this.Message , icon: 'error'});
+   this.Message=""
+}
+
+    
+     //  console.log("article",detailCommande)
+    //}    
+   // this.commande.DetailCommandes = this.commande.DetailCommandes;
+
+    //this.idxOne = this.commande.DetailCommandes.length - 1;
+  
+	//console.log(this.commande.DetailCommandes.length);
+    //this.updateTotalVal();
+  
+	//this.scrollToBottom();
+	}
+ }
+
+ updatetotale(){
+  this.TotaleHT=0
+  this.TotaleTVA=0
+  this.commande.DetailCommandes.forEach((x:any)=>{
+    this.TotaleHT+= x.Montant*x.Quantite
+    this.TotaleTVA+= x.Montant*x.Quantite*x.TauxTVA/100
+  })
+  
+
+}
+
   initdetailcommande(){
     this.quantite=0
     this.description=''
     this.numlot=''
-    this.dateexpiration=""
+   
+    this.prix=0
+    this.tva=0
     this.article=new Article()
-    this.caisse=new Caisse()
   }
   
   getRowIndex(x : any){
@@ -658,32 +671,31 @@ chargercat(){
   cancelButtonColor: '#d33',
   confirmButtonText: 'Yes!'
 }).then((result) => {
-     if( result.isConfirmed && this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+     if(result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
       this.commande.DetailCommandes.splice(index, 1);
       if(this.idxOne == this.commande.DetailCommandes.length){
         this.idxOne--;
       }
     }
-    this.updateTotalVal();
+    this.updatetotale()
 })
 
   }
 
   updateTotalVal(){
-    let mnt = 0;    
+    
     for(let o of this.commande.DetailCommandes){
-      mnt = mnt + (o.Quantite * o.Montant);
+    
+      this.TotaleHT+= o.Montant*o.Quantite
+      this.TotaleTVA+= o.Montant*o.Quantite*o.TauxTVA/100
+    
     }
-    this.totalVal = "" + mnt;
-    this.totalColor= (mnt == 0 )? "box bg-dark text-center" : "box bg-success text-center";
-  }
+     }
 
   async valider(){
-  
-  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 		  
 		if(this.commande.Identifiant == null || this.commande.Identifiant === 0){
-     // this.commande.CodeCommande="VENT"
      // this.commande.Numero=this.numcommande
 		  this.ajouterCommande();
 		}else{
@@ -691,6 +703,7 @@ chargercat(){
 		}
 
 	}
+  this.getcountcommande()
 
   }
 
@@ -711,15 +724,19 @@ chargercat(){
 
   ajouterCommande(){
     //alert('ajouterCommande');
-      
-      this.g.showLoadingBlock(true);
-      this.commandeSvc.allimentationstock(this.commande).subscribe(
+    console.log("ok")
+    this.commande.CodeCommande="BONCOMMANDE"
+     // this.g.showLoadingBlock(true);
+      this.commandeSvc.etablirCommande(this.commande).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           //let idCommande = res["idCommande"];
           this.commande=new Commande()
-          
+          this.commande.CodeCommande="BONCOMMANDE"
+          this.TotaleHT= 0
+          this.TotaleTVA= 0
+        
          // this.getCommandeById(idCommande);
          // this.getcountcommande()
           Swal.fire({ text: etatReponse.Message , icon: 'success'});
@@ -817,68 +834,21 @@ if(this.Messageisexiste(x)){
 }
  return {'background-color': "#ac3525b9"}
 }
-  chargerListLocalite(code:string){
-console.log("ok")
-if(this.type=='CONTROLE'|| this.type=='COM'){
-  console.log("liste commande")
-   this.localiteSvc.getLocalites().subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-          this.localitesOrg = res["localiteVMs"];
-          console.log( this.localitesOrg)
-this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
-          //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
-    
+  chargerListLocalite(){
 
-          this.localites.length = 0;
-          this.localites = [];
-
-         
-
-
-            for (let i = 0; i < this.localitesOrg.length; i++) {
-              this.localites.push(this.localitesOrg[i]);
-            }
-
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    );
-}
-else{
   console.log("liste commande dispo")
-    this.localiteSvc.getLocalitesDisponible().subscribe(
+    this.localiteSvc.getLocalites().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.localitesOrg = res["localiteVMs"];
          // console.log( this.localitesOrg[0])
-this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
+this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
           //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
     
 
           this.localites.length = 0;
           this.localites = [];
-
-          /*if (this.currentPageLoc < 1)
-              {
-                  this.currentPageLoc = 1;
-              }
-              else if (this.currentPageLoc > this.totalPageLoc)
-              {
-                this.currentPageLoc = this.totalPageLoc;
-            }
-
-            let startIndex = this.currentPageLoc * this.pageSizeLoc - this.pageSizeLoc;
-            let endIndex = startIndex + this.pageSizeLoc;
-
-            if(endIndex > this.localitesOrg.length) {
-              endIndex = this.localitesOrg.length;
-            }*/
-
 
             for (let i = 0; i < this.localitesOrg.length; i++) {
               this.localites.push(this.localitesOrg[i]);
@@ -888,10 +858,11 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
+        this.refrechtableste()
       }
     );
 
-}
+
     /* this.g.showLoadingBlock(true);   */
    
 
@@ -946,22 +917,20 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === code)
     );
   }
 
-  showListeLocalite(code:string){
-     if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-		  this.localeactive=code
-   // this.idnav=3
-    this.chargerListLocalite(code);
-	  }
+  showListeLocalite(){
+    this.searchTerm="";
+    this.chargerListLocalite();
+($('#societe-modal') as any).modal('show')
    
   }
 
 nextLocalite(){
     this.currentPageLoc++;
-    this.chargerListLocalite("");
+    this.chargerListLocalite();
   }
   previousLocalite(){
     this.currentPageLoc--;
-    this.chargerListLocalite("");
+    this.chargerListLocalite();
   }
 
   showListeServeur(){
@@ -982,22 +951,12 @@ nextLocalite(){
   
   selectLocalite(idLocalite : any){
     //alert('selectLocalite idArticle : ' + idLocalite);
-    if(this.type=='CONTROLE'|| this.type=='COM'){
-this.commandes=this.commandesOrg.filter(x=>x.IdLocalite==idLocalite)
-    }
-    else{
-
-   
     this.tableColor="box bg-megna text-center";
     let localite = this.localites.filter(x => x.Identifiant === idLocalite)[0];
     this.commande.LibelleLocalite = localite.Libelle;
     this.commande.IdLocalite = localite.Identifiant;
-       this.idnav=1; }
-    //($('#localiteModal') as any).modal('hide');
-    this.tableColor="box bg-megna text-center";
-    this.localites=[]
-    this.localeactive=""
-    this.show('localite')
+    ($('#societe-modal') as any).modal('hide');
+    this.localites=[]   
   }
 
   selectServeur(idServeur : any){
@@ -1007,7 +966,6 @@ this.commandes=this.commandesOrg.filter(x=>x.IdLocalite==idLocalite)
     this.commande.NomServeur = serveur.Nom;
     this.commande.IdServeur = serveur.Identifiant;
     this.idnav=1;
-    
     //($('#serveurModal') as any).modal('hide');
     this.show('serveur')
   }

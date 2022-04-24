@@ -70,6 +70,8 @@ import { VentComponent } from './vent/vent.component';
 import { DevisComponent } from './devis/devis.component';
 import { DtransfertComponent } from './dtransfert/dtransfert.component';
 import { listedevisComponent } from './listes/devis/devis.component';
+import{AchatComponent}from './achat/achat.component';
+import{BonCommandeComponent}from './boncommande/boncommande.component';
 
 import { listeCommandesComponent } from './listes/commandes/commandes.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
@@ -112,7 +114,9 @@ DevisComponent,
 listeCommandesComponent,
 listedevisComponent,
 DtransfertComponent,
-listeallimentationsComponent
+listeallimentationsComponent,
+AchatComponent,
+BonCommandeComponent
 
   ],
   imports: [

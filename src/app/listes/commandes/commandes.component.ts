@@ -192,6 +192,9 @@ getRowIndex(x : any,idCommande:number|any){
 	   //console.log("Row index is: " + x.rowIndex);
 	  
   }
+  async update(idcommande:any){
+  
+    this.router.navigate(['/ventes/'+idcommande]);}
   getreglementbyId(idCommande:number|any){
         this.reglementSvc.getReglementsByIdCommande(idCommande).subscribe(
       (res:any) => {

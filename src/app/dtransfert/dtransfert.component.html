@@ -107,6 +107,7 @@
                                                     <th>Totale HT</th>
                                                     <th>Totale TTC</th>
                                                     <th>Description</th>
+                                                    <th>Option</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -122,6 +123,11 @@
                                                         <td class="txt-oflo">{{ (item.Montant* item.Quantite)}}</td>
                                                         <td class="txt-oflo">{{ (item.Montant* item.Quantite)+((item.Montant* item.Quantite)*(item.TauxTVA/100)) }}</td>
                                                         <td><span class="text-success">{{ item.Description }}</span>
+                                                            
+                                                        </td>
+                                                        <td><button (click)="remove(i)" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
+                                                        </button>
+                                                            
                                                         </td>
 
 
@@ -143,8 +149,8 @@
                                         <div class="d-flex no-block align-items-center">
                                             <div>
                                                 
-                                                <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
-                                                </button> 
+                                               <!--  <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
+                                                </button>  -->
 
                                             </div>
 

@@ -7,12 +7,12 @@
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="row page-titles">
-          
+
         </div>
         <!-- ============================================================== -->
         <!-- ============================================================== -->
 
-      
+
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <div class="row">
@@ -58,7 +58,7 @@
                     <!-- .left-right-aside-column-->
                     <div class="row">
                         <!-- .left-aside-column-->
-                        <div class="col-12 col-lg-6 col-sm-12">
+                        <div class="col-12 col-lg-8 col-sm-12">
                             <div class="card-body">
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="card">
@@ -72,13 +72,13 @@
                                                     <div class="col-6 align-self-center display-6 text-end">
                                                         <h2 class="text-success">{{(TotaleHT+TotaleTVA)}}</h2>
                                                     </div>
-                                            
+
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <h3>Totale TVA(DH)</h3>
                                                     </div>
-                                            
+
                                                     <div class="col-6 align-self-center display-3 text-end">
                                                         <h2 class="text-info">{{(TotaleTVA)}}</h2>
                                                     </div>
@@ -87,7 +87,7 @@
                                                     <div class="col-6">
                                                         <h3>Totale HT(DH)</h3>
                                                     </div>
-                                            
+
                                                     <div class="col-6 align-self-center display-3 text-end">
                                                         <h2 class="text-danger">{{(TotaleHT)}}</h2>
                                                     </div>
@@ -97,26 +97,29 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover no-wrap">
                                                 <thead>
-                                                    
 
-                                                        <tr>
-                                                            <th class="text-center">#</th>
-                                                            <th>Libelle</th>
-                                                            <th>Quantite</th>
-                                                            <th>Unite</th>
-                                                            <th>P.U HT</th>
-                                                            <th>TVA</th>
-                                                            <th>Totale HT</th>
-                                                            <th>Totale TTC</th>
-                                                            <th>Description</th>
-                                                        </tr>
-                                                    
+
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th>N.Lot</th>
+                                                        <th>Libelle</th>
+                                                        <th>Quantite</th>
+                                                        <th>Unite</th>
+                                                        <th>P.U HT</th>
+                                                        <th>TVA</th>
+                                                        <th>Totale HT</th>
+                                                        <th>Totale TTC</th>
+                                                        <th>Description</th>
+                                                        <th>Option</th>
+                                                    </tr>
+
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let item of commande.DetailCommandes; index as i;">
                                                         <td class="text-center">{{i+1}}</td>
+                                                        <td class="txt-oflo">{{ item.NumerodeLot }}</td>
                                                         <td class="txt-oflo">{{ item.LibelleArticle }}</td>
-                                                        
+
                                                         <td><span class="badge bg-success rounded-pill">{{ item.Quantite
                                                                 }}</span> </td>
                                                         <td class="txt-oflo">{{ item.LibelleTypeUnite }}</td>
@@ -126,7 +129,8 @@
                                                         <td class="txt-oflo">{{ (item.Montant* item.Quantite)+((item.Montant* item.Quantite)*(item.TauxTVA/100)) }}</td>
                                                         <td><span class="text-success">{{ item.Description }}</span>
                                                         </td>
-
+                                                        <td><button (click)="remove(i)" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
+    </button></td>
 
                                                     </tr>
                                                     <!--      -->
@@ -142,15 +146,15 @@
                                     <div class="card-body">
                                         <div class="d-flex no-block align-items-center">
                                             <div>
-                                               
-                                                <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
-                                                </button>
+
+                                                <!--   <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
+                                                </button> -->
 
                                             </div>
 
                                             <div class="ms-auto">
-                                               
-                                                
+
+
                                                 <button (click)="valider()" type="button" class=" btn btn-outline-success btn-circle  "><i
                                                         class="ti-check"></i> </button>
                                             </div>
@@ -165,7 +169,7 @@
 
 
 
-                        <div class="col-12 col-lg-6 col-sm-12 formcaisse">
+                        <div class="col-12 col-lg-4 col-sm-12 formcaisse">
                             <div class="card">
                                 <div class="card-body">
 
@@ -207,7 +211,7 @@
                                                     <label class="form-label">Articles</label>
                                                     <div class="input-group mb-3" (click)="showarticle()">
                                                         <input type="text" class="form-control" placeholder="Articles" aria-label="Password" [(ngModel)]="article.Libelle" name="article">
-                                                        <span class="input-group-text" (click)="showarticle()"><i class="ti-lock"></i></span>
+                                                        <span class="input-group-text"><i class="ti-lock"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,7 +257,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                           <!--  <div class="col-md-6">
+                                            <!--  <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Date Expiration</label>
                                                     <div class="input-group mb-3">

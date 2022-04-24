@@ -35,7 +35,7 @@ import { DaterapportComponent } from './rapport/daterapport/daterapport.componen
 import { VentComponent } from './vent/vent.component';
 import{DevisComponent} from './devis/devis.component';
 import { DtransfertComponent } from './dtransfert/dtransfert.component';
-
+import{AchatComponent}from './achat/achat.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
 
 const routes: Routes = [
@@ -46,9 +46,14 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'home', component: HomeComponent },
   { path: 'caisse', component: CaisseComponent },
-    { path: 'vente', component: VentComponent },
-    { path: 'devis', component: DevisComponent },
-    { path: 'devistocommande/:id', component: DtransfertComponent },
+  { path: 'caisses/:id', component: CaisseComponent },
+  { path: 'vente', component: VentComponent },
+  { path: 'ventes/:id', component: VentComponent },
+  { path: 'devis', component: DevisComponent },
+  { path: 'devis/:id', component: DevisComponent },
+  { path: 'devistocommande/:id', component: DtransfertComponent },
+  { path: 'achat', component: AchatComponent },
+  { path: 'achats/:id', component: AchatComponent },
 
     
   

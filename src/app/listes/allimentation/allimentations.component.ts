@@ -414,11 +414,14 @@ this.commandes.splice(idx, 1)
   showReglements(){
 	  
 	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-		  	
           ($('#responsive-modal') as any).modal('show');
-			
 	  }	 
   }
+  async update(idcommande:any){
+  
+ this.router.navigate(['/caisses/'+idcommande]);}
+
+
    validatepush(reglement:Reglement){
    let res:boolean
 if(reglement.Montant==0){

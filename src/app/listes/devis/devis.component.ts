@@ -267,6 +267,10 @@ async showCommande(){
    this.commandeoption="TOUS";
    
 }
+async update(idcommande:any){
+  
+  this.router.navigate(['/devis/'+idcommande]);}
+
  async chargerCommandes(){
 
   // this.g.showLoadingBlock(true);  

@@ -1,5 +1,5 @@
 import { Component,HostListener,OnInit } from '@angular/core';
-import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized,ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { Categorie } from '../entities/Categorie';
 import { Article } from '../entities/Article';
@@ -151,13 +151,27 @@ public TotaleTVA:number=0
  public loadAPI!: Promise<any>;
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 public colorMessage:string=""
-
-  constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
+public isReadOnly:boolean=false;
+  constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,
   private articleSvc:ArticleSvc,private associationMessageSvc :AssociationMessageSvc,private messageSvc:MessageSvc) {
 
-	this.g.showLoadingBlock(true);
+  this.g.showLoadingBlock(true);
+  this.route.params.subscribe(params => {
+    if(params['id']!=null) {
+     
+       this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
+    let etatReponse = res["EtatReponse"];
+    if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+      this.commande = res["commandeVM"];
+      this.numcommande=this.commande.Numero
+   this.isReadOnly=true
+   this.updatetotale()
+  }
+});
+    }
+      })
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
 			let etatReponse = res["EtatReponse"];
@@ -349,17 +363,23 @@ setdc(item:DetailCommande){
   console.log(this.article)
   this.article=this.g.articlesOrg.filter(x=>x.Identifiant==item.IdArticle)[0]
   this.detailCommande=item;
-  console.log("ok",item)
   this.numlot=item.NumerodeLot;
  this.prix=  this.article.Montant;
   this.tva= this.article.TauxTva;
-
+  this.detailCommandes=[];
+  this.refrechtabledc();
   ($('#responsive-modal') as any).modal('hide');
+
 }
 
 getdetailcommandes(item:Article){
+  //debugger
+  console.log(item)
+
  this.commandeSvc.getDetailCommandesstockparam(item.Identifiant).subscribe(
       (res:any) => {
+        this.detailCommandes.length=0
+      //  this.refrechtabledc()
         let etatReponse = res["EtatReponse"];
       
         
@@ -368,10 +388,24 @@ getdetailcommandes(item:Article){
            this.detailCommandes=res["detailCommandeVMs"]
          console.log(this.detailCommandes)
           this.detailCommandes= this.detailCommandes.filter(x=>x.IdValiderPar!=null && x.Quantite>x.QuantiteServi)
-           this.refrechtabledc()
+          if(this.commande.DetailCommandes.length>0){
+            this.detailCommandes= this.detailCommandes.filter(x=>!this.commande.DetailCommandes.find(y=>y.NumerodeLot==x.NumerodeLot))
+          }
+        this.refrechtabledc()
            //commandes = commandes.filter(x=>x.IdCreePar==this.g.utilisateur!.Identifiant);
       //this.commandeCount=commandes.length
           }})
+}
+
+updatetotale(){
+  this.TotaleHT=0
+  this.TotaleTVA=0
+  this.commande.DetailCommandes.forEach((x:any)=>{
+    this.TotaleHT+= x.Montant*x.Quantite
+    this.TotaleTVA+= x.Montant*x.Quantite*x.TauxTVA/100
+  })
+  
+
 }
 afficherOnCalculator(x : any){
     if(this.calcVal == "0" && x != "."){
@@ -462,7 +496,6 @@ chargerlocalbyname(){
 calculatePagesCountArt(elementPerPage : number, totalCount : number) {
     return totalCount < elementPerPage ? 1 : Math.ceil(totalCount / elementPerPage);
   }
-
 
   chargerListeArt(){
 	  this.articles = [];
@@ -672,15 +705,26 @@ else{
 chargercat(){
   this.type="CAT";
 }
-  remove() {
-
-    if( this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[this.idxOne].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-      this.commande.DetailCommandes.splice(this.idxOne, 1);
+  remove(index:number) {
+         Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+     if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
+      &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+      this.commande.DetailCommandes.splice(index, 1);
       if(this.idxOne == this.commande.DetailCommandes.length){
         this.idxOne--;
       }
     }
-    this.updateTotalVal();
+    this.updatetotale()
+})
+
   }
 
   updateTotalVal(){
@@ -697,6 +741,7 @@ chargercat(){
 		  
 		if(this.commande.Identifiant == null || this.commande.Identifiant === 0){
      // this.commande.Numero=this.numcommande
+     this.commande.CodeCommande="VENT"
 		  this.ajouterCommande();
 		}else{
 		  this.modifierCommande();

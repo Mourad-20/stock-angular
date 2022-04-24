@@ -1,5 +1,5 @@
 import { Component,HostListener,OnInit } from '@angular/core';
-import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized,ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { Categorie } from '../entities/Categorie';
 import { Article } from '../entities/Article';
@@ -141,7 +141,7 @@ public commandeCount:number=0
 //clickEventSubscription:Subscription;
 //controleEventSubscription:Subscription;
 public Message:string=""
- 
+ public isReadOnly:boolean=false;
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
   public pieChartData: any = [30, 50, 20];
   public pieChartType: ChartType = 'pie';
@@ -152,12 +152,27 @@ public Message:string=""
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 public colorMessage:string=""
 
-  constructor(public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
+  constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,
   private articleSvc:ArticleSvc,private associationMessageSvc :AssociationMessageSvc,private messageSvc:MessageSvc) {
 
-	this.g.showLoadingBlock(true);
+  this.g.showLoadingBlock(true);
+  this.route.params.subscribe(params => {
+    if(params['id']!=null) {
+     
+       this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
+    let etatReponse = res["EtatReponse"];
+    if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+      this.commande = res["commandeVM"];
+      this.numcommande=this.commande.Numero
+   this.isReadOnly=true
+   this.updatetotale()
+  }
+});
+    }
+      })
+
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
 			let etatReponse = res["EtatReponse"];
@@ -564,12 +579,13 @@ return res
       detailCommande.Description=this.description
       detailCommande.NumerodeLot=this.numlot
 if(this.validatepush(detailCommande)){
-  this.TotaleHT+= detailCommande.Montant*detailCommande.Quantite
-  this.TotaleTVA+= detailCommande.Montant*detailCommande.Quantite*detailCommande.TauxTVA/100
+
+  
 
   this.commande.DetailCommandes.push(detailCommande);
       this.calcVal = '0';
     this.initdetailcommande()
+    this.updatetotale()
 }
 else{
    Swal.fire({ text: this.Message , icon: 'error'});
@@ -588,10 +604,19 @@ else{
   
 	//this.scrollToBottom();
 	}
+ }
 
-    
+ updatetotale(){
+  this.TotaleHT=0
+  this.TotaleTVA=0
+  this.commande.DetailCommandes.forEach((x:any)=>{
+    this.TotaleHT+= x.Montant*x.Quantite
+    this.TotaleTVA+= x.Montant*x.Quantite*x.TauxTVA/100
+  })
+  
 
-  }
+}
+
   initdetailcommande(){
     this.quantite=0
     this.description=''
@@ -636,15 +661,25 @@ else{
 chargercat(){
   this.type="CAT";
 }
-  remove() {
-
-    if( this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[this.idxOne].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-      this.commande.DetailCommandes.splice(this.idxOne, 1);
+  remove(index:number) {
+         Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+     if(result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+      this.commande.DetailCommandes.splice(index, 1);
       if(this.idxOne == this.commande.DetailCommandes.length){
         this.idxOne--;
       }
     }
-    this.updateTotalVal();
+    this.updatetotale()
+})
+
   }
 
   updateTotalVal(){

@@ -370,13 +370,16 @@ setdc(item:DetailCommande){
   this.tva= this.article.TauxTva;
  this.quantitemax=item.Quantite;
 this.quantite=(this.idxOne.Quantite-this.idxOne.QuantiteServi)>(item.Quantite-item.QuantiteServi)?(item.Quantite-item.QuantiteServi):(this.idxOne.Quantite-this.idxOne.QuantiteServi);
-  ($('#responsive-modal') as any).modal('hide');
+this.detailCommandes=[];
+this.refrechtabledc();
+($('#responsive-modal') as any).modal('hide');
 }
 
 getdetailcommandes(item:number){
   console.log(item)
  this.commandeSvc.getDetailCommandesstockparam(item).subscribe(
       (res:any) => {
+        this.detailCommandes.length=0
         let etatReponse = res["EtatReponse"];
       
         
@@ -386,7 +389,10 @@ getdetailcommandes(item:number){
     this.detailCommandes=this.filtreselect( this.detailCommandes)
     
           this.detailCommandes= this.detailCommandes.filter(x=>x.IdValiderPar!=null&& x.Quantite>x.QuantiteServi)
-           this.refrechtabledc()
+          if(this.commande.DetailCommandes.length>0){
+            this.detailCommandes= this.detailCommandes.filter(x=>!this.commande.DetailCommandes.find(y=>y.NumerodeLot==x.NumerodeLot))
+          }
+          this.refrechtabledc()
            //commandes = commandes.filter(x=>x.IdCreePar==this.g.utilisateur!.Identifiant);
       //this.commandeCount=commandes.length
           }})
@@ -683,15 +689,25 @@ else{
 chargercat(){
   this.type="CAT";
 }
-  remove() {
-
-    if( this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[this.idxOne].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-      this.commande.DetailCommandes.splice(this.idxOne, 1);
+   remove(index:number) {
+         Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+     if( result.isConfirmed && this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+      this.commande.DetailCommandes.splice(index, 1);
       if(this.idxOne == this.commande.DetailCommandes.length){
         this.idxOne--;
       }
     }
     this.updateTotalVal();
+})
+
   }
 filter(items:DetailCommande[]){
 return items.filter(x=>x.Quantite!=x.QuantiteServi)
