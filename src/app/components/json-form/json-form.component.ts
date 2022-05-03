@@ -86,7 +86,7 @@ public  $: any;
      img2.src = reader.result;
          this.myForm.patchValue({
      
-          Image: (<string>reader.result).split(',')[1]
+          ImageAsString: (<string>reader.result).split(',')[1]
        });
   },false);
   if(file){

@@ -14,7 +14,7 @@
     },
        {
          "id": "4",
-      "name": "Image",
+      "name": "ImageAsString",
       "label": "Image:",
       "value": "",
       "placeholder":"image",

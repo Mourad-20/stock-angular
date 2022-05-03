@@ -334,7 +334,9 @@ getobjetfromsubmit(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Cais
 async getarticle(forms: FormGroup|any){
   let article1:Article=new Article()
  let article:Article= this.getobjetfromsubmit(forms,article1)
-    return article
+    article.ImageAsString=forms.controls.ImageAsString.value
+
+ return article
 }
 async getlocalite(forms: FormGroup|any){
   let localite1:Localite= new Localite();
@@ -346,7 +348,9 @@ async getcategorie(forms: FormGroup|any){
 
    let cat1:Categorie= new Categorie();
   let categorie:Categorie= this.getobjetfromsubmit(forms,cat1)
-     return categorie
+     categorie.ImageAsString=forms.controls.ImageAsString.value
+
+  return categorie
 }
 
 async getcaisse(forms: FormGroup|any){
