@@ -9,6 +9,8 @@ import { ArticleSvc } from '../services/articleSvc';
 import { DetailCommande } from '../entities/DetailCommande';
 import{CommandeSvc}from '../services/commandeSvc';
 import{Commande}from '../entities/Commande';
+import{format} from 'date-fns'
+
 @Component({
   selector: 'app-detailarticle',
   templateUrl: './detailarticle.component.html',
@@ -34,12 +36,12 @@ public commandesOrg : Commande[] = [];
 public quantiteexpiration:number=0;
 public dateexpiration:any;
 public purcentexpirer:number=0;
+public datedebut:string=format(new Date(),'yyyy-MM-dd')+"T00:00:00";
+public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
 
   public Article:Article=new Article();
-  constructor(public CommandeSvc:CommandeSvc,public router:Router, public route:ActivatedRoute,private http: HttpClient,private g:Globals,private articleSvc:ArticleSvc) {
-
- 
-
+  constructor(public CommandeSvc:CommandeSvc,public router:Router, 
+    public route:ActivatedRoute,private http: HttpClient,private g:Globals,private articleSvc:ArticleSvc) {
    }
 
   ngOnInit(): void {
