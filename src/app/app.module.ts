@@ -76,6 +76,7 @@ import{BonCommandeComponent}from './boncommande/boncommande.component';
 import { listeCommandesComponent } from './listes/commandes/commandes.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
 import { DataTableDirective } from 'angular-datatables';
+import { DetailarticleComponent } from './detailarticle/detailarticle.component';
 @NgModule({
   declarations: [
     PercentComponent,
@@ -116,7 +117,8 @@ listedevisComponent,
 DtransfertComponent,
 listeallimentationsComponent,
 AchatComponent,
-BonCommandeComponent
+BonCommandeComponent,
+DetailarticleComponent
 
   ],
   imports: [

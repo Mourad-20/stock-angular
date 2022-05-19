@@ -15,7 +15,7 @@ export class ActeurSeanceSvc {
 	
 	
 	validerPresence(acteurSeanceVMs: any) {
-		let options = {	headers: this.headers,withCredentials: true	};
+		let options = {	headers: this.headers,withCredentials: true};
 		let data = JSON.stringify(acteurSeanceVMs);
 		return this.http.post(this.g.baseUrl +  '/api/acteurSeance/validerPresence', data, options);		
 	}

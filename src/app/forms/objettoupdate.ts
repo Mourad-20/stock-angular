@@ -22,14 +22,16 @@ import { HttpClient } from '@angular/common/http';
 import { ZoneSvc } from '../services/zoneSvc';
 import { TypeUniteSvc } from '../services/typeuniteSvc';
 import{TauxTva}from '../entities/TauxTva';
+import {TypeArticleCode}from '../entities/TypeArticleCode';
 @Injectable()
 export class Objettoupdate{
     public sub:any
-    public id:number=0
+    public id:number|any=null
     public LocaliteCode:LocaliteCode=new LocaliteCode()
     public utilisateur:Utilisateur|any
     public GroupeCode : GroupeCode = new GroupeCode();
     public TauxTva:TauxTva=new TauxTva();
+    public TypeArticle:TypeArticleCode=new TypeArticleCode();
 public groupe :any= {
         "name": "Groupe",
       "label": "Groupe:",
@@ -174,7 +176,8 @@ rechargerutilisateurformdata(formData: JsonFormData|any):Observable<string>{
        formData.controls.sort(function (a:any, b:any) {
       return a.id - b.id;
     } );
-    if(this.id!=null){
+    
+    if(this.id!=null && this.id!=0){
       let index=0
       formData.controls.forEach((element:any) => {
         if(element.name=="Password"){
@@ -189,7 +192,10 @@ try{
  let objet = JSON.parse(res)
   this.setobjetfrom(formData,objet)
 }
-catch{}
+catch{
+
+
+}
     form.next(JSON.stringify(formData.controls)) 
     })
    })
@@ -354,11 +360,8 @@ async getcategorie(forms: FormGroup|any){
 }
 
 async getcaisse(forms: FormGroup|any){
-let caisse:Caisse={
-    Libelle:forms.value.Libelle,
-Identifiant:this.id,
-
-  }
+  let caisse1:Caisse=new Caisse();
+let caisse:Caisse=this.getobjetfromsubmit(forms,caisse1)
 
     return caisse
 }
@@ -523,6 +526,24 @@ for(const taux in this.TauxTva){
 
           return TVA;
   }
+  getTypesArticle(){
+    let TypeArticle:any= {
+      "id": 5,
+      "name": "IdTypeArticle",
+    "label": "Type Article:",
+    "value": "",
+    "type": "select",
+    "option":[],
+    "validators": {"required": true,
+      }
+  }
+  for (const [key, value] of Object.entries(this.TypeArticle)) {
+
+
+    TypeArticle.option.push({"text":value,"value":key,"selected":false})}
+  
+            return TypeArticle;
+    }
 
  getCategorie():Observable<string>{
 

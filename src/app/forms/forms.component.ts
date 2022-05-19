@@ -104,6 +104,9 @@ if(this.g.typeform=="article"){
             
      formData.controls.push(JSON.parse(res))
      formData.controls.push(this.objettoupdat.getTVAs())
+     formData.controls.push(this.objettoupdat.getTypesArticle())
+
+     
     
 
     this.objettoupdat.rechargerarticleformdata(formData).subscribe((form:any)=>{

@@ -52,7 +52,7 @@
             "name": "Quantitemin",
             "label": "Quantite min:",
             "value": "",
-            "placeholder": "Montant",
+            "placeholder": "Quantite",
             "type": "number",
             "validators": {
                 "required": false,

@@ -26,6 +26,10 @@ goto(link:string|any){
 }); 
 
 }
+logout(){
+  this.g.typelogin=""
+  this.router.navigate(['logout']);
+}
 showCommandesNonReglees(){
  this.sharedService.sendClickEvent();}
 initcaisse(){

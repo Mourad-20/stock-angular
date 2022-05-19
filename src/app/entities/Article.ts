@@ -1,5 +1,5 @@
 export class Article {
-      Identifiant: number = 0;
+    Identifiant: number = 0;
     IdCategorie: number = 0;
     Montant: number = 0;
     QuantiteDisponible: number = 0;
@@ -16,4 +16,6 @@ export class Article {
 	CodeBare: string = "";
     LibelleTypeUnite: string = "";
     EnActivite: boolean = false;
+    IdTypeArticle:number=0;
+    LibelleTypeArticle: string = "";
 }

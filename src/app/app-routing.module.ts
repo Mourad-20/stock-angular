@@ -10,6 +10,7 @@ import { LogoutComponent } from './authentification/logout.component';
 import { HomeComponent } from './home/home.component';
 import { CaisseComponent } from './caisse/caisse.component';
 //import { CaisseComponent } from './home/caisse.component';
+import { DetailarticleComponent } from './detailarticle/detailarticle.component';
 
 import { OuvertureSeanceComponent } from './seances/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
@@ -54,7 +55,7 @@ const routes: Routes = [
   { path: 'devistocommande/:id', component: DtransfertComponent },
   { path: 'achat', component: AchatComponent },
   { path: 'achats/:id', component: AchatComponent },
-
+{ path: 'detail/article/:id', component: DetailarticleComponent },
     
   
   { path: 'ouvertureSeance', component: OuvertureSeanceComponent },

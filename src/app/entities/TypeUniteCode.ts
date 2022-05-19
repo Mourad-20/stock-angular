@@ -1,5 +1,5 @@
 export class UniteCode {
-    ADMIN: string = "Kg";
-    GERANT: string = "L";
-    CAISSIER: string = "U";		
+    Kg: string = "Kg";
+    L: string = "L";
+    U: string = "U";		
 }

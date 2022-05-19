@@ -201,7 +201,9 @@ public isReadOnly:boolean=false;
              /*  for(let a of this.g.articlesOrg){
 								  a.PathImage = this.g.baseUrl + '/api/Article/showImageArticle?identifiant=' + a.Identifiant;
 							  } */
-						  }else{
+						  }
+              else{
+                console.log("Message01")
 							Swal.fire({ text: etatReponse.Message , icon: 'error'});
 						  }
 						  this.g.showLoadingBlock(false);    
@@ -212,6 +214,7 @@ public isReadOnly:boolean=false;
 
 
 					}else{
+            console.log("Message02")
 					  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 					}
 					this.g.showLoadingBlock(false);    
@@ -222,6 +225,7 @@ public isReadOnly:boolean=false;
 				this.router.navigate(['ouvertureSeance']);
 			  }
 			}else{ 
+        console.log("Message03")
 			  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 			}
 			this.g.showLoadingBlock(false);    
@@ -641,6 +645,7 @@ if(this.validatepush(detailCommande2)){
     this.initdetailcommande()
 }
 else{
+  console.log("Message1")
    Swal.fire({ text: this.Message , icon: 'error'});
    this.Message=""
 }
@@ -760,6 +765,7 @@ chargercat(){
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
+          console.log("Message2")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -782,6 +788,7 @@ chargercat(){
          // this.getcountcommande()
           Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
+          console.log("Message3")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -802,6 +809,7 @@ chargercat(){
           this.getCommandeById(idCommande);
           //Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
+          console.log("Message4")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -825,6 +833,7 @@ chargercat(){
           this.updateTotalVal();
 		  this.updateComponentView();
         }else{ 
+          console.log("Message5")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         //this.g.showLoadingBlock(false);    
@@ -896,6 +905,7 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
             }
 
         }else{ 
+          console.log("Message6")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -951,6 +961,7 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
             }
 
         }else{ 
+          console.log("Message7")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -1063,7 +1074,7 @@ nextLocalite(){
             }
             this.g.typecommande="COMMANDENONREGLEE"
 //console.log(this.commandes)
-        }else{ 
+        }else{ console.log("Message8")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         //this.g.showLoadingBlock(false);    
@@ -1114,6 +1125,7 @@ nextLocalite(){
           ($('#responsive-modal') as any).modal('show');
 				  
 				}else{ 
+          console.log("Message9")
 				  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 				}
 				this.g.showLoadingBlock(false);    
@@ -1139,6 +1151,7 @@ nextLocalite(){
 			this.reglement = this.lstReglements[this.idxThree];
            // console.log(this.lstReglements);
           }else{ 
+            console.log("Message10")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1170,6 +1183,7 @@ nextLocalite(){
 			  this.getCommandeById(this.commande.Identifiant);
 			  Swal.fire({ text: etatReponse.Message , icon: 'success'});
           }else{ 
+            console.log("Message11")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1190,6 +1204,7 @@ nextLocalite(){
             this.initcaisse()
 			  //Swal.fire({ text: etatReponse.Message , icon: 'success'});
           }else{ 
+            console.log("Message12")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1207,6 +1222,7 @@ nextLocalite(){
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 			  //Swal.fire({ text: etatReponse.Message , icon: 'success'});
           }else{ 
+            console.log("Message13")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1229,6 +1245,7 @@ nextLocalite(){
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 			  this.recaps = res['recapVMs'];
           }else{ 
+            console.log("Message14")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1357,6 +1374,7 @@ else{
 this.commandes.splice(idx, 1)
 		  Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
+          console.log("Message15")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         ($('#responsive-modal') as any).modal('hide');
@@ -1400,6 +1418,7 @@ this.commandes.splice(idx, 1)
 				  }
 			   }
           }else{ 
+            console.log("Message16")
             Swal.fire({ text: etatReponse.Message , icon: 'error'});
           }
           this.g.showLoadingBlock(false);    
@@ -1480,6 +1499,7 @@ this.commandes.splice(idx, 1)
           //this.getCommandeById(idCommande);
           Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
+          console.log("Message17")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
@@ -1533,6 +1553,7 @@ this.commandes.splice(idx, 1)
             this.g.typecommande="COMMANDENONCONTROLER"
 //console.log(this.commandes)
         }else{ 
+          console.log("Message18")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         //this.g.showLoadingBlock(false);    
