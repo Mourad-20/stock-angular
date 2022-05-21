@@ -46,6 +46,13 @@ export class CommandeSvc {
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandeById', data, options);
 	}
+	
+	getMouvement(datedebut: string,datefin: string) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin};	
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramDate);
+		return this.http.post(this.g.baseUrl +  '/api/commande/getMouvement', data, options);
+	}
 		getDetailCommandesstockparam(idArticle: number) {
 		let paramInt = {"Valeur" : idArticle};
 		let options = {	headers: this.headers,withCredentials: true	};

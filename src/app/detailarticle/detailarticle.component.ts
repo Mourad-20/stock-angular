@@ -10,7 +10,6 @@ import { DetailCommande } from '../entities/DetailCommande';
 import{CommandeSvc}from '../services/commandeSvc';
 import{Commande}from '../entities/Commande';
 import{format} from 'date-fns'
-
 @Component({
   selector: 'app-detailarticle',
   templateUrl: './detailarticle.component.html',
@@ -37,11 +36,12 @@ public quantiteexpiration:number=0;
 public dateexpiration:any;
 public purcentexpirer:number=0;
 public datedebut:string=format(new Date(),'yyyy-MM-dd')+"T00:00:00";
+
 public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
 
   public Article:Article=new Article();
   constructor(public CommandeSvc:CommandeSvc,public router:Router, 
-    public route:ActivatedRoute,private http: HttpClient,private g:Globals,private articleSvc:ArticleSvc) {
+    public route:ActivatedRoute,private commandeSvc:CommandeSvc,private http: HttpClient,private g:Globals,private articleSvc:ArticleSvc) {
    }
 
   ngOnInit(): void {
@@ -88,6 +88,7 @@ this.purcentexpirer= (this.quantiteexpiration*100/this.maxpurcent)|0
 this.purcentexpirer = Math.min(100, Math.max(0, this.purcentexpirer));
 //console.log("max=",Math.max(0, this.purcentinventaire))
 this.chargerCommandeControle()
+this.chargerCommandes()
               }
 })
 
@@ -109,6 +110,32 @@ this.chargerCommandeControle()
 
 
   }
+ 
+  async chargerCommandes(){
+    var datedebut:string=format(this.addMonths(new Date(), -3),'yyyy-MM-dd')+"T00:00:00";
+    console.log(datedebut)
+    // this.g.showLoadingBlock(true);  
+      this.commandeSvc.getMouvement(datedebut,this.datefin).subscribe(
+         (res:any) => {
+          let etatReponse = res["EtatReponse"];
+          if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+          
+            this.commandesOrg=res["commandeVMs"];
+            this.commandes=res["commandeVMs"];
+            console.log('res==',this.commandesOrg)
+          //  this.refrechtable()
+          }else{ 
+            Swal.fire({ text: "commandeseance" , icon: 'error'});
+          }
+          this.g.showLoadingBlock(false);    
+        }
+      );
+     
+    }
+     addMonths(date:Date, months:number) {
+      date.setMonth(date.getMonth() + months);
+      return date;
+    }
   async chargerCommandeControle(){
 
     //this.g.showLoadingBlock(true);  
