@@ -72,53 +72,53 @@ import { DtransfertComponent } from './dtransfert/dtransfert.component';
 import { listedevisComponent } from './listes/devis/devis.component';
 import{AchatComponent}from './achat/achat.component';
 import{BonCommandeComponent}from './boncommande/boncommande.component';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 import { listeCommandesComponent } from './listes/commandes/commandes.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
 import { DataTableDirective } from 'angular-datatables';
 import { DetailarticleComponent } from './detailarticle/detailarticle.component';
 @NgModule({
   declarations: [
-    PercentComponent,
-    AppComponent,
-    LoginComponent,
-    HomeComponent,
-    HeaderComponent,
-    LeftsidebareComponent,
-    CaisseComponent,
-    OuvertureSeanceComponent,
-    TestComponent,
+  PercentComponent,
+  AppComponent,
+  LoginComponent,
+  HomeComponent,
+  HeaderComponent,
+  LeftsidebareComponent,
+  CaisseComponent,
+  OuvertureSeanceComponent,
+  TestComponent,
 	LoginMobileComponent,
 	CaisseMobileComponent,
 	ClotureSeanceComponent,
- RapportComponent,
- FormsComponent,
- JsonFormComponent,
- UtilisateursComponent,
- ArticlesComponent,
- CategoriesComponent,
- CaissesComponent,
-CaisseparamComponent,
-LocaliteComponent,
-FermetureSeanceComponent,
-SeancesComponent,
-ArticlerapportComponent,
-CaisserapportComponent,
-ListeLocaliteComponent,
-MessageComponent,
-ArticleparamComponent,
-HomerapportComponent,
-SeancerapportComponent,
-DaterapportComponent,
-VentComponent,
-DevisComponent,
-listeCommandesComponent,
-listedevisComponent,
-DtransfertComponent,
-listeallimentationsComponent,
-AchatComponent,
-BonCommandeComponent,
-DetailarticleComponent
+  RapportComponent,
+  FormsComponent,
+  JsonFormComponent,
+  UtilisateursComponent,
+  ArticlesComponent,
+  CategoriesComponent,
+  CaissesComponent,
+  CaisseparamComponent,
+  LocaliteComponent,
+  FermetureSeanceComponent,
+  SeancesComponent,
+  ArticlerapportComponent,
+  CaisserapportComponent,
+  ListeLocaliteComponent,
+  MessageComponent,
+  ArticleparamComponent,
+  HomerapportComponent,
+  SeancerapportComponent,
+  DaterapportComponent,
+  VentComponent,
+  DevisComponent,
+  listeCommandesComponent,
+  listedevisComponent,
+  DtransfertComponent,
+  listeallimentationsComponent,
+  AchatComponent,
+  BonCommandeComponent,
+  DetailarticleComponent
 
   ],
   imports: [
@@ -131,6 +131,7 @@ DetailarticleComponent
     AppRoutingModule,
     HttpClientModule,
     NgChartsModule,
+    NgxEchartsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, 
@@ -154,16 +155,11 @@ DetailarticleComponent
     ZoneSvc,
     MessageSvc,
     AssociationMessageSvc,
-    
     ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-
-
 	constructor(private g: Globals,private router: Router,private utilisateurSvc:UtilisateurSvc) {
 	  //alert('AppModule');
 	}
-	
 }

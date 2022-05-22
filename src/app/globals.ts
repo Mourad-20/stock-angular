@@ -28,7 +28,7 @@ export class Globals{
     EtatReponseCode = { 'SUCCESS': '10', 'DANGER': '20', 'WARNING': '30', 'INFO': '40' };
    // public baseUrl? : string  = 'http://iris01.ddns.net:6500/'; // pour deploiement local
 	//public baseUrl? : string  = 'http://192.168.43.14:6500'; // pour deploiement cafe
-	public baseUrl? : string  = 'http://localhost:53270'; // pour VS
+public baseUrl? : string  = 'http://localhost:53270'; // pour VS
     //public baseUrl? : string  = 'http://169.254.233.107:6500'; // pour VM
 	
     public utilisateur? : Utilisateur | null;

@@ -317,12 +317,11 @@ setobjetfrom(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Loc
    return forms
    
 }
-getobjetfromsubmit(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Localite|any){
-  
+
+getobjetfromsubmit(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Localite|any){ 
   let Objet:Article|Categorie|Utilisateur|Caisse|Localite|any
 
-  for(const [key, value] of  Object.entries(objet)){
-    
+  for(const [key, value] of  Object.entries(objet)){ 
     objet.Identifiant=this.id
     let castKey = key as (keyof typeof Objet);
    if(typeof objet[castKey]=="object"){
@@ -331,10 +330,8 @@ getobjetfromsubmit(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Cais
    else{
      (objet as any)[castKey]=forms.value[castKey];
    }
-    
-   }
-   return objet
-   
+}
+   return objet  
 }
 
 async getarticle(forms: FormGroup|any){

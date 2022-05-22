@@ -9,7 +9,23 @@ import { ArticleSvc } from '../services/articleSvc';
 import { DetailCommande } from '../entities/DetailCommande';
 import{CommandeSvc}from '../services/commandeSvc';
 import{Commande}from '../entities/Commande';
-import{format} from 'date-fns'
+import{TypeCommandeCode}from '../entities/TypeCommandeCode';
+
+import{format} from 'date-fns';
+interface mouvement {
+  DateCommande?: Date;
+Numero?: string;
+LibelleLocalite?: string;
+CodeCommande?: string;
+quantitestock?: number;
+ DetailCommande : DetailCommande[];
+}
+
+interface mouvementchart {
+  date?: Date;
+  Quantite?: number;
+}
+
 @Component({
   selector: 'app-detailarticle',
   templateUrl: './detailarticle.component.html',
@@ -18,8 +34,12 @@ import{format} from 'date-fns'
 export class DetailarticleComponent implements OnInit {
   public id:number=0
   sub: any;
+  public mouvements:mouvement[]=[]
+  public mouvement:mouvement|any
+  public TypeCommandeCode:TypeCommandeCode=new TypeCommandeCode
   public detailCommande:DetailCommande=new DetailCommande()
 public detailCommandes:DetailCommande[]=[]
+public detailCommandesMouvement:DetailCommande[]=[]
 public detailCommandesOrg:DetailCommande[]=[]
 public inventaire:number=0;
 public purcentinventaire:number=0;
@@ -31,6 +51,9 @@ public maxpurcent:number=0;
 
 public typecommande:string="VENT"
 public commandes : Commande[]|any = [];
+public commandesMouvement : Commande[]|any = [];
+public commandesExpirer : Commande[]|any = [];
+public commandesControle : Commande[]|any = [];
 public commandesOrg : Commande[] = [];
 public quantiteexpiration:number=0;
 public dateexpiration:any;
@@ -78,7 +101,7 @@ this.dateexpiration=this.detailCommandes[0].DateExpiration
 
 
            
-               this.inventaire=this.detailCommandes.reduce((sum, current) => sum + current.Quantite, 0)-this.detailCommandes.reduce((sum, current) => sum + current.QuantiteServi, 0)
+ this.inventaire=this.detailCommandes.reduce((sum, current) => sum + current.Quantite, 0)-this.detailCommandes.reduce((sum, current) => sum + current.QuantiteServi, 0)
 this.maxpurcent=this.Article.QuantiteMin>0?this.Article.QuantiteMin*10:this.inventaire
 
 this.purcentinventaire= (this.inventaire*100/this.maxpurcent)|0
@@ -106,11 +129,8 @@ this.chargerCommandes()
       this.g.showLoadingBlock(false);    
     }
     );
-
-
-
   }
- 
+
   async chargerCommandes(){
     var datedebut:string=format(this.addMonths(new Date(), -3),'yyyy-MM-dd')+"T00:00:00";
     console.log(datedebut)
@@ -119,10 +139,52 @@ this.chargerCommandes()
          (res:any) => {
           let etatReponse = res["EtatReponse"];
           if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+           this.commandesMouvement.length = 0;
+          this.commandesMouvement = [];
+            var commandesOrg=res["commandeVMs"];
+console.log("commandesOrg==",commandesOrg)
+            this.commandesMouvement= commandesOrg.filter((x:any)=>
+(x.CodeCommande==this.TypeCommandeCode.VENT || x.CodeCommande==this.TypeCommandeCode.ALLIMENTATION) && x.DetailCommandes.find((y:any)=>y.IdArticle==this.Article.Identifiant )
+          )
+
+           this.detailCommandesMouvement.length=0
+
+            for (let i = 0; i < this.commandesMouvement.length; i++) {
           
-            this.commandesOrg=res["commandeVMs"];
-            this.commandes=res["commandeVMs"];
-            console.log('res==',this.commandesOrg)
+                var x=this.commandesMouvement[i].DetailCommandes.filter((z:any)=>z.IdArticle==this.Article.Identifiant)
+
+               if(x!=null){
+                //this.mouvement = {};
+                let mouvement = <mouvement>{ };
+                console.log( "xx==",  mouvement)
+                mouvement.Numero=this.commandesMouvement[i].Numero
+              mouvement.DateCommande=this.commandesMouvement[i].DateCommande
+               mouvement.LibelleLocalite=this.commandesMouvement[i].LibelleLocalite
+                mouvement.CodeCommande=this.commandesMouvement[i].CodeCommande
+               mouvement.quantitestock=0
+               mouvement.DetailCommande=[]
+
+
+
+                 x.forEach((y:any)=>{
+                   let mouvement1 = <mouvement>{ };
+                   mouvement1=mouvement
+                  var detailCommandesMouvement:DetailCommande[]= []
+                  detailCommandesMouvement.push(y);
+
+                  mouvement1.DetailCommande=detailCommandesMouvement;
+
+                   this.mouvements.push( mouvement1)
+
+                   
+                                 })
+                
+               }
+               
+            } 
+         
+           console.log( "xx==",  this.mouvements)
+           // console.log('res==',this.commandesOrg)
           //  this.refrechtable()
           }else{ 
             Swal.fire({ text: "commandeseance" , icon: 'error'});
@@ -132,39 +194,38 @@ this.chargerCommandes()
       );
      
     }
-     addMonths(date:Date, months:number) {
+
+ addMonths(date:Date, months:number) {
       date.setMonth(date.getMonth() + months);
       return date;
     }
   async chargerCommandeControle(){
-
     //this.g.showLoadingBlock(true);  
- 
     this.CommandeSvc.getCommandesNonControle().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
-        // console.log(etatReponse.Code)
-        
+        // console.log(etatReponse.Code)       
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
              // this.type="CONTROLE";
-
           this.commandesOrg = res["commandeVMs"];
-         
-
-          this.commandes.length = 0;
-          this.commandes = [];
+          this.commandesControle.length = 0;
+          this.commandesControle = [];
           let detailcommandecontrole:DetailCommande[]=[];
           
-          this.commandesOrg.filter(x=>{
-x.DetailCommandes.find(y=>y.IdArticle==this.Article.Identifiant)
-          })
+          this.commandesOrg= this.commandesOrg.filter(x=>
+            (x.CodeCommande==this.TypeCommandeCode.VENT || x.CodeCommande==this.TypeCommandeCode.ALLIMENTATION) && x.DetailCommandes.find(y=>y.IdArticle==this.Article.Identifiant)
+          )
+
           detailcommandecontrole.length=0
             for (let i = 0; i < this.commandesOrg.length; i++) {
               if(this.commandesOrg[i].CodeCommande==this.typecommande){
-                this.commandes.push(this.commandesOrg[i]);
-               var x=this.commandesOrg[i].DetailCommandes.filter(x=>x.IdArticle==this.Article.Identifiant)[0]
+                this.commandesControle.push(this.commandesOrg[i]);
+               var x=this.commandesOrg[i].DetailCommandes.filter(x=>x.IdArticle==this.Article.Identifiant)
                if(x!=null){
-                  detailcommandecontrole.push(x)
+                 x.forEach(y=>{
+                  detailcommandecontrole.push(y)
+                 })
+                 
                }
                
               }
@@ -205,33 +266,37 @@ x.DetailCommandes.find(y=>y.IdArticle==this.Article.Identifiant)
           this.commandesOrg = res["commandeVMs"];
          
 
-          this.commandes.length = 0;
-          this.commandes = [];
+          this.commandesExpirer.length = 0;
+          this.commandesExpirer = [];
           let detailcommandecontrole:DetailCommande[]=[];
           
-          this.commandesOrg.filter(x=>{
-x.DetailCommandes.find(y=>y.IdArticle==this.Article.Identifiant)
-          })
+          this.commandesOrg=this.commandesOrg.filter(x=>
+            (x.CodeCommande==this.TypeCommandeCode.VENT || x.CodeCommande==this.TypeCommandeCode.ALLIMENTATION) &&  x.DetailCommandes.find(y=>y.IdArticle==this.Article.Identifiant)
+          )
           detailcommandecontrole.length=0
             for (let i = 0; i < this.commandesOrg.length; i++) {
               if(this.commandesOrg[i].CodeCommande==this.typecommande){
-                this.commandes.push(this.commandesOrg[i]);
-               var x=this.commandesOrg[i].DetailCommandes.filter(x=>x.IdArticle==this.Article.Identifiant)[0]
+                this.commandesExpirer.push(this.commandesOrg[i]);
+               var x=this.commandesOrg[i].DetailCommandes.filter(x=>x.IdArticle==this.Article.Identifiant)
                if(x!=null){
-                  detailcommandecontrole.push(x)
+                   x.forEach(y=>{
+                  detailcommandecontrole.push(y)
+                 })
+                 
                }
                
               }
             
             }
+          
             this.commande=detailcommandecontrole.reduce((sum, current) => sum + current.Quantite, 0)-this.detailCommandes.reduce((sum, current) => sum + current.QuantiteServi, 0)
 
               // this.commande=detailcommandecontrole[1].Quantite
 
               this.purcentcommande= (this.commande*100/this.maxpurcent)|0
               this.purcentcommande = Math.min(100, Math.max(0, this.purcentcommande));
-            
-          
+            debugger
+            console.log("this.commandesOrg==",this.commandesOrg)
          //   this.refrechtable()
            // this.g.typecommande="COMMANDENONCONTROLER"
 //console.log(this.commandes)
