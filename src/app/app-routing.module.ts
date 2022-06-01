@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { CaisseComponent } from './caisse/caisse.component';
 //import { CaisseComponent } from './home/caisse.component';
 import { DetailarticleComponent } from './detailarticle/detailarticle.component';
+import { DetailstockComponent } from './detailstock/detailstock.component';
 
 import { OuvertureSeanceComponent } from './seances/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
@@ -55,7 +56,9 @@ const routes: Routes = [
   { path: 'devistocommande/:id', component: DtransfertComponent },
   { path: 'achat', component: AchatComponent },
   { path: 'achats/:id', component: AchatComponent },
-{ path: 'detail/article/:id', component: DetailarticleComponent },
+{ path: 'article/:id', component: DetailarticleComponent },
+{ path: 'detail/stocks', component: DetailstockComponent },
+
     
   
   { path: 'ouvertureSeance', component: OuvertureSeanceComponent },
@@ -68,10 +71,10 @@ const routes: Routes = [
   { path: 'liste/utilisateurs', component: UtilisateursComponent },
   { path: 'liste/articles', component: ArticlesComponent },
   { path: 'liste/localites', component: ListeLocaliteComponent },
-    { path: 'liste/messages', component: MessageComponent },
-    { path: 'liste/allimentation', component: listeallimentationsComponent },
+  { path: 'liste/messages', component: MessageComponent },
+  { path: 'liste/allimentation', component: listeallimentationsComponent },
     
-    { path: 'liste/devis', component: listedevisComponent },
+  { path: 'liste/devis', component: listedevisComponent },
 
 { path: 'liste/commande', component: listeCommandesComponent },
 { path: 'liste/categories', component: CategoriesComponent },

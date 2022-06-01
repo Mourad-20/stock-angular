@@ -20,8 +20,8 @@ export class AffectationCaisseSvc {
 		return this.http.post(this.g.baseUrl +  '/api/affectationCaisse/validerAffectationCaisse', data, options);		
 	}
 	
-	getAffectationCaisses(idCaisse : number) {
-		let paramInt = {"Valeur" : idCaisse};
+	getAffectationCaisses(IdCaisse : number) {
+		let paramInt = {"Valeur" : IdCaisse};
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/affectationCaisse/getaffectationCaisses', data, options);		

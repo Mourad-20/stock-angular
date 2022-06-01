@@ -629,7 +629,7 @@ console.log("ok12")
       detailCommande2.Montant = this.article.Montant;
       //detailCommande2.LibelleTypeUnite=this.detailCommande.LibelleTypeUnite
      // detailCommande2.IdTypeUnite=this.detailCommande.IdTypeUnite
-      //detailCommande2.idCaisse=this.detailCommande.idCaisse
+      //detailCommande2.IdCaisse=this.detailCommande.IdCaisse
       detailCommande2.Montant=this.prix
       detailCommande2.TauxTVA=this.tva
     

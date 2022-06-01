@@ -112,8 +112,8 @@ console.log(this.commercialisationVMs)
     );
   }
   
-  getCommercialisations(idCaisse: number=this.g.idcaisseparam){
-	  this.commercialisationSvc.getCommercialisations(idCaisse).subscribe(
+  getCommercialisations(IdCaisse: number=this.g.IdCaisseparam){
+	  this.commercialisationSvc.getCommercialisations(IdCaisse).subscribe(
 			(response:any) => {
 			  let etatReponse = response["EtatReponse"];
 			  if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -134,9 +134,9 @@ console.log(this.commercialisationVMs)
 
   }
 
-  	getAffectationCaisses(idCaisse: number=this.g.idcaisseparam){
+  	getAffectationCaisses(IdCaisse: number=this.g.IdCaisseparam){
 	  //alert('Le personnel de type CAISSIER doit etre libre d autre caisse');
-	  this.affectationCaisseSvc.getAffectationCaisses(idCaisse).subscribe(
+	  this.affectationCaisseSvc.getAffectationCaisses(IdCaisse).subscribe(
 			(response:any) => {
 			  let etatReponse = response["EtatReponse"];
 			  if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {

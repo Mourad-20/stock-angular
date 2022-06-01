@@ -38,7 +38,7 @@ public baseUrl? : string  = 'http://localhost:53270'; // pour VS
     public articles : Article[] = [];
     public articlesOrg : Article[] = [];
     public typeform :string="";
-    public idcaisseparam:number=0;
+    public IdCaisseparam:number=0;
     public namecaisseparam:string=""
 	public typecaisseparam:string=""
 	public typecommande:string=""
@@ -126,9 +126,9 @@ openFullscreen() {
     async settype(typeform:string|any){
  this.typeform=typeform
 }
-    async setparamcaisse(idcaisse:number|any,nameparamcaisse:string|any,paramcaisse:string|any){
+    async setparamcaisse(IdCaisse:number|any,nameparamcaisse:string|any,paramcaisse:string|any){
         this.namecaisseparam=nameparamcaisse;
- this.idcaisseparam=idcaisse;
+ this.IdCaisseparam=IdCaisse;
  this.typecaisseparam=paramcaisse;
 }
 }

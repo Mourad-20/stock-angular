@@ -54,9 +54,9 @@ async getseancebyparam(){
         )  */
 return liste;
   }
-    public getTotal(_idcaisse:number):any{
+    public getTotal(_IdCaisse:number):any{
  let total:any=0
-  this.ReglementSvc.getMontantTotalReglementForCaisse(_idcaisse).subscribe(
+  this.ReglementSvc.getMontantTotalReglementForCaisse(_IdCaisse).subscribe(
 		   (res:any) => {
 			let etatReponse = res["EtatReponse"];
 			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {

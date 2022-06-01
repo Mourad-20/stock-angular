@@ -640,7 +640,7 @@ else if(detailCommande.IdTypeUnite==0 ){
  res=false
  this.Message="erreur Unite"
  }
- else if(detailCommande.idCaisse==0 ){
+ else if(detailCommande.IdCaisse==0 ){
    res=false
    this.Message="erreur Stock"
    }
@@ -669,7 +669,7 @@ if(this.calcVal == '0'){
   detailCommande.DateExpiration=this.dateexpiration
   detailCommande.Description=this.description
   detailCommande.NumerodeLot=this.numlot
-  detailCommande.idCaisse=this.caisse.Identifiant
+  detailCommande.IdCaisse=this.caisse.Identifiant
 
 
 

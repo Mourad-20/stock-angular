@@ -7,6 +7,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
 import {DataTablesModule} from 'angular-datatables';
+import { JwPaginationModule } from 'jw-angular-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -77,6 +78,7 @@ import { listeCommandesComponent } from './listes/commandes/commandes.component'
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
 import { DataTableDirective } from 'angular-datatables';
 import { DetailarticleComponent } from './detailarticle/detailarticle.component';
+import { DetailstockComponent } from './detailstock/detailstock.component';
 @NgModule({
   declarations: [
   PercentComponent,
@@ -118,10 +120,12 @@ import { DetailarticleComponent } from './detailarticle/detailarticle.component'
   listeallimentationsComponent,
   AchatComponent,
   BonCommandeComponent,
-  DetailarticleComponent
+  DetailarticleComponent,
+  DetailstockComponent
 
   ],
   imports: [
+    JwPaginationModule,
     ColorPickerModule,
     NgMultiSelectDropDownModule.forRoot(),
     DataTablesModule,

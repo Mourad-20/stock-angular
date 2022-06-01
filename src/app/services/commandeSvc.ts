@@ -53,7 +53,7 @@ export class CommandeSvc {
 		let data = JSON.stringify(paramDate);
 		return this.http.post(this.g.baseUrl +  '/api/commande/getMouvement', data, options);
 	}
-		getDetailCommandesstockparam(idArticle: number) {
+		getDetailCommandesstockparam(idArticle: number|any) {
 		let paramInt = {"Valeur" : idArticle};
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramInt);
@@ -84,8 +84,8 @@ export class CommandeSvc {
 		return this.http.post(this.g.baseUrl +  '/api/commande/getCommandeSeance', data, options);
 	}
 
-	getCommandesbycaisse(datedebut: string,datefin: string,listidcaisse:number[]) {
-		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin,"listeidcaisse":listidcaisse};	
+	getCommandesbycaisse(datedebut: string,datefin: string,listIdCaisse:number[]) {
+		let paramDate = {"_datedebut" : datedebut,"_datefin":datefin,"listeIdCaisse":listIdCaisse};	
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramDate);
 

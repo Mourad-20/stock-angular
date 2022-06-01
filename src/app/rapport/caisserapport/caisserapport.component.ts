@@ -41,7 +41,7 @@ public commandesOrg : Commande[] = [];
 public caisses:Caisse[]=[];
 public serveurs : Utilisateur[] = [];
 public serveur :string|any
-public listeidcaisse:number[]=[]
+public listeIdCaisse:number[]=[]
 public serveursOrg : Utilisateur[] = [];
 public commande : Commande = new Commande();
 public commandeReg : Commande = new Commande();
@@ -138,23 +138,23 @@ return liste;
 
   onItemSelect(item: any) {
     console.log(item.item_id)
-    this.listeidcaisse.push(item.item_id)
+    this.listeIdCaisse.push(item.item_id)
   }
   onSelectAll(items: any) {
     items.forEach((x: number|any)=>
-      this.listeidcaisse.push(x.item_id)
+      this.listeIdCaisse.push(x.item_id)
       )
-    console.log(this.listeidcaisse);
+    console.log(this.listeIdCaisse);
   }
     onUnSelectAll() {
-    this.listeidcaisse=[];
+    this.listeIdCaisse=[];
 }
   onItemDeSelect(item: any) {
-    const index: number = this.listeidcaisse.indexOf(item.item_id);
+    const index: number = this.listeIdCaisse.indexOf(item.item_id);
 if (index !== -1) {
-    this.listeidcaisse.splice(index, 1);
+    this.listeIdCaisse.splice(index, 1);
 }
-    console.log(this.listeidcaisse);
+    console.log(this.listeIdCaisse);
 }
 
 
@@ -213,9 +213,9 @@ var diff = null
     return diff;
   }
     async chargerCommandes(){
-console.log("xxx",this.listeidcaisse)
+console.log("xxx",this.listeIdCaisse)
    //this.g.showLoadingBlock(true);  
-   await this.commandeSvc.getCommandesbycaisse(this.datedebut,this.datefin,this.listeidcaisse).subscribe(
+   await this.commandeSvc.getCommandesbycaisse(this.datedebut,this.datefin,this.listeIdCaisse).subscribe(
        (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {

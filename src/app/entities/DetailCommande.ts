@@ -6,6 +6,7 @@ export class DetailCommande {
     Description:string="";
     IdCommande: number = 0;
     IdArticle: number = 0;
+    PathImageArticle: string = "";
     IdCreePar: number = 0;
     DateCreation:string="";
     DateValidation:string="";
@@ -18,8 +19,8 @@ export class DetailCommande {
     QuantiteServi:number=0;
     Montant: number = 0;
     TauxTVA	:number=0
-    idCaisse:number=0
+    IdCaisse:number=0
     IdTypeUnite :number=0
     AffectationMessages : AffectationMessage[] = [];
-	
+	LibelleCaisse: string = "";
 }

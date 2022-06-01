@@ -20,8 +20,8 @@ export class CommercialisationSvc {
 		return this.http.post(this.g.baseUrl +  '/api/commercialisation/validerCommercialisation', data, options);		
 	}
 	
-	getCommercialisations(idCaisse : number) {
-		let paramInt = {"Valeur" : idCaisse};
+	getCommercialisations(IdCaisse : number) {
+		let paramInt = {"Valeur" : IdCaisse};
 		let options = {	headers: this.headers,withCredentials: true	};
 		let data = JSON.stringify(paramInt);
 		return this.http.post(this.g.baseUrl +  '/api/commercialisation/getCommercialisations', data, options);		

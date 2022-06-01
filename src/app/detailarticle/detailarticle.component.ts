@@ -82,6 +82,8 @@ public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
           //this.g.showLoadingBlock(true)
              if(params['id']!=null && params['id']!=0) {
                this.Article=this.g.articlesOrg.filter(x=>x.Identifiant==params['id'])[0]
+
+
 this.CommandeSvc.getDetailCommandesstockparam(params['id']).subscribe((res:any) => {
  let etatReponse = res["EtatReponse"];
       if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -95,7 +97,6 @@ this.CommandeSvc.getDetailCommandesstockparam(params['id']).subscribe((res:any) 
 var dtc:DetailCommande[]=this.detailCommandes.filter(x=>{
   return(new Date(x.DateExpiration).getTime()<=new Date(this.detailCommandes[0].DateExpiration).getTime())
 }) 
-console.log("dtc=",dtc)
 this.quantiteexpiration=dtc.reduce((sum, current) => sum + current.Quantite, 0)-dtc.reduce((sum, current) => sum + current.QuantiteServi, 0)
 this.dateexpiration=this.detailCommandes[0].DateExpiration
 

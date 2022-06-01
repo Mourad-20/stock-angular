@@ -81,7 +81,7 @@ goto(){
   this.router.navigate(['liste/messages']);
 }
 getAssociationMessages(){
-	  this.AssociationMessageSvc.getAssociationMessages(this.g.idcaisseparam).subscribe(
+	  this.AssociationMessageSvc.getAssociationMessages(this.g.IdCaisseparam).subscribe(
 			(response:any) => {
 			  let etatReponse = response["EtatReponse"];
 			  if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
