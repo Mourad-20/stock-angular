@@ -1,3 +1,7 @@
+
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { Globals } from '../../globals';
@@ -28,11 +32,11 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { async } from '@angular/core/testing';
 import { ModeReglement } from 'src/app/entities/ModeReglement';
 @Component({
-  selector: 'app-allimentations',
-  templateUrl: './allimentations.component.html',
-  styleUrls: ['./allimentations.component.css']
+  selector: 'app-bondecommandes',
+  templateUrl: './bondecommandes.component.html',
+  styleUrls: ['./bondecommandes.component.css']
 })
-export class listeallimentationsComponent implements OnInit {
+export class BondecommandesComponent implements OnInit {
 
   	public sub:any
 	public id:number|any
@@ -44,7 +48,7 @@ export class listeallimentationsComponent implements OnInit {
 public totalColor : string = "box bg-dark text-center";
 public serveurColor : string = "box bg-dark text-center";
 public tableColor : string = "box bg-dark text-center";
-public typecommande:string="ALLIMENTATION"
+public typecommande:string="DEVIS"
 
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
@@ -96,7 +100,7 @@ public Montant:string="";
 public _modereglementselect:string="ESPECE";
 public Message:string=""
  //--------------------------------------
-public title:string=""
+
 public recaps : Recap[] = [];
  public loadAPI!: Promise<any>;
  public percent=0
@@ -220,7 +224,7 @@ return list;
   }
 
   ngOnInit(): void {
-  this.g.title="Liste/Alimentations"
+  this.g.title="Liste/Bon de Commande"
       this.dtOptions = {
  pagingType: 'full_numbers',
       pageLength: 5,
@@ -267,6 +271,10 @@ async showCommande(){
    this.commandeoption="TOUS";
    
 }
+async update(idcommande:any){
+  
+  this.router.navigate(['/bondecommandes/'+idcommande]);}
+
  async chargerCommandes(){
 
   // this.g.showLoadingBlock(true);  
@@ -376,6 +384,10 @@ var diff = 0
     diff= tmp % 60;                    // Extraction du nombre de minutes
     return diff;
   }
+  goto(link:string|any){
+  
+    this.router.navigate([link]);
+ }
    controler(){
 
  this.g.showLoadingBlock(true);
@@ -410,18 +422,17 @@ this.commandes.splice(idx, 1)
         this.g.showLoadingBlock(false);    
       }
     );
+
+
   }
   showReglements(){
 	  
 	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+		  	
           ($('#responsive-modal') as any).modal('show');
+			
 	  }	 
   }
-  async update(idcommande:any){
-  
- this.router.navigate(['/caisses/'+idcommande]);}
-
-
    validatepush(reglement:Reglement){
    let res:boolean
 if(reglement.Montant==0){
@@ -583,3 +594,4 @@ getCommandeById(identifiant:number){
     );
   }
 }
+

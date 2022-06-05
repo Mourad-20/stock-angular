@@ -38,12 +38,14 @@ import Swal from 'sweetalert2'
 
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { CategoriesComponent } from '../listes/categories/categories.component';
+
 @Component({
-  selector: 'app-vent',
-  templateUrl: './achat.component.html',
-  styleUrls: ['./achat.component.css']
+  selector: 'app-bctransfert',
+  templateUrl: './bctransfert.component.html',
+  styleUrls: ['./bctransfert.component.css']
 })
-export class AchatComponent implements OnInit {
+
+export class BctransfertComponent implements OnInit {
 public type = "";
  public percentage = 15;
   public table? : boolean | false;
@@ -136,6 +138,8 @@ public idxFive : number = -1
 public reglementVMs : Reglement[] = [];
 public detailReglementsNonRegle : DetailReglement[] = [];
 public detailReglementsToRegler : DetailReglement[] = [];
+public boncommande: Commande |any;
+public detailboncommande: DetailCommande[] = [];
 public idxSix : number = -1;
 public idxSeven : number = -1;
 public quantiteToRegler : number = 0;
@@ -159,28 +163,27 @@ public TotaleTVA:number=0
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 public colorMessage:string=""
 public caisse:Caisse|any=new Caisse()
-
+public sub:any
+public id:number=0
   constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,public TypeUniteSvc:TypeUniteSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private seanceSvc:SeanceSvc,private categorieSvc:CategorieSvc,public CaisseSvc:CaisseSvc,
   private articleSvc:ArticleSvc,private associationMessageSvc :AssociationMessageSvc,private messageSvc:MessageSvc,private _location: Location) {
 
 	this.g.showLoadingBlock(true);
-     this.route.params.subscribe(params => {
-      if(params['id']!=null) {
-      
-       	this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
-			let etatReponse = res["EtatReponse"];
-			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-			  this.commande = res["commandeVM"];
-        this.numcommande=this.commande.Numero
-         this.updatetotale()
-         this.commande.CodeCommande!="ACHAT"?this._location.back():true
-    // this.isReadOnly=true
-    }
-  });
-      }
-        })
+  this.sub = this.route.params.subscribe(params => {
+    if(params['id']!=null) {
+      this.id=params['id']}
+      })
+this.commandeSvc.getCommandeById(this.id).subscribe((res:any) => {
+    let etatReponse = res["EtatReponse"];
+    if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+      this.boncommande = res["commandeVM"];
+    this.commande.IdLocalite=this.boncommande.IdLocalite;
+     this.commande.LibelleLocalite=this.boncommande.LibelleLocalite;
+      this.commande.CodeCommande="ACHAT";
+  }
+});
 		this.seanceSvc.getSeanceActive().subscribe(
 		  (res:any) => {
 			let etatReponse = res["EtatReponse"];
@@ -405,10 +408,15 @@ break;
 }
 
 }
-setarticle(item:Article){
-  this.article=item;
-  this.tva=item.TauxTva
-  console.log(item)
+setarticle(item:DetailCommande){
+  this.article=new Article
+  this.article.Identifiant=item.IdArticle;
+  this.article.Libelle=item.LibelleArticle
+  this.article.Montant=item.Montant
+  this.prix=item.Montant
+  this.quantite=item.Quantite
+  this.tva=item.TauxTVA
+  //console.log(item)
   this.Unite=item.IdTypeUnite;
   ($('#responsive-modal') as any).modal('hide');
 }

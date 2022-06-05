@@ -65,7 +65,7 @@ public  $: any;
 }
  if(this.g.typeform=="caisse"){ 
     this.url='/assets/caisse-form.json'
- this.title="Forms->Caisse"
+ this.title="Forms->Stock"
 
 }
   }
@@ -82,7 +82,7 @@ this.sub = this.route.params.subscribe(params => {
         
         this.objettoupdat.id=0
       }})
-
+console.log(this.g.typeform)
  setTimeout(() => {
     this.http
       .get(this.url)
@@ -135,6 +135,7 @@ if(this.g.typeform=="categorie"){
     },1000)  */
 }
 if(this.g.typeform=="caisse"){
+  debugger
           this.objettoupdat.rechargercaisseformdata(formData).subscribe((form:any)=>{
             formData.controls=JSON.parse(form)
      this.formData = formData

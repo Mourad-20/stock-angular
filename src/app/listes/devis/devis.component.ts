@@ -220,7 +220,7 @@ return list;
   }
 
   ngOnInit(): void {
-  
+  this.g.title="Liste/Dvis"
       this.dtOptions = {
  pagingType: 'full_numbers',
       pageLength: 5,

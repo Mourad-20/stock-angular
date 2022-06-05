@@ -709,8 +709,11 @@ chargercat(){
 })
 
   }
-filter(items:DetailCommande[]){
-return items.filter(x=>x.Quantite!=x.QuantiteServi)
+filter(items:DetailCommande[]|any){
+  if(items!=null  ){
+    return items.filter((x:any)=>x.Quantite!=x.QuantiteServi)
+  }
+return []
 }
 filtreselect(items:DetailCommande[]){
 let dc:DetailCommande[]=[]

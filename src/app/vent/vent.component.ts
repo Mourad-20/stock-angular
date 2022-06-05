@@ -142,6 +142,7 @@ public TotaleHT:number=0
 public TotaleTTC:number=0
 public TotaleTVA:number=0
 
+public title:string="";
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
   public pieChartData: any = [30, 50, 20];
   public pieChartType: ChartType = 'pie';
@@ -235,6 +236,7 @@ public isReadOnly:boolean=false;
    }
 
   ngOnInit(): void {
+    this.title="Commande"
         var $: any;
   	this.type="CAT";
     this.table=true;

@@ -19,10 +19,11 @@ export class CaissesComponent implements OnInit {
 public caisses : Caisse[] = [];
 public caissesOrg : Caisse[] = [];
 public total:any=[]
+
   constructor(public CaisseSvc:CaisseSvc,public ReglementSvc:ReglementSvc,public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
 
   ngOnInit(): void {
-
+this.g.title="Loste/Stocks"
     this.chargerCaisse()
   }
 

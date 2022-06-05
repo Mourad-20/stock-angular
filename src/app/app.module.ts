@@ -79,6 +79,9 @@ import { listeallimentationsComponent } from './listes/allimentation/allimentati
 import { DataTableDirective } from 'angular-datatables';
 import { DetailarticleComponent } from './detailarticle/detailarticle.component';
 import { DetailstockComponent } from './detailstock/detailstock.component';
+import { AchatsComponent } from './listes/achats/achats.component';
+import { BondecommandesComponent } from './listes/bondecommandes/bondecommandes.component';
+import { BctransfertComponent } from './bctransfert/bctransfert.component';
 @NgModule({
   declarations: [
   PercentComponent,
@@ -121,7 +124,10 @@ import { DetailstockComponent } from './detailstock/detailstock.component';
   AchatComponent,
   BonCommandeComponent,
   DetailarticleComponent,
-  DetailstockComponent
+  DetailstockComponent,
+  AchatsComponent,
+  BondecommandesComponent,
+  BctransfertComponent
 
   ],
   imports: [

@@ -9,24 +9,11 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h5 class="text-themecolor">{{ (g.seance != null) ? ('SESSION N°: ' + g.seance.Numero + ' - Ouverture depuis: ' + (g.seance!.DateDebut | date:'dd/MM/YYYY HH:mm:ss')) : '' }}
-                </h5>
-            </div>
-            <div class="col-md-7 align-self-center text-end">
-                <div class="d-flex justify-content-end align-items-center">
-                    <ol class="breadcrumb justify-content-end">
-
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">{{ (g.seance != null) ?
-                                (' Caisse : ' +
-                                g.seance.LibelleCaisse ) : '' }}</a></li>
-                        <li class="breadcrumb-item active">{{ (g.utilisateur != null ? g.utilisateur!.Nom : '' ) }}</li>
-                    </ol>
-
-                </div>
-            </div>
+        
+        <div class="row page-titles bg-primary">
+            <h4 class="m-b-0 text-white">{{g.title}}</h4>
         </div>
+        
 
     </div>
     <!-- ============================================================== -->

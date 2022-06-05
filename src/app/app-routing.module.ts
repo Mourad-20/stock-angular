@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { listeCommandesComponent } from './listes/commandes/commandes.component';
 import { listedevisComponent } from './listes/devis/devis.component';
 
-
+import { AchatsComponent } from './listes/achats/achats.component';
 import { LoginComponent } from './authentification/login.component';
 import { LoginMobileComponent } from './authentification/loginMobile.component';
 import { LogoutComponent } from './authentification/logout.component';
@@ -12,7 +12,7 @@ import { CaisseComponent } from './caisse/caisse.component';
 //import { CaisseComponent } from './home/caisse.component';
 import { DetailarticleComponent } from './detailarticle/detailarticle.component';
 import { DetailstockComponent } from './detailstock/detailstock.component';
-
+import{BonCommandeComponent}from './boncommande/boncommande.component';
 import { OuvertureSeanceComponent } from './seances/ouvertureSeance.component';
 import { CaisseMobileComponent } from './home/caisseMobile.component';
 import { ClotureSeanceComponent } from './home/clotureSeance.component';
@@ -39,7 +39,8 @@ import{DevisComponent} from './devis/devis.component';
 import { DtransfertComponent } from './dtransfert/dtransfert.component';
 import{AchatComponent}from './achat/achat.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
-
+import { BondecommandesComponent } from './listes/bondecommandes/bondecommandes.component';
+import { BctransfertComponent } from './bctransfert/bctransfert.component';
 const routes: Routes = [
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -52,8 +53,13 @@ const routes: Routes = [
   { path: 'vente', component: VentComponent },
   { path: 'ventes/:id', component: VentComponent },
   { path: 'devis', component: DevisComponent },
+  { path: 'bondecommande', component: BonCommandeComponent },
+{ path: 'bondecommandes/:id', component: BonCommandeComponent },
+  
   { path: 'devis/:id', component: DevisComponent },
   { path: 'devistocommande/:id', component: DtransfertComponent },
+  { path: 'bontoachat/:id', component: BctransfertComponent },
+  
   { path: 'achat', component: AchatComponent },
   { path: 'achats/:id', component: AchatComponent },
 { path: 'article/:id', component: DetailarticleComponent },
@@ -73,8 +79,10 @@ const routes: Routes = [
   { path: 'liste/localites', component: ListeLocaliteComponent },
   { path: 'liste/messages', component: MessageComponent },
   { path: 'liste/allimentation', component: listeallimentationsComponent },
+  { path: 'liste/Achats', component: AchatsComponent },
     
   { path: 'liste/devis', component: listedevisComponent },
+  { path: 'liste/bondecommandes', component: BondecommandesComponent },
 
 { path: 'liste/commande', component: listeCommandesComponent },
 { path: 'liste/categories', component: CategoriesComponent },

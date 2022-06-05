@@ -21,7 +21,7 @@ public categoriesOrg : Categorie[] = [];
   constructor(public CategorieSvc:CategorieSvc,public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
 
   ngOnInit(): void {
-
+this.g.title="Liste/Categories"
     this.chargerCategorie()
   }
 

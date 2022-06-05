@@ -11,26 +11,9 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h5 class="text-themecolor">{{ (g.seance != null) ? ('SESSION N°: ' + g.seance.Numero + ' - Ouverture
-                    depuis: ' + (g.seance!.DateDebut |
-                    date:'dd/MM/YYYY HH:mm:ss')) : '' }}
-                </h5>
-            </div>
-            <div class="col-md-7 align-self-center text-end">
-                <div class="d-flex justify-content-end align-items-center">
-                    <ol class="breadcrumb justify-content-end">
-
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">{{ (g.seance != null) ? (' Caisse : ' +
-                                g.seance.LibelleCaisse ) : '' }}</a></li>
-                        <li class="breadcrumb-item active">{{ (g.utilisateur != null ?
-                            g.utilisateur!.Nom : '' ) }}</li>
-                    </ol>
-
-                </div>
-            </div>
-        </div>
+    <div class="row page-titles bg-primary">
+        <h4 class="m-b-0 text-white">{{g.title}}</h4>
+    </div>
         <!-- ============================================================== -->
         <!-- End Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -51,7 +34,7 @@
                                 <thead>
                                     <tr>
                                         <th>Libelle</th>
-<th>solde actuel</th>
+
 
                                         <th>Option</th>
                                     </tr>
@@ -60,7 +43,7 @@
 
                                     <tr *ngFor="let item of total; index as i;">
                                         <td>{{(item[0].Libelle)}}</td>
-                                        <td>{{(item[1])}}</td>
+                                    
                                         <td>
                                             <div class="input-group-prepend">
                                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -68,11 +51,11 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="javascript:void(0)">Modifier</a>
                                                     <div role="separator" class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'commercialisation')">Commercialisation</a>
-                                                    <div role="separator" class="dropdown-divider"></div>
+                                                  <!--   <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'commercialisation')">Commercialisation</a>
+                                                    <div role="separator" class="dropdown-divider"></div> -->
                                                     <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'affectation')">Affectation</a>
-                                                    <div role="separator" class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'presence')">Presence</a>
+                                                 <!--    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="javascript:void(0)" (click)="update(item[0],'presence')">Presence</a> -->
                                                 </div>
                                             </div>
                                           <!--   <i (click)="update(item[0],'commercialisation')" class="ti-settings"></i>

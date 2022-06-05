@@ -232,6 +232,7 @@ public colorMessage:string=""
    }
 
   ngOnInit(): void {
+    this.g.title="Bon de Commande"
     this.commande.CodeCommande="BONCOMMANDE"
         var $: any;
   	this.type="CAT";
@@ -1328,7 +1329,6 @@ this.commandes.splice(idx, 1)
   }
 
   	showListeMessage(){
-      console.log("ccccccc")
       this.type="MESSAGE";
 		this.affectationMessageVMs = [];
 		this.chargerMessagesLibre();

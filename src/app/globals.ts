@@ -44,6 +44,7 @@ public baseUrl? : string  = 'http://localhost:53270'; // pour VS
 	public typecommande:string=""
     public typelogin:string=""
     public elem:any
+    public title:string="";
     public bol:boolean=false
      private doc = <FullScreenDocument>document;
     setTitle(newTitle : string) {
@@ -123,11 +124,12 @@ openFullscreen() {
           this.elem.msRequestFullscreen();
         }
       }
-    async settype(typeform:string|any){
+async settype(typeform:string|any)
+{
  this.typeform=typeform
 }
-    async setparamcaisse(IdCaisse:number|any,nameparamcaisse:string|any,paramcaisse:string|any){
-        this.namecaisseparam=nameparamcaisse;
+async setparamcaisse(IdCaisse:number|any,nameparamcaisse:string|any,paramcaisse:string|any){
+ this.namecaisseparam=nameparamcaisse;
  this.IdCaisseparam=IdCaisse;
  this.typecaisseparam=paramcaisse;
 }

@@ -162,7 +162,7 @@ public colorMessage:string=""
     this.g.showLoadingBlock(true);
    this.route.params.subscribe(params => {
       if(params['id']!=null) {
-       
+       debugger
        	this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
 			let etatReponse = res["EtatReponse"];
 			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -248,6 +248,7 @@ public colorMessage:string=""
    }
 
   ngOnInit(): void {
+    this.g.title="Allimentation"
         var $: any;
   	this.type="CAT";
     this.table=true;

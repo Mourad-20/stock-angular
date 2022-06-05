@@ -233,6 +233,7 @@ public colorMessage:string=""
 
   ngOnInit(): void {
     this.commande.CodeCommande="DEVIS"
+    this.g.title="Devis"
         var $: any;
   	this.type="CAT";
     this.table=true;

@@ -64,7 +64,7 @@ public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
 
   public Article:Article=new Article();
   constructor(public CommandeSvc:CommandeSvc,public router:Router, 
-    public route:ActivatedRoute,private commandeSvc:CommandeSvc,private http: HttpClient,private g:Globals,private articleSvc:ArticleSvc) {
+    public route:ActivatedRoute,private commandeSvc:CommandeSvc,private http: HttpClient,public g:Globals,private articleSvc:ArticleSvc) {
    }
 
   ngOnInit(): void {

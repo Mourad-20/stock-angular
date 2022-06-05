@@ -74,7 +74,7 @@ async chargerUtilisateurs(){
   }
 
   ngOnInit(): void {
-
+this.g.title="Liste/Utilisateurs"
 
 this.chargerUtilisateurs()
 } 

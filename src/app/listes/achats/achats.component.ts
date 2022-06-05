@@ -27,13 +27,13 @@ import { ActivatedRoute } from '@angular/router'
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { async } from '@angular/core/testing';
 import { ModeReglement } from 'src/app/entities/ModeReglement';
-@Component({
-  selector: 'app-allimentations',
-  templateUrl: './allimentations.component.html',
-  styleUrls: ['./allimentations.component.css']
-})
-export class listeallimentationsComponent implements OnInit {
 
+@Component({
+  selector: 'app-achats',
+  templateUrl: './achats.component.html',
+  styleUrls: ['./achats.component.css']
+})
+export class AchatsComponent implements OnInit {
   	public sub:any
 	public id:number|any
  public type = "";
@@ -44,7 +44,7 @@ export class listeallimentationsComponent implements OnInit {
 public totalColor : string = "box bg-dark text-center";
 public serveurColor : string = "box bg-dark text-center";
 public tableColor : string = "box bg-dark text-center";
-public typecommande:string="ALLIMENTATION"
+public typecommande:string="ACHAT"
 
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
@@ -96,7 +96,7 @@ public Montant:string="";
 public _modereglementselect:string="ESPECE";
 public Message:string=""
  //--------------------------------------
-public title:string=""
+
 public recaps : Recap[] = [];
  public loadAPI!: Promise<any>;
  public percent=0
@@ -113,10 +113,10 @@ public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
 //--------------------------------------
 public dtTrigger: Subject<any>= new Subject();
 
-
 constructor( public route:ActivatedRoute,public EtatCommandeSvc:EtatCommandeSvc,public sharedService:Rxjs,
    public g: Globals,private commandeSvc:CommandeSvc,private reglementSvc:ReglementSvc,
    private router: Router,private seanceSvc:SeanceSvc,public UtilisateurSvc:UtilisateurSvc) {
+     
 	this.g.showLoadingBlock(true);
   this.sub = this.route.params.subscribe(params => {
       if(params['id']!=null) {
@@ -191,6 +191,10 @@ getRowIndex(x : any,idCommande:number|any){
 	   //console.log("Row index is: " + x.rowIndex);
 	  
   }
+  async update(idcommande:any){
+  
+    this.router.navigate(['/achats/'+idcommande]);}
+
   getreglementbyId(idCommande:number|any){
         this.reglementSvc.getReglementsByIdCommande(idCommande).subscribe(
       (res:any) => {
@@ -220,7 +224,7 @@ return list;
   }
 
   ngOnInit(): void {
-  this.g.title="Liste/Alimentations"
+  this.g.title="Listes/Achats"
       this.dtOptions = {
  pagingType: 'full_numbers',
       pageLength: 5,
@@ -414,14 +418,11 @@ this.commandes.splice(idx, 1)
   showReglements(){
 	  
 	  if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+		  	
           ($('#responsive-modal') as any).modal('show');
+			
 	  }	 
   }
-  async update(idcommande:any){
-  
- this.router.navigate(['/caisses/'+idcommande]);}
-
-
    validatepush(reglement:Reglement){
    let res:boolean
 if(reglement.Montant==0){
@@ -458,18 +459,20 @@ else{
 return res
 }
 getcommandebyId(){
+
   this.commandeSvc.getCommandeById(this.commande.Identifiant).subscribe(
     (res:any) => {
   let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 this.commande=res["commandeVM"];
-if(this.commande.CodeEtatCommande=="REGLEE"){
+console.log(this.commande)
+/* if(this.commande.CodeEtatCommande=="REGLEE"){
   this.commande=new Commande()
   this.lstReglements=[]
 }
 else{
   this.getreglementbyId(this.commande.Identifiant)
-}
+} */
         }
     }
   );
@@ -563,6 +566,7 @@ this.getCommandeById(idCommande);
 }
  
 getCommandeById(identifiant:number){
+  
     //this.g.showLoadingBlock(true);  
     this.commandeSvc.getCommandeById(identifiant).subscribe(
       (res:any) => {
@@ -582,4 +586,5 @@ getCommandeById(identifiant:number){
       }
     );
   }
+
 }

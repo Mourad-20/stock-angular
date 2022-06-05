@@ -17,10 +17,11 @@ import Swal from 'sweetalert2'
 export class ArticlesComponent implements OnInit {
 public articles : Article[] = [];
 public articlesOrg : Article[] = [];
+
   constructor(public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
 
   ngOnInit(): void {
-
+this.g.title="Liste/Articles"
     this.chargerArticle()
   }
 

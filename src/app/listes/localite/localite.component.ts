@@ -25,7 +25,7 @@ public localitesOrg : Localite[] = [];
 
   ngOnInit(): void {
       this.chargerArticle()
-    
+    this.g.title="Liste/Clients"
   }
    async refrechtable(){
    
