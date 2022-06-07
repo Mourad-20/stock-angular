@@ -269,7 +269,7 @@ this.Chart.options.barColor="green"
 async showCommande(){
   this.chargerCommandes()
    this.commandeoption="TOUS";
-   
+   this.initRowIndex()
 }
  async chargerCommandes(){
 
@@ -294,6 +294,7 @@ async showCommande(){
 showCommandeControle(){
   this.commandeoption="CONTROLE";
 this.chargerCommandeControle()
+this.initRowIndex()
 }
 
   chargerCommandeControle(){
@@ -336,6 +337,7 @@ this.chargerCommandeControle()
   showCommandeNonReglees(){
   this.commandeoption="N-REGLEE";
 this.chargerCommandesNonReglees()
+this.initRowIndex()
 }
   chargerCommandesNonReglees(){
     //this.g.showLoadingBlock(true);  
@@ -559,7 +561,11 @@ this.getcommandebyId()
 
     
   }
-
+  initRowIndex(){
+    this.idxOne = -1;
+    this.getCommandeById(-1);
+    this.getreglementbyId(-1);
+  }
 modale(idCommande : any){
 this.getCommandeById(idCommande);
   ($('#grid-modal') as any).modal('show');

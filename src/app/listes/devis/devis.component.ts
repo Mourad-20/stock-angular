@@ -191,6 +191,11 @@ getRowIndex(x : any,idCommande:number|any){
 	   //console.log("Row index is: " + x.rowIndex);
 	  
   }
+  initRowIndex(){
+    this.idxOne = -1;
+    this.getCommandeById(-1);
+    this.getreglementbyId(-1);
+  }
   getreglementbyId(idCommande:number|any){
         this.reglementSvc.getReglementsByIdCommande(idCommande).subscribe(
       (res:any) => {

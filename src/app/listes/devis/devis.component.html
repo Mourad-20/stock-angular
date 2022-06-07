@@ -31,12 +31,12 @@
                                         <!-- <span
                                         class="badge bg-success ms-auto">6</span> --></li>
 
-                                    <!--  <li class="list-group-item d-flex no-block align-items-center" [ngClass]="commandeoption=='CONTROLE'? 'active':''" (click)="showCommandeControle()">
+                                   <li class="list-group-item d-flex no-block align-items-center" [ngClass]="commandeoption=='CONTROLE'? 'active':''" (click)="showCommandeControle()">
                                     <a href="javascript:void(0)" class="d-flex no-block align-items-center"> <i class="mdi mdi-star fs-4 me-2 d-flex justify-content-center"></i> a controle </a>
                                     <span class="badge bg-danger ms-auto" *ngIf="countcontrole>0">{{countcontrole}}</span>
                                 </li>
 
-                                <li class="list-group-item d-flex no-block align-items-center" [ngClass]="commandeoption=='N-REGLEE'? 'active':''" (click)="showCommandeNonReglees()">
+                                 <!--  <li class="list-group-item d-flex no-block align-items-center" [ngClass]="commandeoption=='N-REGLEE'? 'active':''" (click)="showCommandeNonReglees()">
                                     <a href="javascript:void(0)" class="d-flex  no-block align-items-center"> <i class="mdi mdi-send fs-4 me-2 d-flex align-items-center"></i> non reglees </a>
                                     <span class="badge bg-danger ms-auto">{{countnonreglee}}</span>
                                 </li>
@@ -116,8 +116,8 @@
                                                     <td>{{item.NomServeur}}</td>
                                                     <td>{{item.CodeEtatCommande}}</td>
                                                     <td>{{item.LibelleLocalite}}</td>
-                                                    <td><button (click)="update(item.Identifiant)" type="button" class="btn btn-outline-warning btn-circle  "><i class="ti-pencil"></i>
-                                                    </button> </td>
+                                                    <td><!-- <button (click)="update(item.Identifiant)" type="button" class="btn btn-outline-warning btn-circle  "><i class="ti-pencil"></i>
+                                                    </button> --> </td>
                                                     <!-- <td><i class="ti-settings" (click)="modale(item.Identifiant)"></i> </td> -->
                                                 </tr>
                                             </tbody>
@@ -150,6 +150,10 @@
                                                     <td>{{item.NomServeur}}</td>
                                                     <td>{{item.CodeEtatCommande}}</td>
                                                     <td>{{item.LibelleLocalite}}</td>
+                                                    <td>
+                                                         <button (click)="update(item.Identifiant)" type="button" class="btn btn-outline-warning btn-circle  "><i class="ti-pencil"></i>
+                                                                                                        </button> 
+                                                    </td>
                                                     <!--   <td><i class="ti-settings" (click)="modale(item.Identifiant)"></i> </td> -->
                                                 </tr>
                                             </tbody>
@@ -268,7 +272,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal" *ngIf="commandeoption=='TOUS'&& commande.Identifiant>0" (click)="goto('devistocommande/'+commande.Identifiant)">Valider</button>
+                                                    <button type="button" class="btn btn-info waves-effect text-white" data-bs-dismiss="modal" *ngIf="commandeoption=='CONTROLE'&& commande.Identifiant>0" (click)="goto('devistocommande/'+commande.Identifiant)">Valider</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -409,6 +409,7 @@ break;
 
 }
 setarticle(item:DetailCommande){
+  console.log(item)
   this.article=new Article
   this.article.Identifiant=item.IdArticle;
   this.article.Libelle=item.LibelleArticle
@@ -686,7 +687,7 @@ if(this.calcVal == '0'){
   let detailCommande = new DetailCommande();
   detailCommande.IdArticle = this.article.Identifiant;
   detailCommande.LibelleArticle = this.article.Libelle;
-  detailCommande.IdTypeUnite=this.article.IdTypeUnite;
+  detailCommande.IdTypeUnite=this.Unite;
   detailCommande.Quantite = Number(this.quantite);
   detailCommande.Montant = this.article.Montant;
   detailCommande.TauxTVA=this.article.TauxTva;
