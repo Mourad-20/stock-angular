@@ -369,7 +369,7 @@ else{
 }).then((result) => {
      if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
       &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-        this.commandedevis.DetailCommandes.filter((dc:DetailCommande)=>dc.Identifiant==this.idxOne.Identifiant && (dc.QuantiteServi-=this.commande.DetailCommandes[index].Quantite))
+        this.commandedevis.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==this.commande.DetailCommandes[index].Identifiant && (dc.QuantiteServi-=this.commande.DetailCommandes[index].Quantite))
       this.commande.DetailCommandes.splice(index, 1);
    
     }

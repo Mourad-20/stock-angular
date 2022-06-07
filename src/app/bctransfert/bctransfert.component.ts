@@ -704,6 +704,7 @@ if(this.calcVal == '0'){
  
 if(this.validatepush(detailCommande)){
 this.commande.DetailCommandes.push(detailCommande);
+this.boncommande.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==detailCommande.IdArticle && (dc.QuantiteServi+=detailCommande.Quantite))
 this.TotaleHT+= detailCommande.Montant*detailCommande.Quantite
 this.TotaleTVA+= detailCommande.Montant*detailCommande.Quantite*detailCommande.TauxTVA/100
   this.calcVal = '0';
@@ -786,6 +787,7 @@ confirmButtonText: 'Yes!'
 }).then((result) => {
  if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
   &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+    this.boncommande.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==this.commande.DetailCommandes[index].IdArticle && (dc.QuantiteServi-=this.commande.DetailCommandes[index].Quantite))
   this.commande.DetailCommandes.splice(index, 1);
   if(this.idxOne == this.commande.DetailCommandes.length){
     this.idxOne--;
@@ -820,7 +822,12 @@ if(this.commande.Identifiant == null || this.commande.Identifiant === 0){
 this.getcountcommande()
 
 }
-
+getfilter(items:DetailCommande[]|any){
+  if(items!=null  ){
+    return items.filter((x:any)=>x.Quantite!=x.QuantiteServi)
+  }
+return []
+}
 getGroupeTemporaire(){
 this.g.showLoadingBlock(true);
   this.utilisateurSvc.getGroupeTemporaire().subscribe(

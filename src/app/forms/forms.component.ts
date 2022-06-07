@@ -40,7 +40,10 @@ public  $: any;
     
   sub: any;
 
-  constructor(public router:Router,public LocaliteSvc:LocaliteSvc,public CaisseSvc:CaisseSvc,public CategorieSvc:CategorieSvc,public articleSvc:ArticleSvc,public objettoupdat:Objettoupdate, public route:ActivatedRoute,public GroupeSvc:GroupeSvc,private http: HttpClient,private g:Globals,public utilisateurSvc:UtilisateurSvc,public rxjs:Rxjs) { 
+  constructor(public router:Router,public LocaliteSvc:LocaliteSvc,public CaisseSvc:CaisseSvc,
+    public CategorieSvc:CategorieSvc,public articleSvc:ArticleSvc,public objettoupdat:Objettoupdate, 
+    public route:ActivatedRoute,public GroupeSvc:GroupeSvc,private http: HttpClient,private g:Globals,
+    public utilisateurSvc:UtilisateurSvc,public rxjs:Rxjs) { 
     
   if(this.g.typeform=="utilisateur"){ 
     this.url='/assets/utilisateur-form.json'

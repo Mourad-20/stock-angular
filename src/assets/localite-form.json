@@ -2,9 +2,9 @@
     "controls": [{
             "id": 2,
             "name": "Libelle",
-            "label": "Libelle:",
+            "label": "Nom:",
             "value": "",
-            "placeholder": "Libelle",
+            "placeholder": "Nom",
             "type": "text",
             "validators": {
                 "required": true,

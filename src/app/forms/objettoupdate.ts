@@ -31,6 +31,7 @@ export class Objettoupdate{
     public utilisateur:Utilisateur|any
     public GroupeCode : GroupeCode = new GroupeCode();
     public TauxTva:TauxTva=new TauxTva();
+    public serveursOrg:Utilisateur[]=[]
     public TypeArticle:TypeArticleCode=new TypeArticleCode();
 public groupe :any= {
         "name": "Groupe",
@@ -206,20 +207,30 @@ return form.asObservable();
 
 rechargerlocaliteformdata(formData: JsonFormData|any):Observable<string>{
   var form = new Subject<string>();
-     formData.controls.sort(function (a:any, b:any) {
+    this.getCommerce().subscribe((res)=>{
+     let commerce=JSON.parse(res);
+     formData.controls.push(commerce)
+       formData.controls.sort(function (a:any, b:any) {
       return a.id - b.id;
-    });
+    } );
+    
+
          this._objettoupdate().subscribe(
-       async (res:Localite|any)=>{ 
-      try{
-        let objet = JSON.parse(res)
-        this.setobjetfrom(formData,objet)
+      (res:Localite|any)=>{
+try{   
+ let objet = JSON.parse(res)
+  this.setobjetfrom(formData,objet)
 }
-      catch{}
- 
-   
+catch{
+
+
+}
      form.next(JSON.stringify(formData.controls)) 
+    })
    })
+  
+ 
+
  return form.asObservable();
  }
 rechargerarticleformdata(formData: JsonFormData|any):Observable<string>{
@@ -264,7 +275,25 @@ catch{}
 return form.asObservable();
 
 }
+ chargerListServeur(){
 
+
+   /*  this.g.showLoadingBlock(true);   */
+    this.utilisateurSvc.getServeurs(null).subscribe(
+      (res:any) => {
+        let etatReponse = res["EtatReponse"];
+        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+          this.serveursOrg = res["utilisateurVMs"];
+		
+
+
+        }else{ 
+          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+        }
+        this.g.showLoadingBlock(false);    
+      }
+    );
+  }
 rechargercategorieformdata(formData: JsonFormData|any):Observable<string>{
   
   var form = new Subject<string>();
@@ -431,6 +460,38 @@ async getutilisateur(forms: FormGroup|any){
      
         //return this.groupe;
         return groupestring.asObservable();
+}
+ getCommerce():Observable<string>{
+
+  var commercestring = new Subject<string>();
+  let commerce:any= {
+     "id": "2",
+        "name": "IdUtilisateur",
+      "label": "Commerciale:",
+      "value": "",
+      "type": "select",
+      "option":[],
+      "validators": {"required": true,
+        }
+    }
+  commercestring.next(JSON.stringify(commerce))
+ this.utilisateurSvc.getListeCaissiers().subscribe(
+		   (res:any) => {
+			let etatReponse = res["EtatReponse"];
+			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+			   let resultat=res["utilisateurVMs"];
+         resultat.forEach( (element: any) => {
+           let name:string=element.Nom+" "+element.Prenom;
+            commerce.option.push({"text":name,"value":element.Identifiant,"selected":false})
+         });
+      }
+       commercestring.next(JSON.stringify(commerce))
+      }
+     
+      ) 
+     
+        //return this.groupe;
+        return commercestring.asObservable();
 }
  getLocaliteCode2():Observable<string>{
 
