@@ -6,12 +6,14 @@ import { Globals } from '../globals';
 import { ActivatedRoute } from '@angular/router'
 import Swal from 'sweetalert2'
 import { ArticleSvc } from '../services/articleSvc';
+import { MessageSvc } from '../services/messageSvc';
 import { DetailCommande } from '../entities/DetailCommande';
 import{CommandeSvc}from '../services/commandeSvc';
 import{Commande}from '../entities/Commande';
 import{TypeCommandeCode}from '../entities/TypeCommandeCode';
-
+import { MessageCode } from '../entities/MessageCode';
 import{format} from 'date-fns';
+import { Message } from '../entities/Message';
 interface mouvement {
   DateCommande?: Date;
 Numero?: string;
@@ -59,11 +61,15 @@ public quantiteexpiration:number=0;
 public dateexpiration:any;
 public purcentexpirer:number=0;
 public datedebut:string=format(new Date(),'yyyy-MM-dd')+"T00:00:00";
-
+public MessageCode=new MessageCode();
 public datefin:string=format(new Date(),'yyyy-MM-dd')+"T23:59:59";
 
   public Article:Article=new Article();
-  constructor(public CommandeSvc:CommandeSvc,public router:Router, 
+  public Message:Message[]=[];
+  public MessageFormul:Message=new Message();
+  public Accessoire:Message[]=[];
+  public Recette:Message[]=[];
+  constructor(public CommandeSvc:CommandeSvc,public router:Router, private MessageSvc:MessageSvc,
     public route:ActivatedRoute,private commandeSvc:CommandeSvc,private http: HttpClient,public g:Globals,private articleSvc:ArticleSvc) {
    }
 
@@ -104,16 +110,23 @@ this.dateexpiration=this.detailCommandes[0].DateExpiration
            
  this.inventaire=this.detailCommandes.reduce((sum, current) => sum + current.Quantite, 0)-this.detailCommandes.reduce((sum, current) => sum + current.QuantiteServi, 0)
 this.maxpurcent=this.Article.QuantiteMin>0?this.Article.QuantiteMin*10:this.inventaire
-
+this.maxpurcent=this.maxpurcent<this.inventaire?this.inventaire:this.maxpurcent
 this.purcentinventaire= (this.inventaire*100/this.maxpurcent)|0
 this.purcentinventaire = Math.min(100, Math.max(0, this.purcentinventaire));
-
 this.purcentexpirer= (this.quantiteexpiration*100/this.maxpurcent)|0
 this.purcentexpirer = Math.min(100, Math.max(0, this.purcentexpirer));
 //console.log("max=",Math.max(0, this.purcentinventaire))
 this.chargerCommandeControle()
 this.chargerCommandes()
               }
+})
+this.MessageSvc.getMessagebyId(params['id']).subscribe((res:any) =>{
+let etatReponse = res["EtatReponse"];
+      if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+  this.Message=res["messageVMs"]
+  this.Recette=this.Message.filter(x=>x.LibelleType==this.MessageCode.RECETTE) 
+this.Accessoire=this.Message.filter(x=>x.LibelleType==this.MessageCode.ACCESSOIRE)
+}
 })
 
 

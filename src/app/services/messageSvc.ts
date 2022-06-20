@@ -31,5 +31,11 @@ export class MessageSvc {
 		return this.http.post(this.g.baseUrl +  '/api/message/modifierMessage', data, options);
 	}
 
+		getMessagebyId(IdArticle : number) {
+		let paramInt = {"Valeur" : IdArticle};
+		let options = {	headers: this.headers,withCredentials: true	};
+		let data = JSON.stringify(paramInt);
+		return this.http.post(this.g.baseUrl +  '/api/Message/getMessagesbyId', data, options);		
+	}
 
 }

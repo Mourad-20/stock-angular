@@ -161,7 +161,6 @@ public  $: any;
     this.submit=true;
    // console.log('Form valid: ', this.myForm.status);
     if(this.myForm.status=="VALID"){
-      console.log("this.myForm===",this.myForm)
 this.submite.emit(this.myForm);
     }
     //console.log('Form values: ', this.myForm.value);

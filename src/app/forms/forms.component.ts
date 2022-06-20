@@ -138,7 +138,7 @@ if(this.g.typeform=="categorie"){
     },1000)  */
 }
 if(this.g.typeform=="caisse"){
-  debugger
+  //debugger
           this.objettoupdat.rechargercaisseformdata(formData).subscribe((form:any)=>{
             formData.controls=JSON.parse(form)
      this.formData = formData
@@ -339,7 +339,7 @@ this.objettoupdat.getutilisateur(forms).then((result)=>{
         //console.log("Succes")
           Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+          Swal.fire({ text: "update article" , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
       }

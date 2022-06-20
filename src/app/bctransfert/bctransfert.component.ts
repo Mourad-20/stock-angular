@@ -153,6 +153,7 @@ public Message:string=""
 public TotaleHT:number=0
 public TotaleTTC:number=0
 public TotaleTVA:number=0
+public lstdc:DetailCommande[]=[]
  public pieChartLabels: any[] = [['SciFi'], ['Drama'], 'Comedy'];
   public pieChartData: any = [30, 50, 20];
   public pieChartType: ChartType = 'pie';
@@ -179,9 +180,12 @@ this.commandeSvc.getCommandeById(this.id).subscribe((res:any) => {
     let etatReponse = res["EtatReponse"];
     if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
       this.boncommande = res["commandeVM"];
+     
     this.commande.IdLocalite=this.boncommande.IdLocalite;
+    this.commande.IdSource=this.boncommande.Identifiant;
      this.commande.LibelleLocalite=this.boncommande.LibelleLocalite;
       this.commande.CodeCommande="ACHAT";
+      this.getfilter(this.boncommande.DetailCommandes)
   }
 });
 		this.seanceSvc.getSeanceActive().subscribe(
@@ -544,7 +548,7 @@ this.chargerArticle(null)
 showcomercial(){
 this.searchTerm="";
 ($('#responsive-modal') as any).modal('show');
-this.chargerArticle(null)
+//this.chargerArticle(null)
 
 }
 
@@ -708,6 +712,7 @@ this.boncommande.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==detai
 this.TotaleHT+= detailCommande.Montant*detailCommande.Quantite
 this.TotaleTVA+= detailCommande.Montant*detailCommande.Quantite*detailCommande.TauxTVA/100
   this.calcVal = '0';
+  this.getfilter(this.boncommande.DetailCommandes)
 this.initdetailcommande()
 }
 else{
@@ -823,10 +828,13 @@ this.getcountcommande()
 
 }
 getfilter(items:DetailCommande[]|any){
+  this.lstdc=[]
   if(items!=null  ){
-    return items.filter((x:any)=>x.Quantite!=x.QuantiteServi)
+    //console.log(items)
+    this.lstdc=items.filter((x:any)=>x.Quantite!=x.QuantiteServi)
+    console.log( "xx=",this.lstdc)
   }
-return []
+
 }
 getGroupeTemporaire(){
 this.g.showLoadingBlock(true);
@@ -876,7 +884,7 @@ modifierCommande(){
     if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
       let idCommande = res["idCommande"];
       this.getCommandeById(idCommande);
-      //Swal.fire({ text: etatReponse.Message , icon: 'success'});
+      Swal.fire({ text: etatReponse.Message , icon: 'success'});
     }else{ 
       Swal.fire({ text: etatReponse.Message , icon: 'error'});
     }

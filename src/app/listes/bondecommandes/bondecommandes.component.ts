@@ -48,7 +48,7 @@ export class BondecommandesComponent implements OnInit {
 public totalColor : string = "box bg-dark text-center";
 public serveurColor : string = "box bg-dark text-center";
 public tableColor : string = "box bg-dark text-center";
-public typecommande:string="DEVIS"
+public typecommande:string="BONCOMMANDE"
 
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();

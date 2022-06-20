@@ -49,7 +49,7 @@
         },
         {
             "id": 3,
-            "name": "Quantitemin",
+            "name": "QuantiteMin",
             "label": "Quantite min:",
             "value": "",
             "placeholder": "Quantite",

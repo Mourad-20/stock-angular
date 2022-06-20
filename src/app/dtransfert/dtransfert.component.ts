@@ -85,6 +85,7 @@ public localitesOrg : Localite[] = [];
 			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 			  this.commandedevis = res["commandeVM"];
       this.commande.IdLocalite=this.commandedevis.IdLocalite;
+      this.commande.IdSource=this.commandedevis.Identifiant;
        this.commande.LibelleLocalite=this.commandedevis.LibelleLocalite;
         this.commande.CodeCommande="VENT";
     }
@@ -447,7 +448,7 @@ else{
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           let idCommande = res["idCommande"];
           this.getCommandeById(idCommande);
-          //Swal.fire({ text: etatReponse.Message , icon: 'success'});
+          Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
           console.log("Message4")
           Swal.fire({ text: etatReponse.Message , icon: 'error'});

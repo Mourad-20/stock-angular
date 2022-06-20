@@ -322,7 +322,7 @@ setobjetfrom(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Loc
 
    for(const [key, value] of   Object.entries(objet)){
     let castKey = key as (keyof typeof objet);
-   debugger
+   //debugger
     forms.controls.forEach((element:any) => {
       if( element.name==castKey){
       
@@ -587,7 +587,7 @@ for(const taux in this.TauxTva){
   getTypesArticle(){
     let TypeArticle:any= {
       "id": 5,
-      "name": "IdTypeArticle",
+      "name": "LibelleTypeArticle",
     "label": "Type Article:",
     "value": "",
     "type": "select",
