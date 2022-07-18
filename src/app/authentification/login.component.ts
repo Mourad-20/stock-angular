@@ -111,7 +111,7 @@ this.jetonValue=this.jetonValue+event.key ;
 
 
   authentification(){
-	  	this.g.openFullscreen()
+	  	// this.g.openFullscreen()
     this.g.showLoadingBlock(true);
 	if(this.methode == "STANDARD"){
 	
