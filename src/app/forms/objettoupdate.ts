@@ -348,6 +348,7 @@ setobjetfrom(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Loc
 }
 
 getobjetfromsubmit(forms: FormGroup|any,objet:Article|Categorie|Utilisateur|Caisse|Localite|any){ 
+  
   let Objet:Article|Categorie|Utilisateur|Caisse|Localite|any
 
   for(const [key, value] of  Object.entries(objet)){ 
