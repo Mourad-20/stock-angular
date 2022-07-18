@@ -21,9 +21,11 @@ constructor(public g: Globals, public sharedService:Rxjs , public router:Router,
 	console.log('Home ngOnInit()');
   }
 goto(link:string|any){
-  this.router.navigateByUrl(link, { skipLocationChange: true }).then(() => {
+   this.router.navigateByUrl(link, { skipLocationChange: true }).then(() => {
     this.router.navigate([link]);
-}); 
+});  
+
+
 
 }
 logout(){

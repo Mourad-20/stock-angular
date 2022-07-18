@@ -113,14 +113,21 @@ export class DetailstockComponent implements OnInit {
     this.chargerArticle()
   }
   setid(idstock:number|any){
-    this.idstock=idstock
-this.rechargerapport(idstock)
+    this.idstock = this.idstock==null?idstock:null;
+    // console.log(this.idstock)
+    // console.log(idstock)
+    // this.idstock=idstock
+this.rechargerapport(this.idstock)
 this.chargerArticleStock(idstock)
 
   }
   rechargerapport(idstock:number|any){
-this.Rapportfilter=this.Rapport.filter(x=>x);
+     this.Rapportfilter=this.Rapport
+    if(idstock != null){
+     this.Rapportfilter=this.Rapport.filter(x=>x);
 (idstock!=null|| idstock!=0)?this.Rapportfilter=this.Rapport.filter(x=>x.IdStock==idstock):false;
+    }
+
   }
     async refrechtable(id:string){
    
