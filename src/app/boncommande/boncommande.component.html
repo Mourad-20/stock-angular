@@ -19,40 +19,8 @@
 
         </div>
 
-        <div class="row  pt-3" *ngIf="showlocale">
-            <div class="col-md-6 col-lg-3 col-xlg-2" *ngFor="let item of localites; index as i;">
-
-                <div class="card">
-                    <a href="javascript:void(0)" (click)="selectLocalite(item.Identifiant)">
-
-                        <div class="xxx" class={{totalColor}}>
-                            <h4 class="font-light text-white">{{ item.Libelle }}</h4>
-                            <h6 class="text-white">&nbsp;</h6>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row  pt-3" *ngIf="showserveur">
-            <div class="col-md-6 col-lg-3 col-xlg-2" *ngFor="let item of serveurs; index as i;">
-
-                <div class="card">
-                    <a href="javascript:void(0)" (click)="selectServeur(item.Identifiant)">
-
-                        <div class="xxx" class={{totalColor}}>
-                            <h4 class="font-light text-white">{{ item.Nom }}</h4>
-                            <h6 class="text-white">&nbsp;</h6>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-        <div class="row" *ngIf="showcaisse">
+       
+        <div class="row" >
             <div class="col-12">
                 <div class="card">
                     <!-- .left-right-aside-column-->
@@ -183,7 +151,7 @@
                                                 <label class="form-label">Client</label>
                                                 <div class="input-group mb-3" (click)="showListeLocalite()">
                                                     <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
-                                                    <span class="input-group-text" (click)="showListeLocalite()"><i class="ti-lock"></i></span>
+                                                    <span class="input-group-text" ><i class="ti-lock"></i></span>
                                                 </div>
                                             </div>
                                             <!--  <div class="col-md-6">
@@ -335,7 +303,7 @@
                                                         <div class="col-md-9">
                                                             <select class="form-control form-select" (change)="chargerArticle($event)">
                                                                 <option value="0">select...</option>
-                                                                <option *ngFor="let item of categories; index as i;"
+                                                                <option *ngFor="let item of g.categories; index as i;"
                                                                     [value]="item.Identifiant">{{(item.Libelle)}}
                                                                 </option>
 
