@@ -31,7 +31,7 @@ import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-boncommande',
-  templateUrl: './boncommande.component.html',
+  templateUrl: './boncommande1.component.html',
   styleUrls: ['./boncommande.component.css']
 })
 
