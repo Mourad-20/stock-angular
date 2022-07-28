@@ -6,8 +6,8 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
-        <div class="row page-titles bg-primary">
-            <h4 class="m-b-0 text-white">{{g.title}}</h4>
+        <div class="row page-titles bg-white">
+            <h4 class="m-b-0 text-success">{{g.title}}</h4>
         </div>
         <!-- ============================================================== -->
         <!-- ============================================================== -->
@@ -131,13 +131,13 @@
                         <div class="col-12 col-lg-4 col-sm-12 formcaisse">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-subtitle">Information Client</h5>
+                                    <h5 class="card-subtitle">Information Fournisseur</h5>
                                     <form class="form pt-3">
                                         <div class="row ">
                                             <div class="form-group">
-                                                <label class="form-label">Client</label>
+                                                <label class="form-label">Fournisseur</label>
                                                 <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
+                                                    <input type="text" class="form-control" placeholder="Fournisseur" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
                                                     <span class="input-group-text"><i class="ti-lock"></i></span>
                                                 </div>
 
@@ -420,7 +420,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Client</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Select Fournisseur</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
