@@ -1,14 +1,25 @@
 <div class="page-wrapper">
-
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
     <div class="container-fluid">
-
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
         <div class="row page-titles bg-primary">
             <h4 class="m-b-0 text-white">{{title}}</h4>
         </div>
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+
+
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
         <div class="row">
 
         </div>
 
+      
         <div class="row" >
             <div class="col-12">
                 <div class="card">
@@ -104,6 +115,9 @@
                                         <div class="d-flex no-block align-items-center">
                                             <div>
 
+                                                <!--   <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
+                                                </button> -->
+
                                             </div>
 
                                             <div class="ms-auto">
@@ -138,7 +152,15 @@
                                                     <span class="input-group-text" (click)="showListeLocalite()"><i class="ti-lock"></i></span>
                                                 </div>
                                             </div>
-
+                                            <!-- <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Commercial</label>
+                                                    <div class="input-group mb-3" (click)="showcomercial()">
+                                                        <input type="text" class="form-control" placeholder="Articles" aria-label="Password" [(ngModel)]="article.Libelle" name="article">
+                                                        <span class="input-group-text" (click)="showcomercial()"><i class="ti-lock"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div> -->
                                         </div>
 
                                     </form>
@@ -203,7 +225,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--  <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Date Expiration</label>
+                                                    <div class="input-group mb-3">
+                                                        <input type="date" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="dateexpiration" name="dexpiration">
 
+                                                    </div>
+                                                </div>
+                                            </div> -->
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Description(courte)</label>
@@ -228,8 +258,22 @@
             </div>
         </div>
 
-    </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right sidebar -->
+        <!-- ============================================================== -->
+        <!-- .right-sidebar -->
 
+        <!-- ============================================================== -->
+        <!-- End Right sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- reglementModal -->
     <div class="modal" id="responsive-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -282,8 +326,12 @@
                                             </div>
 
                                         </div>
+
+
                                     </form>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -310,6 +358,8 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+
 
                                 </div>
                             </div>
@@ -348,7 +398,18 @@
 
                         </div>
 
+                        <!--    <button type="button" class="btn w-70 btn-lg btn-success" (click)="setarticle()">Valider<i class="icons-Dollar-Sign2"></i></button>
+ -->
                     </div>
+
+
+
+
+
+
+
+
+
 
                     <br>
                 </div>
@@ -429,7 +490,19 @@
 
                         </div>
 
+
+                        <!--    <button type="button" class="btn w-70 btn-lg btn-success" (click)="setarticle()">Valider<i class="icons-Dollar-Sign2"></i></button>
+ -->
                     </div>
+
+
+
+
+
+
+
+
+
 
                     <br>
                 </div>
