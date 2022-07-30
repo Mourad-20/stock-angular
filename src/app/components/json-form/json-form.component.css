@@ -1,0 +1,168 @@
+ .form-group1 {
+    position: relative;
+}
+
+.form-group1>.form-control {
+    padding: 10px 10px 10px 0;
+    display: block;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    border-radius: 0px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-group1> select.form-control>option {
+    font-size: 14px;
+}
+
+.form-group1> .has-error .form-control {
+    border-bottom: 1px solid #e46a76;
+}
+
+.form-group1> .has-warning .form-control {
+    border-bottom: 1px solid #fec107;
+}
+
+.form-group1> .has-success .form-control {
+    border-bottom: 1px solid #00c292;
+}
+
+.form-group1> .form-control:focus {
+    outline: none;
+    border: none;
+}
+
+.form-group1> label {
+    color: #212529;
+    position: absolute;
+    cursor: auto;
+    top: 5px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.form-group1> .focused label {
+    top: -20px;
+    font-size: 12px;
+    color: #343a40;
+}
+
+.form-group1> .bar {
+    position: relative;
+    display: block;
+}
+
+.form-group1> .bar:before,
+.form-group1> .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #fb9678;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.form-group1>.bar:before {
+    left: 50%;
+}
+
+.form-group1>.bar:after {
+    right: 50%;
+}
+
+.form-group1> .form-control:focus~.bar:before,
+.form-group1> .form-control:focus~.bar:after {
+    width: 50%;
+}
+
+.form-group1> .highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.form-group1> .input-lg~label,
+.form-group1> .input-lg {
+    font-size: 24px;
+}
+
+.form-group1> .input-sm~label,
+.form-group1> .input-sm {
+    font-size: 16px;
+}
+
+.form-group1>.has-warning .bar:before,
+.form-group1>.has-warning .bar:after {
+    background: #fec107;
+}
+
+.form-group1>.has-success .bar:before,
+.form-group1>.has-success .bar:after {
+    background: #00c292;
+}
+
+.form-group1>.has-error .bar:before,
+.form-group1>.has-error .bar:after {
+    background: #e46a76;
+}
+
+.form-group1>.has-warning .form-control:focus~label,
+.form-group1>.has-warning .form-control:valid~label {
+    color: #fec107;
+}
+
+.form-group1>.has-success .form-control:focus~label,
+.form-group1>.has-success .form-control:valid~label {
+    color: #00c292;
+}
+
+.form-group1>.has-error .form-control:focus~label,
+.form-group1>.has-error .form-control:valid~label {
+    color: #e46a76;
+}
+
+.form-group1>.has-feedback label~.t-0 {
+    top: 0;
+}
+
+.form-group1>.error input,
+.form-group1>.error select,
+.form-group1>.error textarea {
+    border: 1px solid #e46a76;
+}
+
+.form-group1>.validate input,
+.form-group1>.validate select,
+.form-group1>.validate textarea {
+    border: 1px solid #00c292;
+}
+
+.form-group1>.error .help-block ul {
+    padding: 0px;
+    color: #e46a76;
+}
+
+.form-group1>.error .help-block ul li {
+    list-style: none;
+}
+
+.form-group1>.issue .help-block ul {
+    padding: 0px;
+    color: #fec107;
+}
+
+.form-group1>.issue .help-block ul li {
+    list-style: none;
+}
+
+.form-group1>.test-test {
+    background: #e46a76;
+}

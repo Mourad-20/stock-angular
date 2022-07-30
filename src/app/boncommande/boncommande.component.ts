@@ -136,7 +136,7 @@ public colorMessage:string=""
 				  (res:any) => {
 					let etatReponse = res["EtatReponse"];
 					if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-            debugger
+          
 					  this.g.categories = res["categorieVMs"];
            
 					  //----------------------------------------------------
@@ -188,7 +188,8 @@ public colorMessage:string=""
     var datatable = $('#datatableste').DataTable();
                 //datatable reloading 
                   datatable.destroy();
-    setTimeout(() => {
+     
+   setTimeout(() => {
      $('#datatableste').DataTable( {
         pagingType: 'full_numbers',
         pageLength: 10,
@@ -496,6 +497,7 @@ chargercat(){
     console.log("ok")
     this.commande.CodeCommande="BONCOMMANDE"
      // this.g.showLoadingBlock(true);
+     debugger
       this.commandeSvc.etablirCommande(this.commande).subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
@@ -568,28 +570,30 @@ chargercat(){
   chargerListLocalite(){
 
   console.log("liste commande dispo")
+
+
     this.localiteSvc.getLocalites().subscribe(
       (res:any) => {
         let etatReponse = res["EtatReponse"];
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           this.localitesOrg = res["localiteVMs"];
          // console.log( this.localitesOrg[0])
-this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
-          //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
+          this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
     
-
-          this.localites.length = 0;
-          this.localites = [];
-
-            for (let i = 0; i < this.localitesOrg.length; i++) {
+        
+        for (let i = 0; i < this.localitesOrg.length; i++) {
               this.localites.push(this.localitesOrg[i]);
             }
-
+      
+            
+               console.log(this.localites.length)
+  
         }else{ 
+
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
         this.g.showLoadingBlock(false);    
-        this.refrechtableste()
+      this.refrechtableste()
       }
     );
 
@@ -646,6 +650,7 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
     this.commande.IdLocalite = localite.Identifiant;
     ($('#societe-modal') as any).modal('hide');
     this.localites=[]   
+    this.refrechtableste()
   }
 
   selectCommande(idCommande : any){
