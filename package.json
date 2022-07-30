@@ -49,7 +49,6 @@
     "@angular-devkit/build-angular": "~12.1.0",
     "@angular/cli": "~12.1.0",
     "@angular/compiler-cli": "~12.1.0",
-    "@types/bootstrap": "^5.1.9",
     "@types/datatables.net": "^1.10.21",
     "@types/datatables.net-buttons": "^1.4.7",
     "@types/echarts": "^4.9.15",
