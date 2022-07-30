@@ -242,7 +242,7 @@ public colorMessage:string=""
         node.type = 'text/javascript';
        await setTimeout(()=>{
   
-        document.getElementById("script")?.appendChild(node);
+        document.getElementById("script")!.appendChild(node);
         },0)
       
     }	
