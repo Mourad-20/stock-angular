@@ -32,38 +32,6 @@
                             <div class="card-body">
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="card">
-
-                                        <div class="card-body bg-light">
-                                            <div class="card-body bg-light">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TTC(DH)</h3>
-                                                    </div>
-                                                    <div class="col-6 align-self-center display-6 text-end">
-                                                        <h2 class="text-success">{{(TotaleHT+TotaleTVA)}}</h2>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TVA(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-info">{{(TotaleTVA)}}</h2>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale HT(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-danger">{{(TotaleHT)}}</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table table-hover no-wrap">
                                                 <thead>
@@ -103,7 +71,6 @@
     </button></td>
 
                                                     </tr>
-                                                    <!--      -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -127,6 +94,19 @@
                                 </div>
                             </div>
 
+                            <div class="card-body bg-light">
+                                <div class="card-body bg-light">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>
+                                                Totale TTC(DH)  <span class="text-success">{{(TotaleHT+TotaleTVA)}}</span> 
+                                                Totale TVA(DH)  <span class="text-info">{{(TotaleTVA)}}</span> 
+                                                Totale HT(DH)  <span class="text-danger">{{(TotaleHT)}}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12 col-lg-4 col-sm-12 formcaisse">
                             <div class="card">
@@ -149,9 +129,6 @@
                                 </div>
                             </div>
                             <hr class="m-t-0 m-b-40">
-                            <div class="card">
-                                <div class="card-body">
-
                                     <h5 class="card-subtitle"> Detaile Commande</h5>
 
                                     <form class="form pt-3">
@@ -252,12 +229,6 @@
                                         <button type="submit" class="btn btn-dark" (click)="initdetailcommande()">Cancel</button>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- /.left-right-aside-column-->
                     </div>
                 </div>
             </div>
