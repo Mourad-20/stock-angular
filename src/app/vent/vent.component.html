@@ -20,39 +20,8 @@
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="card">
 
-                                        <div class="card-body bg-light">
-                                            <div class="card-body bg-light">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TTC(DH)</h3>
-                                                    </div>
-                                                    <div class="col-6 align-self-center display-6 text-end">
-                                                        <h2 class="text-success">{{(TotaleHT+TotaleTVA)}}</h2>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TVA(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-info">{{(TotaleTVA)}}</h2>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale HT(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-danger">{{(TotaleHT)}}</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="table-responsive">
-                                            <table class="table table-hover no-wrap">
+                                            <table class="table table-striped">
                                                 <thead>
 
 
@@ -87,10 +56,10 @@
                                                         <td><span class="text-success">{{ item.Description }}</span>
                                                         </td>
                                                         <td><button (click)="remove(i)" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
-    </button></td>
+                                                            </button>
+                                                        </td>
 
                                                     </tr>
-                                                    <!--      -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -118,6 +87,20 @@
                                 </div>
                             </div>
 
+                            <div class="card-body bg-light">
+                                <div class="card-body bg-light">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>
+                                                Totale TTC(DH)  <span class="text-success">{{(TotaleHT+TotaleTVA)}}</span> 
+                                                Totale TVA(DH)  <span class="text-info">{{(TotaleTVA)}}</span> 
+                                                Totale HT(DH)  <span class="text-danger">{{(TotaleHT)}}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /.left-aside-column-->
 
@@ -127,14 +110,14 @@
                             <div class="card">
                                 <div class="card-body">
 
-                                    <h5 class="card-subtitle">Information Client</h5>
+                                    <h5 class="card-subtitle">Information Fournisseur</h5>
 
                                     <form class="form pt-3">
                                         <div class="row ">
                                             <div class="form-group">
-                                                <label class="form-label">Client</label>
+                                                <label class="form-label">Fournisseur</label>
                                                 <div class="input-group mb-3" (click)="showListeLocalite()">
-                                                    <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
+                                                    <input type="text" class="form-control" placeholder="Fournisseur" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
                                                     <span class="input-group-text" (click)="showListeLocalite()"><i class="ti-lock"></i></span>
                                                 </div>
                                             </div>
@@ -145,8 +128,7 @@
                                 </div>
                             </div>
                             <hr class="m-t-0 m-b-40">
-                            <div class="card">
-                                <div class="card-body">
+                            
 
                                     <h5 class="card-subtitle"> Detaile Commande</h5>
 
@@ -217,12 +199,6 @@
                                         <button type="submit" class="btn btn-dark" (click)="initdetailcommande()">Cancel</button>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- /.left-right-aside-column-->
                     </div>
                 </div>
             </div>
@@ -361,7 +337,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Client</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Select Fournisseur</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -379,7 +355,7 @@
                                                     <div class="form-group row">
                                                         <label class="control-label text-end col-md-3">Libelle</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control" placeholder="Client" [(ngModel)]="searchTerm" (ngModelChange)="chargerlocalbyname()" name="xx">
+                                                            <input type="text" class="form-control" placeholder="Fournisseur" [(ngModel)]="searchTerm" (ngModelChange)="chargerlocalbyname()" name="xx">
                                                         </div>
                                                     </div>
                                                 </div>
