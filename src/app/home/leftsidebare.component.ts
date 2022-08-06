@@ -55,10 +55,10 @@ async liste(typeform:string|any){
 this.router.navigate(['liste/'+typeform]);
 //this.router.navigate(['forms/'+typeform]);	 
 }
-Collapse(id:number|any){
-  this.collapse==id?
-    this.collapse=0:this.collapse=id
-}
+  Collapse(id:number|any){
+    this.collapse==id ?
+      this.collapse = 0 : this.collapse = id
+  }
 
 }
 
