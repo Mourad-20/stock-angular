@@ -13,26 +13,26 @@ import { Seance } from '../entities/Seance';
 import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
 import { Recap } from '../entities/Recap';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { SocieteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import {Location} from '@angular/common';
 import  * as $ab from 'ng2-charts';
 import { AffectationMessage } from '../entities/AffectationMessage';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import { SeanceSvc } from '../services/seanceSvc';
-import { MessageSvc } from '../services/messageSvc';
-import{CaisseSvc} from '../services/caisseSvc';
-import { AssociationMessageSvc } from '../services/associationMessageSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
+import { MessageSvc } from '../services/apiService/messageSvc';
+import{CaisseSvc} from '../services/apiService/caisseSvc';
+import { AssociationMessageSvc } from '../services/apiService/associationMessageSvc';
 import {Message}from '../entities/Message';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import{Caisse}from '../entities/Caisse';
-import{TypeUniteSvc} from '../services/typeuniteSvc';
+import{TypeUniteSvc} from '../services/apiService/typeuniteSvc';
 import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
 
@@ -58,7 +58,7 @@ public typeunite:any
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
 public GroupeCode : GroupeCode = new GroupeCode();
-public LocaliteCode:LocaliteCode=new LocaliteCode()
+public SocieteCode:SocieteCode=new SocieteCode()
 public seance? : Seance  | null;
 //--------------------------------------
 public affectationMessageVMs : AffectationMessage[] = [];
@@ -261,8 +261,8 @@ this.type="CAT";
 this.table=true;
 console.log("table "+this.g.articlesOrg);
  this.loadScript()
- for(const x in this.LocaliteCode){
-    if(x!=this.LocaliteCode.EMPORTER){
+ for(const x in this.SocieteCode){
+    if(x==this.SocieteCode.FOURNISEUR){
   this.codelocalites.push(x)}
  }
 // this. getcountcommande()
@@ -767,13 +767,13 @@ this.type="CAT";
 }
 remove(index:number) {
      Swal.fire({
-title: 'Are you sure?',
-text: "You won't be able to revert this!",
-icon: 'warning',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Yes!'
+      title: 'Êtes-vous sûr?',
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui!'
 }).then((result) => {
  if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
   &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){

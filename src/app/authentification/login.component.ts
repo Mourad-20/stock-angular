@@ -4,7 +4,7 @@ import { CookieService  } from 'ngx-cookie-service';
 import { Login } from '../entities/Login';
 import { GroupeCode } from '../entities/GroupeCode';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import Swal from 'sweetalert2';
 
 declare const myTest: any;

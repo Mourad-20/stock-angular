@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { Globals } from '../../globals';
 import { Seance } from '../../entities/Seance';
-import { SeanceSvc } from '../../services/seanceSvc';
-import { ReglementSvc } from 'src/app/services/reglementSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
 import{format} from 'date-fns'
 import Swal from 'sweetalert2'
 

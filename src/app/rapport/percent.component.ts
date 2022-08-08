@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Globals } from '../globals';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 
 
 @Component({

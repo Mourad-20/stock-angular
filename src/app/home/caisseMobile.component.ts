@@ -16,13 +16,13 @@ import { Recap } from '../entities/Recap';
 
 
 
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import { SeanceSvc } from '../services/seanceSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
 
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';

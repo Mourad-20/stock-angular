@@ -6,10 +6,10 @@ import { Globals } from '../globals';
 import { ActivatedRoute } from '@angular/router'
 import Swal from 'sweetalert2'
 import { Caisse } from 'src/app/entities/Caisse';
-import { CaisseSvc } from 'src/app/services/caisseSvc';
-import { ArticleSvc } from '../services/articleSvc';
+import { CaisseSvc } from '../services/apiService/caisseSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
 import { DetailCommande } from '../entities/DetailCommande';
-import{CommandeSvc}from '../services/commandeSvc';
+import{CommandeSvc}from '../services/apiService/commandeSvc';
 
 interface Rapport {
   IdStock?: number;

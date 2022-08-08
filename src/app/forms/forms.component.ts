@@ -3,19 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import {  Router } from '@angular/router';
 import { Globals } from '../globals';
 import { JsonFormData } from '../components/json-form/json-form.component';
-import { GroupeSvc } from '../services/groupeSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { GroupeSvc } from '../services/apiService/groupeSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import { Utilisateur } from '../entities/Utilisateur';
 import {Login} from '../entities/Login';
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router'
 import Swal from 'sweetalert2';
 import { Objettoupdate } from './objettoupdate';
-import { ArticleSvc } from '../services/articleSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { CaisseSvc } from '../services/caisseSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { CaisseSvc } from '../services/apiService/caisseSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
 
 @Component({
   selector: 'app-forms',

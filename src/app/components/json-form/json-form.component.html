@@ -6,6 +6,12 @@
             <hr>
 
             <div class="row p-t-20">
+<div class="form-group1 m-b-40">
+    <input type="text" class="form-control" id="input1">
+    <span class="bar"></span>
+    <label for="input1">Regular Input</label>
+</div>
+
 
                 <div *ngFor="let control of jsonFormData?.controls" class="col-md-6">
                     <div class="form-group" [ngClass]="{'has-danger': submit==true && myForm.controls[control.name].status ==='INVALID'}">

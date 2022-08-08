@@ -14,16 +14,16 @@ import { LocaliteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import  * as $ab from 'ng2-charts';
 
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import{TypeUniteSvc} from '../services/typeuniteSvc';
-import{CaisseSvc} from '../services/caisseSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import{TypeUniteSvc} from '../services/apiService/typeuniteSvc';
+import{CaisseSvc} from '../services/apiService/caisseSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import Swal from 'sweetalert2';
 //import * as $ from 'jquery';
 
@@ -139,7 +139,7 @@ public colorMessage:string=""
     this.g.showLoadingBlock(true);
    this.route.params.subscribe(params => {
       if(params['id']!=null) {
-       debugger
+       //debugger
        	this.commandeSvc.getCommandeById(params['id']).subscribe((res:any) => {
 			let etatReponse = res["EtatReponse"];
 			if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -495,13 +495,13 @@ return res
 
   remove(index:number) {
          Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
+          title: 'Êtes-vous sûr?',
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui!'
 }).then((result) => {
      if( result.isConfirmed && this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
       this.commande.DetailCommandes.splice(index, 1);

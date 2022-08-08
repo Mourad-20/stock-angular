@@ -4,11 +4,11 @@ import { CookieService  } from 'ngx-cookie-service';
 import {filter} from 'rxjs/operators';
 
 import { Globals } from './globals';
-import { UtilisateurSvc } from './services/utilisateurSvc';
-import { ZoneSvc } from './services/zoneSvc';
-import { CategorieSvc } from './services/categorieSvc';
-import { ArticleSvc } from './services/articleSvc';
-import { SeanceSvc } from './services/seanceSvc';
+import { UtilisateurSvc } from './services/apiService/utilisateurSvc';
+import { ZoneSvc } from './services/apiService/zoneSvc';
+import { CategorieSvc } from './services/apiService/categorieSvc';
+import { ArticleSvc } from './services/apiService/articleSvc';
+import { SeanceSvc } from './services/apiService/seanceSvc';
 import { Categorie } from './entities/Categorie';
 import { Article } from './entities/Article';
 import { EtatReponse } from './entities/EtatReponse';

@@ -6,9 +6,9 @@ import { Utilisateur } from '../entities/Utilisateur';
 import { Categorie } from '../entities/Categorie';
 import { Article } from '../entities/Article';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
 import Swal from 'sweetalert2';
 import * as $AB from 'jquery';
 

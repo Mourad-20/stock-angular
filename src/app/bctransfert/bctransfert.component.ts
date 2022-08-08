@@ -11,21 +11,22 @@ import { Reglement } from '../entities/Reglement';
 import { DetailReglement } from '../entities/DetailReglement';
 import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { SocieteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import {Location} from '@angular/common';
 import  * as $ab from 'ng2-charts';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import{CaisseSvc} from '../services/caisseSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import{CaisseSvc} from '../services/apiService/caisseSvc';
+import { TransfertSvc } from '../services/frontService/transfertSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import{Caisse}from '../entities/Caisse';
-import{TypeUniteSvc} from '../services/typeuniteSvc';
+import{TypeUniteSvc} from '../services/apiService/typeuniteSvc';
 import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
 
@@ -53,7 +54,7 @@ public typeunite:any
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
 public GroupeCode : GroupeCode = new GroupeCode();
-public LocaliteCode:LocaliteCode=new LocaliteCode()
+public SocieteCode:SocieteCode=new SocieteCode()
 //--------------------------------------
 public imageSrcCat : string =  'assets/categorie.jpg';
 public imageSrcArt : string =  'assets/article.jpg';
@@ -97,6 +98,7 @@ public quantiteARegler : number = 0;
 public idxTwo : number = -1
 public dateexpiration:string=""
 public quantite:number=0
+public quantiteOrg:number=0
 public tva:number=0
 public prix:number=0
 public numlot:string=''
@@ -146,25 +148,18 @@ public id:number=0
   constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,public TypeUniteSvc:TypeUniteSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private categorieSvc:CategorieSvc,public CaisseSvc:CaisseSvc,
-  private articleSvc:ArticleSvc,private _location: Location) {
+  private articleSvc:ArticleSvc,private _location: Location,public transfertSvc:TransfertSvc) {
 
 	this.g.showLoadingBlock(true);
   this.sub = this.route.params.subscribe(params => {
-    if(params['id']!=null) {
-      this.id=params['id']}
+    
+     this.transfertSvc.setCommandeOregine(params['id'])
+
+			if(transfertSvc.commandeOregine.Identifiant != null) {
+        transfertSvc.commande.CodeCommande="ACHAT";
+    }
+
       })
-this.commandeSvc.getCommandeById(this.id).subscribe((res:any) => {
-    let etatReponse = res["EtatReponse"];
-    if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-      this.boncommande = res["commandeVM"];
-     
-    this.commande.IdLocalite=this.boncommande.IdLocalite;
-    this.commande.IdSource=this.boncommande.Identifiant;
-     this.commande.LibelleLocalite=this.boncommande.LibelleLocalite;
-      this.commande.CodeCommande="ACHAT";
-      this.getfilter(this.boncommande.DetailCommandes)
-  }
-});
     
     this.TypeUniteSvc.getListeTypeUnites().subscribe(
       (res:any) => {
@@ -180,11 +175,6 @@ this.commandeSvc.getCommandeById(this.id).subscribe((res:any) => {
 					let etatReponse = res["EtatReponse"];
 					if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
 					  this.g.categories = res["categorieVMs"];
-            /*  for(let o of this.g.categories){
-						  o.PathImage = this.g.baseUrl + '/api/Categorie/showImageCategorie?identifiant=' + o.Identifiant;
-					  } */
-					 
-					  //this.chargerListeCat();
 					  //----------------------------------------------------
 
 					  this.g.showLoadingBlock(true);
@@ -211,8 +201,6 @@ this.commandeSvc.getCommandeById(this.id).subscribe((res:any) => {
 					  );
 
 					  //----------------------------------------------------
-
-
 					}else{
 					  Swal.fire({ text: etatReponse.Message , icon: 'error'});
 					}
@@ -230,11 +218,12 @@ this.type="CAT";
 this.table=true;
 console.log("table "+this.g.articlesOrg);
  this.loadScript()
- for(const x in this.LocaliteCode){
-    if(x!=this.LocaliteCode.EMPORTER){
+ for(const x in this.SocieteCode){
+    if(x==this.SocieteCode.FOURNISEUR){
   this.codelocalites.push(x)}
  }
 // this. getcountcommande()
+this.initcommande();
 }
 
  async refrechtableste(){
@@ -252,6 +241,7 @@ setTimeout(() => {
 }, 200);
 
 } 
+
 showstock(){
   ($('#stock-modal') as any).modal('show');
   this.chargerstock(null)
@@ -262,19 +252,17 @@ if(event){
  let id:number= event.target.value   
 if(id!=0){
 //this.caisses = this.caissesOrg.filter(x=>x.Identifiant==id)
-}
+  }
 else{
 this.caisses = this.caissesOrg;
-}
+  }
 }
 else{
  this.caisses = this.caissesOrg;
 }
-
-
  this.refrechtableste()
-
 }
+
 setcaisse(item:Caisse){
  
   this.caisse=item;
@@ -324,9 +312,7 @@ getcountcommande(){
 
 }
 initcommande(){
-
-this.localeactive=""
-this.commande=new Commande();
+this.transfertSvc.initservice();
 }
 public async loadScript() {
  
@@ -374,16 +360,18 @@ break;
 
 }
 setarticle(item:DetailCommande){
-  console.log(item)
   this.article=new Article
   this.article.Identifiant=item.IdArticle;
   this.article.Libelle=item.LibelleArticle
   this.article.Montant=item.Montant
+  this.article.TauxTva=item.TauxTVA
   this.prix=item.Montant
-  this.quantite=item.Quantite
+  this.quantite=item.Quantite-item.QuantiteServi
+  this.quantiteOrg=item.Quantite-item.QuantiteServi
   this.tva=item.TauxTVA
   //console.log(item)
   this.Unite=item.IdTypeUnite;
+  this.refrechtable();
   ($('#responsive-modal') as any).modal('hide');
 }
 //===================================================================
@@ -416,8 +404,8 @@ this.commandeSvc.getDetailCommandesstockparam(item.Identifiant).subscribe(
        this.detailCommandes=res["detailCommandeVMs"]
      console.log(this.detailCommandes)
       this.detailCommandes= this.detailCommandes.filter(x=>x.IdValiderPar!=null && x.Quantite>x.QuantiteServi)
-      if(this.commande.DetailCommandes.length>0){
-        this.detailCommandes= this.detailCommandes.filter(x=>!this.commande.DetailCommandes.find(y=>y.NumerodeLot==x.NumerodeLot))
+      if(this.transfertSvc.commande.DetailCommandes.length>0){
+        this.detailCommandes= this.detailCommandes.filter(x=>!this.transfertSvc.commande.DetailCommandes.find(y=>y.NumerodeLot==x.NumerodeLot))
       }
     this.refrechtabledc()
        //commandes = commandes.filter(x=>x.IdCreePar==this.g.utilisateur!.Identifiant);
@@ -428,7 +416,7 @@ this.commandeSvc.getDetailCommandesstockparam(item.Identifiant).subscribe(
 updatetotale(){
 this.TotaleHT=0
 this.TotaleTVA=0
-this.commande.DetailCommandes.forEach((x:any)=>{
+this.transfertSvc.commande.DetailCommandes.forEach((x:any)=>{
 this.TotaleHT+= x.Montant*x.Quantite
 this.TotaleTVA+= x.Montant*x.Quantite*x.TauxTVA/100
 })
@@ -437,34 +425,14 @@ this.TotaleTVA+= x.Montant*x.Quantite*x.TauxTVA/100
 }
 
 
-
-
-chargerArticle(event :any) {
- 
- 
-this.type="ARTICLE";
-if(event){
-let id:number= event.target.value   
-if(id!=0){
-this.articles = this.g.articlesOrg.filter(x=>x.IdCategorie==id)
-}
-else{
-this.articles = this.g.articlesOrg;
-}
-}
-else{
-this.articles = this.g.articlesOrg;
-}
-this.refrechtable()
-//this.totalPageArt = this.calculatePagesCountArt(this.pageSizeArt,this.g.articles.length);
-//this.chargerListeArt();
-}
 showarticle(){
 this.searchTerm="";
-($('#responsive-modal') as any).modal('show');
-this.chargerArticle(null)
 
+($('#responsive-modal') as any).modal('show');
+//this.chargerArticle(null)
+this.transfertSvc.filterCommandeOregine();
 }
+
 showcomercial(){
 this.searchTerm="";
 ($('#responsive-modal') as any).modal('show');
@@ -494,7 +462,7 @@ if(detailCommande.IdArticle==0){
 res= false
 this.Message="selectioner article"
 }
-else if(detailCommande.Quantite==0 ){
+else if(detailCommande.Quantite<=0 || detailCommande.Quantite>this.quantiteOrg ){
 res=false
 this.Message="erreur de quanite saisie"
 }
@@ -518,7 +486,7 @@ return res
 
 selectArticle(){
 //this.scrollToBottom();
-if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+if(this.transfertSvc.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
 if(this.calcVal == '0'){
   this.calcVal = '1';
 }
@@ -543,12 +511,12 @@ if(this.calcVal == '0'){
   //detailCommande2.NumerodeLot=this.numlot
  
 if(this.validatepush(detailCommande)){
-this.commande.DetailCommandes.push(detailCommande);
-this.boncommande.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==detailCommande.IdArticle && (dc.QuantiteServi+=detailCommande.Quantite))
+this.transfertSvc.commande.DetailCommandes.push(detailCommande);
+this.transfertSvc.commandeOregine.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==detailCommande.IdArticle && (dc.QuantiteServi+=detailCommande.Quantite))
 this.TotaleHT+= detailCommande.Montant*detailCommande.Quantite
 this.TotaleTVA+= detailCommande.Montant*detailCommande.Quantite*detailCommande.TauxTVA/100
   this.calcVal = '0';
-  this.getfilter(this.boncommande.DetailCommandes)
+  //this.getfilter(this.transfertSvc.commandeOregine.DetailCommandes)
 this.initdetailcommande()
 }
 else{
@@ -559,11 +527,11 @@ this.Message=""
 
  //  console.log("article",detailCommande)
 //}    
-// this.commande.DetailCommandes = this.commande.DetailCommandes;
+// this.transfertSvc.commande.DetailCommandes = this.transfertSvc.commande.DetailCommandes;
 
-//this.idxOne = this.commande.DetailCommandes.length - 1;
+//this.idxOne = this.transfertSvc.commande.DetailCommandes.length - 1;
 
-//console.log(this.commande.DetailCommandes.length);
+//console.log(this.transfertSvc.commande.DetailCommandes.length);
 //this.updateTotalVal();
 
 //this.scrollToBottom();
@@ -576,10 +544,11 @@ initdetailcommande(){
 this.quantite=0
 this.description=''
 this.numlot=''
-
+this.dateexpiration=''
 this.prix=0
 this.tva=0
 this.article=new Article()
+this.caisse=new Caisse()
 }
 
 
@@ -588,19 +557,19 @@ this.type="CAT";
 }
 remove(index:number) {
      Swal.fire({
-title: 'Are you sure?',
-text: "You won't be able to revert this!",
-icon: 'warning',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Yes!'
+      title: 'Êtes-vous sûr?',
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui!'
 }).then((result) => {
- if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
-  &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
-    this.boncommande.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==this.commande.DetailCommandes[index].IdArticle && (dc.QuantiteServi-=this.commande.DetailCommandes[index].Quantite))
-  this.commande.DetailCommandes.splice(index, 1);
-  if(this.idxOne == this.commande.DetailCommandes.length){
+ if( result.isConfirmed &&  this.transfertSvc.commande.DetailCommandes.length > 0 && this.transfertSvc.commande.DetailCommandes[index].QuantiteServi==0 
+  &&  this.transfertSvc.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+    this.transfertSvc.commandeOregine.DetailCommandes.filter((dc:DetailCommande)=>dc.IdArticle==this.transfertSvc.commande.DetailCommandes[index].IdArticle && (dc.QuantiteServi-=this.transfertSvc.commande.DetailCommandes[index].Quantite))
+  this.transfertSvc.commande.DetailCommandes.splice(index, 1);
+  if(this.idxOne == this.transfertSvc.commande.DetailCommandes.length){
     this.idxOne--;
   }
 }
@@ -611,7 +580,7 @@ this.updatetotale()
 
 updateTotalVal(){
 let mnt = 0;    
-for(let o of this.commande.DetailCommandes){
+for(let o of this.transfertSvc.commande.DetailCommandes){
   mnt = mnt + (o.Quantite * o.Montant);
 }
 this.totalVal = "" + mnt;
@@ -619,11 +588,18 @@ this.totalColor= (mnt == 0 )? "box bg-dark text-center" : "box bg-success text-c
 }
 
 async valider(){
-if(this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
+      if(  this.transfertSvc.commandeOregine.DetailCommandes.filter(x=>x.Quantite>x.QuantiteServi).length>0
+){
+
+var Message="Votre commande est pas valide avec bon de commande"
+ Swal.fire({ text: Message , icon: 'error'});
+return
+}
+if(this.transfertSvc.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
   
-if(this.commande.Identifiant == null || this.commande.Identifiant === 0){
- // this.commande.Numero=this.numcommande
- this.commande.CodeCommande="ACHAT"
+if(this.transfertSvc.commande.Identifiant == null || this.transfertSvc.commande.Identifiant === 0){
+ // this.transfertSvc.commande.Numero=this.numcommande
+ this.transfertSvc.commande.CodeCommande="ACHAT"
   this.ajouterCommande();
 }else{
   this.modifierCommande();
@@ -638,7 +614,7 @@ getfilter(items:DetailCommande[]|any){
   if(items!=null  ){
     //console.log(items)
     this.lstdc=items.filter((x:any)=>x.Quantite!=x.QuantiteServi)
-    console.log( "xx=",this.lstdc)
+  
   }
 
 }
@@ -647,7 +623,7 @@ ajouterCommande(){
 //alert('ajouterCommande');
   
   this.g.showLoadingBlock(true);
-  this.commandeSvc.etablirCommande(this.commande).subscribe(
+  this.commandeSvc.etablirCommande(this.transfertSvc.commande).subscribe(
   (res:any) => {
     let etatReponse = res["EtatReponse"];
     if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
@@ -820,18 +796,19 @@ selectLocalite(idLocalite : any){
 //alert('selectLocalite idArticle : ' + idLocalite);
 this.tableColor="box bg-megna text-center";
 let localite = this.localites.filter(x => x.Identifiant === idLocalite)[0];
-this.commande.LibelleLocalite = localite.Libelle;
-this.commande.IdLocalite = localite.Identifiant;
+this.transfertSvc.commande.LibelleLocalite = localite.Libelle;
+this.transfertSvc.commande.IdLocalite = localite.Identifiant;
 ($('#societe-modal') as any).modal('hide');
-this.localites=[]   
+this.localites=[]  
+this.refrechtableste() 
 }
 
 selectServeur(idServeur : any){
 //alert('selectS idArticle : ' + idLocalite);
 this.serveurColor="box bg-primary text-center";
 let serveur = this.serveurs.filter(x => x.Identifiant === idServeur)[0];
-this.commande.NomServeur = serveur.Nom;
-this.commande.IdServeur = serveur.Identifiant;
+this.transfertSvc.commande.NomServeur = serveur.Nom;
+this.transfertSvc.commande.IdServeur = serveur.Identifiant;
 this.idnav=1;
 //($('#serveurModal') as any).modal('hide');
 this.show('serveur')

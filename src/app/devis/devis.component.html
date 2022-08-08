@@ -192,6 +192,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <!--/span-->
                                                         <div class="col-md-6">
                                                             <div class="form-group row">
@@ -206,6 +207,22 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <label class="control-label text-end col-md-3">Categorie</label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control form-select" (change)="chargerArticle($event)">
+                                                                <option value="0">select...</option>
+                                                                <option *ngFor="let item of g.categories; index as i;"
+                                                                    [value]="item.Identifiant">{{(item.Libelle)}}
+                                                                </option>
+
+                                                            </select>
+
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group row">
@@ -219,6 +236,72 @@
                                                 </div>
                                             </form>
                                         </div>
+
+
+
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!--//****************************************************************************//-->
+                                    <div class="table-responsive m-t-40" *ngIf="!articleState">
+                                        <table class="table table-striped table-bordered table-sm row-border hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Libelle</th>
+                                                    <th>Categorie</th>
+                                    
+                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                    
+                                                <tr>
+                                                    <td class="td-2 "><span class="spinner-grow"></span></td>
+                                                    <td class="td-2 "><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                                <tr>
+                                                    <td class="td-2"><span class="spinner-grow"></span></td>
+                                                    <td class="td-2 "><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                                <tr>
+                                                    <td class="td-2"><span class="spinner-grow"></span></td>
+                                                    <td class="td-2 "><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--//****************************************************************************//-->
+                                    
+                                    <div class="table-responsive m-t-40" *ngIf="articleState">
+                                        <table class="table table-striped table-bordered table-sm row-border hover" id="datatableexample">
+                                            <thead>
+                                                <tr>
+                                                    <th>Libelle</th>
+                                                    <th>Categorie</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr *ngFor="let item of articles; index as i;" (click)="setarticle(item)">
+                                                    <td>{{(item.Libelle)}}</td>
+                                                    <td>{{item.LibelleCategorie}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
                                     </div>
                                 </div>
 
@@ -285,6 +368,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-body">
@@ -303,6 +387,63 @@
                                                 </table>
                                             </div>
                                         </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!--//****************************************************************************//-->
+                                    <div class="table-responsive m-t-40" *ngIf="!societeState">
+                                        <table class="table table-striped table-bordered table-sm row-border hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Libelle</th>
+                                    
+                                    
+                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                    
+                                                <tr>
+                                                    <td class="td-2 "><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                                <tr>
+                                                    <td class="td-2"><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                                <tr>
+                                                    <td class="td-2"><span class="spinner-grow"></span></td>
+                                                </tr>
+                                    
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--//****************************************************************************/-->
+                                    
+                                    <div class="table-responsive m-t-40" *ngIf="societeState">
+                                        <table class="table table-striped table-bordered table-sm row-border hover" id="datatableste">
+                                            <thead>
+                                                <tr>
+                                                    <th>Libelle</th>
+
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr *ngFor="let item of localites; index as i;" (click)="selectLocalite(item.Identifiant)">
+                                                    <td>{{(item.Libelle)}}</td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

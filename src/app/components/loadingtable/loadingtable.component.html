@@ -1,0 +1,27 @@
+<div class="table-responsive m-t-40" >
+    <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+            <tr>
+                <th *ngFor ="let item of g.tableloading; index as i;">{{item}}</th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr >
+                <td class="td-2 " *ngFor ="let item of g.tableloading; index as i;"><span class="spinner-grow"></span></td>
+            </tr>
+
+            <tr>
+                <td class="td-2" *ngFor ="let item of g.tableloading; index as i;"><span class="spinner-grow"></span></td>
+            </tr>
+
+            <tr>
+                <td class="td-2" *ngFor ="let item of g.tableloading; index as i;"><span class="spinner-grow"></span></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

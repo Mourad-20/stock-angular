@@ -10,16 +10,16 @@ import { Localite } from '../entities/Localite';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
 
 import { GroupeCode } from '../entities/GroupeCode';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { SocieteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import  * as $ab from 'ng2-charts';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
 
@@ -44,7 +44,7 @@ public showcaisse:boolean=true;
 public showserveur:boolean=false;
  //------------------------------------
 public GroupeCode : GroupeCode = new GroupeCode();
-public LocaliteCode:LocaliteCode=new LocaliteCode()
+public SocieteCode:SocieteCode=new SocieteCode()
 //--------------------------------------
 public imageSrcCat : string =  'assets/categorie.jpg';
 public imageSrcArt : string =  'assets/article.jpg';
@@ -136,7 +136,7 @@ public colorMessage:string=""
 				  (res:any) => {
 					let etatReponse = res["EtatReponse"];
 					if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-            debugger
+            //debugger
 					  this.g.categories = res["categorieVMs"];
            
 					  //----------------------------------------------------
@@ -434,13 +434,13 @@ chargercat(){
 }
   remove(index:number) {
          Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
+          title: 'Êtes-vous sûr?',
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui!'
 }).then((result) => {
      if(result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
       this.commande.DetailCommandes.splice(index, 1);
@@ -528,7 +528,7 @@ chargercat(){
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
           let idCommande = res["idCommande"];
           this.getCommandeById(idCommande);
-          //Swal.fire({ text: etatReponse.Message , icon: 'success'});
+          Swal.fire({ text: etatReponse.Message , icon: 'success'});
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
         }
