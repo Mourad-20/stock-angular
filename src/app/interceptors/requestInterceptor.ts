@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CookieService  } from 'ngx-cookie-service';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {

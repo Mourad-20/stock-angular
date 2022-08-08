@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 
 @Component({
   selector: 'app-header',

@@ -1,8 +1,8 @@
 import { Component,OnInit } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../globals';
-import { SeanceSvc } from '../services/seanceSvc';
-import { ReglementSvc } from '../services/reglementSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
 import { Seance } from '../entities/Seance';
 
 import Swal from 'sweetalert2'

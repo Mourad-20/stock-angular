@@ -13,20 +13,20 @@ import { Seance } from '../entities/Seance';
 import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
 import { Recap } from '../entities/Recap';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { LocaliteCode,SocieteCode } from '../entities/LocaliteCode';
 import { ChartType } from 'chart.js';
 import { AffectationMessage } from '../entities/AffectationMessage';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import { SeanceSvc } from '../services/seanceSvc';
-import { MessageSvc } from '../services/messageSvc';
-import { AssociationMessageSvc } from '../services/associationMessageSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
+import { MessageSvc } from '../services/apiService/messageSvc';
+import { AssociationMessageSvc } from '../services/apiService/associationMessageSvc';
 import {Message}from '../entities/Message';
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -49,6 +49,7 @@ public showserveur:boolean=false;
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
 public GroupeCode : GroupeCode = new GroupeCode();
 public LocaliteCode:LocaliteCode=new LocaliteCode()
+public SocieteCode:SocieteCode=new SocieteCode()
 public seance? : Seance  | null;
 //--------------------------------------
 public affectationMessageVMs : AffectationMessage[] = [];
@@ -237,8 +238,8 @@ public isReadOnly:boolean=false;
     this.table=true;
     console.log("table "+this.g.articlesOrg);
      this.loadScript()
-     for(const x in this.LocaliteCode){
-        if(x!=this.LocaliteCode.EMPORTER){
+     for(const x in this.SocieteCode){
+        if(x==this.SocieteCode.CLIENT){
       this.codelocalites.push(x)}
      }
     // this. getcountcommande()
@@ -718,13 +719,13 @@ nextArticle(){
   
   remove(index:number) {
     Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes!'
+      title: 'Êtes-vous sûr?',
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui!'
     }).then((result) => {
         if( result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 
           &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
@@ -903,11 +904,7 @@ nextArticle(){
          // console.log( this.localitesOrg[0])
 this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
           //this.totalPageLoc = this.calculatePagesCountLoc(this.pageSizeLoc,this.localitesOrg.length);
-    
-
-          this.localites.length = 0;
-          this.localites = [];
-
+          console.log(this.localites);
             for (let i = 0; i < this.localitesOrg.length; i++) {
               this.localites.push(this.localitesOrg[i]);
             }
@@ -1019,6 +1016,7 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
     this.commande.IdLocalite = localite.Identifiant;
     ($('#societe-modal') as any).modal('hide');
     this.localites=[]   
+    this.refrechtableste()
   }
 
   selectServeur(idServeur : any){

@@ -10,16 +10,16 @@ import { Seance } from '../../entities/Seance';
 import { EtatCommandeCode } from '../../entities/EtatCommandeCode';
 import { Recap } from '../../entities/Recap';
 import { Utilisateur } from '../../entities/Utilisateur';
-import { UtilisateurSvc } from '../../services/utilisateurSvc';
+import { UtilisateurSvc } from '../../services/apiService/utilisateurSvc';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
-import { CommandeSvc } from '../../services/commandeSvc';
-import { ReglementSvc } from '../../services/reglementSvc';
-import { SeanceSvc } from '../../services/seanceSvc';
-import { EtatCommandeSvc } from '../../services/EtatCommandeSvc';
+import { CommandeSvc } from '../../services/apiService/commandeSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
+import { EtatCommandeSvc } from '../../services/apiService/EtatCommandeSvc';
 //import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';
 import{format} from 'date-fns'
@@ -184,6 +184,11 @@ initreglement(){
   this.Montant=""
   this.Datecheque=""
 }
+initRowIndex(){
+   this.idxOne = -1;
+    this.getCommandeById(-1);
+    this.getreglementbyId(-1);
+}
 getRowIndex(x : any,idCommande:number|any){
 	//	console.log(x);
     this.idxOne = x;
@@ -267,6 +272,7 @@ this.Chart.options.barColor="green"
 }
 
 async showCommande(){
+  this.initRowIndex()
   this.chargerCommandes()
    this.commandeoption="TOUS";
    
@@ -292,6 +298,7 @@ async showCommande(){
    
   }
 showCommandeControle(){
+  this.initRowIndex()
   this.commandeoption="CONTROLE";
 this.chargerCommandeControle()
 }
@@ -334,6 +341,7 @@ this.chargerCommandeControle()
   }
 
   showCommandeNonReglees(){
+    this.initRowIndex()
   this.commandeoption="N-REGLEE";
 this.chargerCommandesNonReglees()
 }

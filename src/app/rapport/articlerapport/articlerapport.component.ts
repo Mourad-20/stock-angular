@@ -8,8 +8,8 @@ import { Utilisateur } from '../../entities/Utilisateur';
 import { DetailCommande } from '../../entities/DetailCommande';
 import { Seance } from '../../entities/Seance';
 import { GroupeCode } from '../../entities/GroupeCode';
-import { CommandeSvc } from '../../services/commandeSvc';
-import { SeanceSvc } from '../../services/seanceSvc';
+import { CommandeSvc } from '../../services/apiService/commandeSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';
 import{format} from 'date-fns'

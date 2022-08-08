@@ -3,10 +3,10 @@ import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized }
 import { Globals } from '../../globals';
 import { Utilisateur } from '../../entities/Utilisateur';
 import { GroupeCode } from '../../entities/GroupeCode';
-import { UtilisateurSvc } from '../../services/utilisateurSvc';
+import { UtilisateurSvc } from '../../services/apiService/utilisateurSvc';
 
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';
 import{format} from 'date-fns'

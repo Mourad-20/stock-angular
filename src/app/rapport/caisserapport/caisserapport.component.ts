@@ -10,11 +10,11 @@ import { DetailReglement } from '../../entities/DetailReglement';
 import { EtatCommandeCode } from '../../entities/EtatCommandeCode';
 import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 
-import { CommandeSvc } from '../../services/commandeSvc';
-import { ReglementSvc } from '../../services/reglementSvc';
-import { UtilisateurSvc } from '../../services/utilisateurSvc';
-import { EtatCommandeSvc } from '../../services/EtatCommandeSvc';
-import { CaisseSvc } from 'src/app/services/caisseSvc';
+import { CommandeSvc } from '../../services/apiService/commandeSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../../services/apiService/utilisateurSvc';
+import { EtatCommandeSvc } from '../../services/apiService/EtatCommandeSvc';
+import { CaisseSvc } from '../../services/apiService/caisseSvc';
 import {Subscription} from 'rxjs'
 import Swal from 'sweetalert2'
 import{format} from 'date-fns'

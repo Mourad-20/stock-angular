@@ -3,12 +3,12 @@ import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized }
 import { Globals } from '../../globals';
 import { Article } from 'src/app/entities/Article';
 import { Categorie } from 'src/app/entities/Categorie';
-import { ArticleSvc } from 'src/app/services/articleSvc';
-import { CategorieSvc } from 'src/app/services/categorieSvc';
-import { Message } from 'src/app/entities/Message';
-import { MessageSvc } from 'src/app/services/messageSvc';
+import { ArticleSvc } from '../../services/apiService/articleSvc';
+import { CategorieSvc } from '../../services/apiService/categorieSvc';
+import { Message } from '../../entities/Message';
+import { MessageSvc } from '../../services/apiService/messageSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 
 @Component({

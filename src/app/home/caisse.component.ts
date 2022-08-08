@@ -17,18 +17,18 @@ import { LocaliteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import  * as $ab from 'ng2-charts';
 import { AffectationMessage } from '../entities/AffectationMessage';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
-import { SeanceSvc } from '../services/seanceSvc';
-import { MessageSvc } from '../services/messageSvc';
-import { AssociationMessageSvc } from '../services/associationMessageSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
+import { MessageSvc } from '../services/apiService/messageSvc';
+import { AssociationMessageSvc } from '../services/apiService/associationMessageSvc';
 import {Message}from '../entities/Message';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
 
@@ -209,13 +209,13 @@ this.currentPageCom=0
       this.commande.DetailCommandes.forEach(element => {
         if(element.IdCreePar===0){
          Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
+          title: 'Êtes-vous sûr?',
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui!'
 }).then((result) => {
   if (result.isConfirmed) {
   this.showCommandesNonReglees();
@@ -244,13 +244,13 @@ this.currentPageCom=0
       this.commande.DetailCommandes.forEach(element => {
         if(element.IdCreePar===0){
          Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
+          title: 'Êtes-vous sûr?',
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui!'
 }).then((result) => {
   if (result.isConfirmed) {
    this.chargerCommandesNonControler();

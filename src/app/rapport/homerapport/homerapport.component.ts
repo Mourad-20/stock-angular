@@ -10,10 +10,10 @@ import { Seance } from '../../entities/Seance';
 import { GroupeCode } from '../../entities/GroupeCode';
 import { Caisse } from 'src/app/entities/Caisse';
 import { Recap } from 'src/app/entities/Recap';
-import { CommandeSvc } from '../../services/commandeSvc';
-import { SeanceSvc } from '../../services/seanceSvc';
-import { ReglementSvc } from 'src/app/services/reglementSvc';
-import { CaisseSvc } from 'src/app/services/caisseSvc';
+import { CommandeSvc } from '../../services/apiService/commandeSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
+import { CaisseSvc } from '../../services/apiService/caisseSvc';
 import Swal from 'sweetalert2'
 import { Commande } from 'src/app/entities/Commande';
 import * as $AB from 'jquery';
@@ -21,7 +21,7 @@ import{format} from 'date-fns'
 import { ActivatedRoute } from '@angular/router'
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { async } from '@angular/core/testing';
-import { UtilisateurSvc } from 'src/app/services/utilisateurSvc';
+import { UtilisateurSvc } from '../../services/apiService/utilisateurSvc';
 @Component({
   selector: 'app-homerapport',
   templateUrl: './homerapport.component.html',

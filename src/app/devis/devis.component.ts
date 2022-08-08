@@ -9,18 +9,18 @@ import { DetailCommande } from '../entities/DetailCommande';
 import { Localite } from '../entities/Localite';
 import { GroupeCode } from '../entities/GroupeCode';
 import { EtatCommandeCode } from '../entities/EtatCommandeCode';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { SocieteCode } from '../entities/LocaliteCode';
 import { ChartType, ChartOptions } from 'chart.js';
 import  * as $ab from 'ng2-charts';
 import { AffectationMessage } from '../entities/AffectationMessage';
-import { CommandeSvc } from '../services/commandeSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { ReglementSvc } from '../services/reglementSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { ArticleSvc } from '../services/articleSvc';
+import { CommandeSvc } from '../services/apiService/commandeSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { ReglementSvc } from '../services/apiService/reglementSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../services/rxjs';
+import { Rxjs } from '../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 //import * as $ from 'jquery';
 
@@ -46,7 +46,7 @@ public showserveur:boolean=false;
  //------------------------------------
 public EtatCommandeCode : EtatCommandeCode = new EtatCommandeCode();
 public GroupeCode : GroupeCode = new GroupeCode();
-public LocaliteCode:LocaliteCode=new LocaliteCode()
+public SocieteCode:SocieteCode=new SocieteCode()
 //--------------------------------------
 public imageSrcCat : string =  'assets/categorie.jpg';
 public imageSrcArt : string =  'assets/article.jpg';
@@ -124,6 +124,9 @@ public Message:string=""
  public  url = '../assets/node_modules/bootstrap-table/dist/bootstrap-table.min.js';
 public colorMessage:string=""
 
+public societeState: boolean = false;
+public articleState: boolean = false;
+
   constructor(public route:ActivatedRoute,public rxjs:Rxjs, public g: Globals,private commandeSvc:CommandeSvc,
   private localiteSvc:LocaliteSvc,private reglementSvc:ReglementSvc,public utilisateurSvc:UtilisateurSvc,
   private router: Router,private categorieSvc:CategorieSvc,
@@ -194,8 +197,8 @@ public colorMessage:string=""
     this.table=true;
     console.log("table "+this.g.articlesOrg);
      this.loadScript()
-     for(const x in this.LocaliteCode){
-        if(x!=this.LocaliteCode.EMPORTER){
+     for(const x in this.SocieteCode){
+        if(x==this.SocieteCode.CLIENT){
       this.codelocalites.push(x)}
      }
     // this. getcountcommande()
@@ -213,7 +216,7 @@ public colorMessage:string=""
         processing: true,
         lengthMenu : [5, 10, 25]
     } );
-   }, 200);
+   }, 1000);
   
   } 
    async refrechtabledc(){
@@ -243,7 +246,7 @@ public colorMessage:string=""
         processing: true,
         lengthMenu : [5, 10, 25]
     } );
-   }, 200);
+   }, 1000);
   
   } 
   getcountcommande(){
@@ -317,21 +320,26 @@ getdetailcommandes(item:Article){
  
 
     chargerArticle(event :any) {
+          this.articleState=false;
+setTimeout(() => {
+  this.articleState=true;
+}, 1000);
      
-     
-    this.type="ARTICLE";
+      this.type="ARTICLE";
+      this.articles = this.g.articlesOrg;
    if(event){
-    let id:number= event.target.value   
-if(id!=0){
- this.articles = this.g.articlesOrg.filter(x=>x.IdCategorie==id)
-}
-else{
-  this.articles = this.g.articlesOrg;
-}
-   }
-   else{
-    this.articles = this.g.articlesOrg;
-   }
+      let id:number= event.target.value   
+         if(id!=0){
+            this.articles = this.g.articlesOrg.filter(x=>x.IdCategorie==id)
+            }
+     }
+    
+     
+ this.articles=this.articles.filter(x=>{
+    return this.commande.DetailCommandes.map(function(a) {return a.IdArticle;}).indexOf(x.Identifiant) === -1;
+  })
+     
+ 
     this.refrechtable()
     //this.totalPageArt = this.calculatePagesCountArt(this.pageSizeArt,this.g.articles.length);
     //this.chargerListeArt();
@@ -353,6 +361,9 @@ showcomercial(){
      console.log('this.searchTerm')
     this.type="ARTICLE";
     this.articles = this.g.articlesOrg.filter(x => x.Libelle.toLowerCase().includes(this.searchTerm.toLowerCase()));
+    this.articles=this.articles.filter(x=>{
+    return this.commande.DetailCommandes.map(function(a) {return a.IdArticle;}).indexOf(x.Identifiant) === -1;
+  })
   }
 chargerlocalbyname(){
   this.localites=this.localitesOrg.filter(x=>x.Libelle.toLowerCase().includes(this.searchTerm.toLowerCase()))
@@ -380,7 +391,7 @@ if(detailCommande.IdArticle==0){
 res= false
 this.Message="selectioner article"
 }
-else if(detailCommande.Quantite==0){
+else if(detailCommande.Quantite<=0){
 res=false
 this.Message="erreur de quanite saisie"
 }
@@ -477,13 +488,13 @@ chargercat(){
 }
   remove(index:number) {
          Swal.fire({
-  title: 'Are you sure?',
-  text: "You won't be able to revert this!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
+          title: 'Êtes-vous sûr?',
+          text: "Vous ne pourrez pas revenir en arrière !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui!'
 }).then((result) => {
      if(result.isConfirmed &&  this.commande.DetailCommandes.length > 0 && this.commande.DetailCommandes[index].QuantiteServi==0 &&  this.commande.CodeEtatCommande != this.EtatCommandeCode.REGLEE){
       this.commande.DetailCommandes.splice(index, 1);
@@ -601,7 +612,10 @@ chargercat(){
   }
 
   chargerListLocalite(){
-
+this.societeState=false;
+setTimeout(() => {
+  this.societeState=true;
+}, 1000);
   console.log("liste commande dispo")
     this.localiteSvc.getLocalites().subscribe(
       (res:any) => {
@@ -708,7 +722,8 @@ this.localitesOrg=this.localitesOrg.filter(x => x.Code === "CLIENT")
     this.commande.LibelleLocalite = localite.Libelle;
     this.commande.IdLocalite = localite.Identifiant;
     ($('#societe-modal') as any).modal('hide');
-    this.localites=[]   
+    this.localites=[]  
+    this.refrechtableste() 
   }
 
   selectServeur(idServeur : any){

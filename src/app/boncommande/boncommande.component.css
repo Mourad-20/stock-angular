@@ -1,4 +1,25 @@
+@-webkit-keyframes moving-gradient {
+    0% {
+        background-position: -250px 0;
+    }
+
+    100% {
+        background-position: 250px 0;
+    }
+}
 .formcaisse {
     border: solid 1px #ffffff;
     border-radius: 1%;
+}
+  .td-2 {
+      width: 50px;
+        height: 30px;
+    
+  }
+  .td-2 >span {
+    background-color: rgb(142 147 158 / 29%);
+        width: 100%;
+        height: 30px;
+        display: block;
+        border-radius: 0%;
 }

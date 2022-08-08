@@ -3,11 +3,11 @@ import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized }
 import { Globals } from '../../globals';
 import { Article } from 'src/app/entities/Article';
 import { Caisse } from 'src/app/entities/Caisse';
-import { ArticleSvc } from 'src/app/services/articleSvc';
-import { CaisseSvc } from 'src/app/services/caisseSvc';
-import { ReglementSvc } from 'src/app/services/reglementSvc';
+import { ArticleSvc } from '../../services/apiService/articleSvc';
+import { CaisseSvc } from '../../services/apiService/caisseSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 
 @Component({
