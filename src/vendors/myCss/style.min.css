@@ -20829,7 +20829,7 @@ progress {
 }
 
 .table>:not(caption)>*>* {
-    padding: 1rem 1rem;
+    /*padding: 1rem 1rem;*/
     background-color: var(--bs-table-bg);
     border-bottom-width: 1px;
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg)
@@ -23272,7 +23272,7 @@ fieldset:disabled .btn {
 .nav-link {
     display: block;
     padding: .5rem 1rem;
-    color: #fb9678;
+    color: #009688;
     text-decoration: none;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out
 }
@@ -45244,7 +45244,7 @@ table th {
 .dt-buttons .dt-button {
     padding: 5px 15px;
     border-radius: .25rem;
-    background: #fb9678;
+    background: #009688;
     color: #fff;
     margin-right: 3px
 }

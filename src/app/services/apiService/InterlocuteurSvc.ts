@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient,	HttpErrorResponse,	HttpHeaders} from '@angular/common/http';
 import { CookieService  } from 'ngx-cookie-service';
-import { Globals } from '../globals';
+import { Globals } from '../../globals';
 
 
 @Injectable()

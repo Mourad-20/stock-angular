@@ -3,31 +3,31 @@ import { Injectable } from '@angular/core';
 import { Utilisateur } from '../entities/Utilisateur';
 import { Article } from '../entities/Article';
 import { Categorie } from '../entities/Categorie';
-import { ArticleSvc } from '../services/articleSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
-import { LocaliteCode } from '../entities/LocaliteCode';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+import { SocieteCode } from '../entities/LocaliteCode';
 import Swal from 'sweetalert2';
 import { JsonFormData } from '../components/json-form/json-form.component';
 import { ActivatedRoute } from '@angular/router';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
-import { GroupeSvc } from '../services/groupeSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
+import { GroupeSvc } from '../services/apiService/groupeSvc';
 import { Observable, Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { CategorieSvc } from '../services/categorieSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
 import { Caisse } from '../entities/Caisse';
 import { Localite } from '../entities/Localite';
-import { CaisseSvc } from '../services/caisseSvc';
+import { CaisseSvc } from '../services/apiService/caisseSvc';
 import{GroupeCode}from '../entities/GroupeCode'; 
 import { HttpClient } from '@angular/common/http';
-import { ZoneSvc } from '../services/zoneSvc';
-import { TypeUniteSvc } from '../services/typeuniteSvc';
+import { ZoneSvc } from '../services/apiService/zoneSvc';
+import { TypeUniteSvc } from '../services/apiService/typeuniteSvc';
 import{TauxTva}from '../entities/TauxTva';
 import {TypeArticleCode}from '../entities/TypeArticleCode';
 @Injectable()
 export class Objettoupdate{
     public sub:any
     public id:number|any=null
-    public LocaliteCode:LocaliteCode=new LocaliteCode()
+    public SocieteCode:SocieteCode=new SocieteCode()
     public utilisateur:Utilisateur|any
     public GroupeCode : GroupeCode = new GroupeCode();
     public TauxTva:TauxTva=new TauxTva();
@@ -527,11 +527,11 @@ async getutilisateur(forms: FormGroup|any){
       "validators": {"required": true
         }
     } 
-    for  (const x in this.LocaliteCode){
-      if(x!=this.LocaliteCode.EMPORTER){
+    for  (const x in this.SocieteCode){
+   
         code.option.push({"text":x,"value":x,"selected":false})}
       
-     } 
+     
  
      // 
         //return this.groupe;

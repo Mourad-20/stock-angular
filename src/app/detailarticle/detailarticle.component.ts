@@ -7,10 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TypeArticleCode } from '../entities/TypeArticleCode';
 import Swal from 'sweetalert2'
-import { ArticleSvc } from '../services/articleSvc';
-import { MessageSvc } from '../services/messageSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { MessageSvc } from '../services/apiService/messageSvc';
 import { DetailCommande } from '../entities/DetailCommande';
-import{CommandeSvc}from '../services/commandeSvc';
+import{CommandeSvc}from '../services/apiService/commandeSvc';
 import{Commande}from '../entities/Commande';
 import{TypeCommandeCode}from '../entities/TypeCommandeCode';
 import { MessageCode } from '../entities/MessageCode';

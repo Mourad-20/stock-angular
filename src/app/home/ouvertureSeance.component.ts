@@ -1,8 +1,8 @@
 import { Component,OnInit } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../globals';
-import { SeanceSvc } from '../services/seanceSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { SeanceSvc } from '../services/apiService/seanceSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import { Seance } from '../entities/Seance';
 import { GroupeCode } from '../entities/GroupeCode';
 

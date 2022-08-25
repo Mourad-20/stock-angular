@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient,	HttpErrorResponse,	HttpHeaders} from '@angular/common/http';
 import { CookieService  } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { Globals } from '../globals';
+import { Globals } from '../../globals';
 
 import Swal from 'sweetalert2';
 

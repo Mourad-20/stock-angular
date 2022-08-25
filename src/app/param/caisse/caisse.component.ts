@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../../globals';
-import { CaisseSvc } from '../../services/caisseSvc';
-import { CommercialisationSvc } from '../../services/commercialisationSvc';
-import { AffectationCaisseSvc } from '../../services/affectationCaisseSvc';
+import { CaisseSvc } from '../../services/apiService/caisseSvc';
+import { CommercialisationSvc } from '../../services/apiService/commercialisationSvc';
+import { AffectationCaisseSvc } from '../../services/apiService/affectationCaisseSvc';
 import { Caisse } from '../../entities/Caisse';
 import { Commercialisation } from '../../entities/Commercialisation';
 import { AffectationCaisse } from '../../entities/AffectationCaisse';
 import { Seance } from '../../entities/Seance';
 import { ActeurSeance } from '../../entities/ActeurSeance';
-import { SeanceSvc } from '../../services/seanceSvc';
-import { ActeurSeanceSvc } from '../../services/acteurSeanceSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
+import { ActeurSeanceSvc } from '../../services/apiService/acteurSeanceSvc';
 import Swal from 'sweetalert2';
 
 

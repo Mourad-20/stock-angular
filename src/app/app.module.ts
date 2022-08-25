@@ -12,7 +12,7 @@ import { JwPaginationModule } from 'jw-angular-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Globals } from './globals';
-import { ZoneSvc } from './services/zoneSvc';
+import { ZoneSvc } from './services/apiService/zoneSvc';
 import { LoginComponent } from './authentification/login.component';
 import { LoginMobileComponent } from './authentification/loginMobile.component';
 
@@ -29,25 +29,26 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 
-import { UtilisateurSvc } from './services/utilisateurSvc';
-import { CategorieSvc } from './services/categorieSvc';
-import { ArticleSvc } from './services/articleSvc';
-import { CommandeSvc } from './services/commandeSvc';
-import { LocaliteSvc } from './services/localiteSvc';
-import { SeanceSvc } from './services/seanceSvc';
-import { ReglementSvc } from './services/reglementSvc';
-import { CaisseSvc } from './services/caisseSvc';
-import { EtatCommandeSvc } from './services/EtatCommandeSvc';
-import { CommercialisationSvc } from './services/commercialisationSvc';
-import { AffectationCaisseSvc } from './services/affectationCaisseSvc';
-import { ActeurSeanceSvc } from './services/acteurSeanceSvc';
-import { TypeUniteSvc } from './services/typeuniteSvc';
+import { UtilisateurSvc } from './services/apiService/utilisateurSvc';
+import { CategorieSvc } from './services/apiService/categorieSvc';
+import { ArticleSvc } from './services/apiService/articleSvc';
+import { CommandeSvc } from './services/apiService/commandeSvc';
+import { LocaliteSvc } from './services/apiService/localiteSvc';
+import { SeanceSvc } from './services/apiService/seanceSvc';
+import { ReglementSvc } from './services/apiService/reglementSvc';
+import { CaisseSvc } from './services/apiService/caisseSvc';
+import { EtatCommandeSvc } from './services/apiService/EtatCommandeSvc';
+import { CommercialisationSvc } from './services/apiService/commercialisationSvc';
+import { AffectationCaisseSvc } from './services/apiService/affectationCaisseSvc';
+import { ActeurSeanceSvc } from './services/apiService/acteurSeanceSvc';
+import { TypeUniteSvc } from './services/apiService/typeuniteSvc';
+import { TransfertSvc } from './services/frontService/transfertSvc';
 import { Objettoupdate } from './forms/objettoupdate';
 import Swal from 'sweetalert2';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { RapportComponent } from './rapport/rapport.component';
 import { FormsComponent } from './forms/forms.component';
-import { GroupeSvc } from './services/groupeSvc';
+import { GroupeSvc } from './services/apiService/groupeSvc';
 import { JsonFormComponent } from './components/json-form/json-form.component';
 import { UtilisateursComponent } from './listes/utilisateurs/utilisateurs.component';
 import { ArticlesComponent } from './listes/articles/articles.component';
@@ -58,8 +59,8 @@ import { LocaliteComponent } from './components/localite/localite.component';
 import { FermetureSeanceComponent } from './seances/fermeture-seance/fermeture-seance.component';
 import { SeancesComponent } from './listes/seances/seances.component';
 import { ListeLocaliteComponent } from './listes/localite/localite.component';
-import { MessageSvc } from './services/messageSvc';
-import { AssociationMessageSvc } from './services/associationMessageSvc';
+import { MessageSvc } from './services/apiService/messageSvc';
+import { AssociationMessageSvc } from './services/apiService/associationMessageSvc';
 import { ArticlerapportComponent } from './rapport/articlerapport/articlerapport.component';
 import { CaisserapportComponent } from './rapport/caisserapport/caisserapport.component';
 import { MessageComponent } from './listes/message/message.component';
@@ -82,6 +83,8 @@ import { DetailstockComponent } from './detailstock/detailstock.component';
 import { AchatsComponent } from './listes/achats/achats.component';
 import { BondecommandesComponent } from './listes/bondecommandes/bondecommandes.component';
 import { BctransfertComponent } from './bctransfert/bctransfert.component';
+import { LoadingtableComponent } from './components/loadingtable/loadingtable.component';
+
 import { DetailRapportComponent } from './detail-rapport/detail-rapport.component';
 @NgModule({
   declarations: [
@@ -129,6 +132,7 @@ import { DetailRapportComponent } from './detail-rapport/detail-rapport.componen
   AchatsComponent,
   BondecommandesComponent,
   BctransfertComponent,
+  LoadingtableComponent,
   DetailRapportComponent
 
   ],
@@ -167,6 +171,7 @@ import { DetailRapportComponent } from './detail-rapport/detail-rapport.componen
     ZoneSvc,
     MessageSvc,
     AssociationMessageSvc,
+    TransfertSvc,
     ],
   bootstrap: [AppComponent]
 })

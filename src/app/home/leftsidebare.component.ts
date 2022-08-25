@@ -1,9 +1,9 @@
 import { Component,EventEmitter,Input,OnInit, Output, ViewChild } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import { GroupeCode } from '../entities/GroupeCode';
-import{Rxjs} from '../services/rxjs';
+import{Rxjs} from '../services/apiService/rxjs';
 @Component({
   selector: 'app-leftsidebare',
   templateUrl: './leftsidebar.html',
@@ -55,10 +55,10 @@ async liste(typeform:string|any){
 this.router.navigate(['liste/'+typeform]);
 //this.router.navigate(['forms/'+typeform]);	 
 }
-Collapse(id:number|any){
-  this.collapse==id?
-    this.collapse=0:this.collapse=id
-}
+  Collapse(id:number|any){
+    this.collapse==id ?
+      this.collapse = 0 : this.collapse = id
+  }
 
 }
 

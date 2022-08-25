@@ -4,12 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router,NavigationStart,NavigationEnd,NavigationError,RoutesRecognized } from '@angular/router';
 import { Globals } from '../../globals';
 import { Article } from 'src/app/entities/Article';
-import { ArticleSvc } from 'src/app/services/articleSvc';
-import { LocaliteSvc } from 'src/app/services/localiteSvc';
-import { Localite } from 'src/app/entities/Localite';
-import { LocaliteCode } from 'src/app/entities/LocaliteCode';
+import { ArticleSvc } from '../../services/apiService/articleSvc';
+import { LocaliteSvc } from '../../services/apiService/localiteSvc';
+import { Localite } from '../../entities/Localite';
+import { LocaliteCode,SocieteCode } from '../../entities/LocaliteCode';
 import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 @Component({
   selector: 'app-localite',
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2'
 })
 export class ListeLocaliteComponent implements OnInit {
 public LocaliteCode=new LocaliteCode()
+public SocieteCode=new SocieteCode()
 public localites : Localite[] = [];
 public localitesOrg : Localite[] = [];
  constructor(public LocaliteSvc:LocaliteSvc, public sharedService:Rxjs, public g: Globals,public articleSvc:ArticleSvc,private router: Router) { }
@@ -59,7 +60,7 @@ console.log("res",res["localiteVMs"])
              
 this.localitesOrg=res["localiteVMs"];
           //this.localites = res["localiteVMs"];
-          this.localites=this.localitesOrg.filter(x=>x.Code!=this.LocaliteCode.EMPORTER)
+          this.localites=this.localitesOrg.filter(x=>x.Code==this.SocieteCode.CLIENT ||x.Code==this.SocieteCode.FOURNISEUR|| x.Code==this.SocieteCode.TRANSPORT )
           
            this.refrechtable()
          

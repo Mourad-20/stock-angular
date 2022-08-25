@@ -1,7 +1,5 @@
 <div class="page-wrapper">
-    <!-- ============================================================== -->
-    <!-- Container fluid  -->
-    <!-- ============================================================== -->
+
     <div class="container-fluid">
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
@@ -19,40 +17,7 @@
 
         </div>
 
-        <div class="row  pt-3" *ngIf="showlocale">
-            <div class="col-md-6 col-lg-3 col-xlg-2" *ngFor="let item of localites; index as i;">
-
-                <div class="card">
-                    <a href="javascript:void(0)" (click)="selectLocalite(item.Identifiant)">
-
-                        <div class="xxx" class={{totalColor}}>
-                            <h4 class="font-light text-white">{{ item.Libelle }}</h4>
-                            <h6 class="text-white">&nbsp;</h6>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row  pt-3" *ngIf="showserveur">
-            <div class="col-md-6 col-lg-3 col-xlg-2" *ngFor="let item of serveurs; index as i;">
-
-                <div class="card">
-                    <a href="javascript:void(0)" (click)="selectServeur(item.Identifiant)">
-
-                        <div class="xxx" class={{totalColor}}>
-                            <h4 class="font-light text-white">{{ item.Nom }}</h4>
-                            <h6 class="text-white">&nbsp;</h6>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-        <div class="row" *ngIf="showcaisse">
+        <div class="row" >
             <div class="col-12">
                 <div class="card">
                     <!-- .left-right-aside-column-->
@@ -63,39 +28,8 @@
                                 <div class="col-lg-12 col-sm-12">
                                     <div class="card">
 
-                                        <div class="card-body bg-light">
-                                            <div class="card-body bg-light">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TTC(DH)</h3>
-                                                    </div>
-                                                    <div class="col-6 align-self-center display-6 text-end">
-                                                        <h2 class="text-success">{{(TotaleHT+TotaleTVA)}}</h2>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale TVA(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-info">{{(TotaleTVA)}}</h2>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h3>Totale HT(DH)</h3>
-                                                    </div>
-
-                                                    <div class="col-6 align-self-center display-3 text-end">
-                                                        <h2 class="text-danger">{{(TotaleHT)}}</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="table-responsive">
-                                            <table class="table table-hover no-wrap">
+                                            <table class="table table-striped">
                                                 <thead>
 
 
@@ -130,10 +64,10 @@
                                                         <td><span class="text-success">{{ item.Description }}</span>
                                                         </td>
                                                         <td><button (click)="remove(i)" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
-    </button></td>
+                                                            </button>
+                                                        </td>
 
                                                     </tr>
-                                                    <!--      -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -146,9 +80,6 @@
                                     <div class="card-body">
                                         <div class="d-flex no-block align-items-center">
                                             <div>
-
-                                                <!--   <button (click)="remove()" type="button" class="btn btn-outline-danger btn-circle  "><i class="ti-trash"></i>
-                                                </button> -->
 
                                             </div>
 
@@ -164,6 +95,20 @@
                                 </div>
                             </div>
 
+                            <div class="card-body bg-light">
+                                <div class="card-body bg-light">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>
+                                                Totale TTC(DH)  <span class="text-success">{{(TotaleHT+TotaleTVA)}}</span> 
+                                                Totale TVA(DH)  <span class="text-info">{{(TotaleTVA)}}</span> 
+                                                Totale HT(DH)  <span class="text-danger">{{(TotaleHT)}}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /.left-aside-column-->
 
@@ -173,35 +118,22 @@
                             <div class="card">
                                 <div class="card-body">
 
-                                    <h5 class="card-subtitle">Information Client</h5>
+                                    <h5 class="card-subtitle">Information Fournisseur</h5>
 
                                     <form class="form pt-3">
                                         <div class="row ">
                                             <div class="form-group">
-                                                <label class="form-label">Client</label>
+                                                <label class="form-label">Fournisseur</label>
                                                 <div class="input-group mb-3" (click)="showListeLocalite()">
-                                                    <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
+                                                    <input type="text" class="form-control" placeholder="Fournisseur" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
                                                     <span class="input-group-text" (click)="showListeLocalite()"><i class="ti-lock"></i></span>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Commercial</label>
-                                                    <div class="input-group mb-3" (click)="showcomercial()">
-                                                        <input type="text" class="form-control" placeholder="Articles" aria-label="Password" [(ngModel)]="article.Libelle" name="article">
-                                                        <span class="input-group-text" (click)="showcomercial()"><i class="ti-lock"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+
                                         </div>
 
                                     </form>
-                                </div>
-                            </div>
                             <hr class="m-t-0 m-b-40">
-                            <div class="card">
-                                <div class="card-body">
-
                                     <h5 class="card-subtitle"> Detaile Commande</h5>
 
                                     <form class="form pt-3">
@@ -230,7 +162,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Prix Unitaire</label>
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="prix" name="pu">
+                                                        <input type="text" class="form-control" [disabled]="true" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="prix" name="pu">
 
                                                     </div>
                                                 </div>
@@ -239,7 +171,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">TVA</label>
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="tva" name="tva">
+                                                        <input type="text" class="form-control" [disabled]="true" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="tva" name="tva">
 
                                                     </div>
                                                 </div>
@@ -257,15 +189,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--  <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Date Expiration</label>
-                                                    <div class="input-group mb-3">
-                                                        <input type="date" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="dateexpiration" name="dexpiration">
 
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Description(courte)</label>
@@ -279,33 +203,13 @@
                                         <button type="submit" class="btn btn-dark" (click)="initdetailcommande()">Cancel</button>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- /.left-right-aside-column-->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ============================================================== -->
-        <!-- End PAge Content -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right sidebar -->
-        <!-- ============================================================== -->
-        <!-- .right-sidebar -->
-
-        <!-- ============================================================== -->
-        <!-- End Right sidebar -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
-    <!-- reglementModal -->
+
     <div class="modal" id="responsive-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -358,12 +262,8 @@
                                             </div>
 
                                         </div>
-
-
                                     </form>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -390,8 +290,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
-
 
                                 </div>
                             </div>
@@ -430,18 +328,7 @@
 
                         </div>
 
-                        <!--    <button type="button" class="btn w-70 btn-lg btn-success" (click)="setarticle()">Valider<i class="icons-Dollar-Sign2"></i></button>
- -->
                     </div>
-
-
-
-
-
-
-
-
-
 
                     <br>
                 </div>
@@ -454,7 +341,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select Client</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Select Fournisseur</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -472,7 +359,7 @@
                                                     <div class="form-group row">
                                                         <label class="control-label text-end col-md-3">Libelle</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control" placeholder="Client" [(ngModel)]="searchTerm" (ngModelChange)="chargerlocalbyname()" name="xx">
+                                                            <input type="text" class="form-control" placeholder="Fournisseur" [(ngModel)]="searchTerm" (ngModelChange)="chargerlocalbyname()" name="xx">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -522,19 +409,7 @@
 
                         </div>
 
-
-                        <!--    <button type="button" class="btn w-70 btn-lg btn-success" (click)="setarticle()">Valider<i class="icons-Dollar-Sign2"></i></button>
- -->
                     </div>
-
-
-
-
-
-
-
-
-
 
                     <br>
                 </div>

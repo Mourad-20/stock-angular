@@ -30,21 +30,6 @@
                             "src/favicon.ico",
                             "src/assets"
                         ],
-                        /*      "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-              
-              //"./vendors/myJs/perfect-scrollbar.jquery.min.js",
-              "node_modules/jquery/dist/jquery.min.js",
-              //"node_modules/popper.js/dist/umd/popper.min.js",
-              //"node_modules/popper.js/dist/umd/popper-utils.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/vendors/myJs/monScript.js",
-"src/vendors/myJs/custom.min.js"            ], */
-
-
 
                         "styles": [
 

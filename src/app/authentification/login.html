@@ -1,14 +1,15 @@
-<div >
-	<section id="wrapper" class="step-register">	
+<div>
+	<section id="wrapper" class="step-register">
 		<div class="register-box">
 			<div class="">
 				<div>
 					<form id="msform">
+
 						<fieldset>
-							<h2 class="fs-title">authentification Admin</h2>
-							<input type="text" [(ngModel)]="loginValue" name="login" placeholder="login" />
-							<input type="password"  [(ngModel)]="passwordValue"  name="lname" placeholder="mot de pass" />
-							<input type="submit" name="submit" class="submit action-button2" value="Submit" (click)="authentification()"/>
+							<h2 class="fs-title">Authentification</h2>
+								<input type="text" [(ngModel)]="loginValue" name="login" placeholder="login" />
+								<input type="password"  [(ngModel)]="passwordValue"  name="lname" placeholder="mot de pass" />
+								<input type="submit" name="submit" class="submit action-button2" value="Submit" (click)="authentification()"/>
 						</fieldset>
 					</form>
 				</div>

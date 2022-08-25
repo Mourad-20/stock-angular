@@ -45,7 +45,8 @@ export class Globals{
     public typelogin:string=""
     public elem:any
     public title:string="";
-    public bol:boolean=false
+    public bol:boolean=false;
+    public tableloading:string[]=[]
      private doc = <FullScreenDocument>document;
     setTitle(newTitle : string) {
         document.title = newTitle;

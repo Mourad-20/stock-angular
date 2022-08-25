@@ -92,7 +92,8 @@
                                 <div class="card b-all ">
 
                                     <div class="table-responsive m-t-40" *ngIf="commandeoption=='TOUS'">
-                                        <table datatable [dtOptions]="dtOptions" class="display nowrap table table-hover table-striped border" id="datatableexample">
+                                        <table datatable [dtOptions]="dtOptions" 
+                                        class="display nowrap table table-hover table-striped border" id="datatableexample">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -127,7 +128,8 @@
                                     <!-- ===============================================================================================
                                     =============================================================================================== -->
                                     <div class="table-responsive m-t-40" *ngIf="commandeoption=='CONTROLE'">
-                                        <table datatable [dtOptions]="dtOptions" class="table table-striped table-bordered table-sm row-border hover" id="datatableexample">
+                                        <table datatable [dtOptions]="dtOptions" 
+                                        class="display nowrap table table-hover table-striped hover" id="datatableexample">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -137,7 +139,7 @@
                                                     <th>COM</th>
                                                     <th>Etat</th>
                                                     <th>Client</th>
-                                                    <!--  <th>Option</th> -->
+                                                     <th>Option</th> 
 
                                                 </tr>
                                             </thead>

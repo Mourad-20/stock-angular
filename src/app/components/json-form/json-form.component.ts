@@ -7,7 +7,7 @@ import {
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GroupeCode } from '../../entities/GroupeCode';
 import { Globals } from 'src/app/globals';
-import { GroupeSvc } from '../../services/groupeSvc';
+import { GroupeSvc } from '../../services/apiService/groupeSvc';
 interface JsonFormValidators {
   min?: number;
   max?: number;

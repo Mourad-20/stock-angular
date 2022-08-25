@@ -211,10 +211,11 @@
                                         <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i
                                                         class="ti-home"></i></span> <span
                                                     class="hidden-xs-down">Details</span></a> </li>
-                                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i
-                                                        class="icons-Dollar-Sign2"></i></span> <span
-                                                    class="hidden-xs-down">Reglement</span></a> </li>
-                                        <!--                                     <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
+
+                                        <li class="nav-item" *ngIf="commandeoption!='CONTROLE'"> <a class="nav-link" data-bs-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up">
+                                            <i class="icons-Dollar-Sign2"></i></span> 
+                                            <span class="hidden-xs-down">Reglement</span></a> </li>
+                                        <!--<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Messages</span></a> </li>
  -->
                                     </ul>
                                     <!-- Tab panes -->
@@ -293,7 +294,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane  p-20" id="profile7" role="tabpanel">
+                                        <div class="tab-pane  p-20" id="profile7" role="tabpanel" *ngIf="commandeoption!='CONTROLE'">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="grid-title">Detail Reglement</h4>

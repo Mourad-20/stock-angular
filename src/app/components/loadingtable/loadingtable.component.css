@@ -1,0 +1,13 @@
+  .td-2 {
+      width: 50px;
+      height: 30px;
+
+  }
+
+  .td-2>span {
+      background-color: rgb(142 147 158 / 29%);
+      width: 100%;
+      height: 30px;
+      display: block;
+      border-radius: 0%;
+  }

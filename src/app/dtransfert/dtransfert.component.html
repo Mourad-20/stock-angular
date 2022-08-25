@@ -83,7 +83,7 @@
 
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let item of commande.DetailCommandes; index as i;">
+                                                    <tr *ngFor="let item of transfertSvc.commande.DetailCommandes; index as i;">
                                                         <td class="text-center">{{i+1}}</td>
                                                         <td class="txt-oflo">{{ item.NumerodeLot }}</td>
                                                         <td class="txt-oflo">{{ item.LibelleArticle }}</td>
@@ -148,7 +148,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Client</label>
                                                 <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="commande.LibelleLocalite" name="client">
+                                                    <input type="text" class="form-control" placeholder="Client" aria-label="Client" [(ngModel)]="transfertSvc.commande.LibelleLocalite" name="client">
                                                     <span class="input-group-text"><i class="ti-lock"></i></span>
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Prix Unitaire</label>
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="prix" name="pu">
+                                                        <input type="text" class="form-control" [disabled]="true" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="prix" name="pu">
 
                                                     </div>
                                                 </div>
@@ -207,7 +207,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">TVA</label>
                                                     <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="tva" name="tva">
+                                                        <input type="text" class="form-control" [disabled]="true" placeholder="Numero Lot" aria-label="Username" [(ngModel)]="tva" name="tva">
 
                                                     </div>
                                                 </div>
@@ -292,15 +292,17 @@
                                             <thead>
                                                 <tr>
                                                     <th>Libelle</th>
-                                                    <th>Quantite</th>
+                                                    <th>Quantite devis</th>
+                                                    <th>Quantite reste</th>
 
 
                                                 </tr>
                                             </thead>
                                             <tbody>
 
-                                                <tr *ngFor="let item of filter(commandedevis.DetailCommandes); index as i;" (click)="setarticle(item)">
+                                                <tr *ngFor="let item of transfertSvc.commandeOregine.DetailCommandes; index as i;" (click)="setarticle(item)">
                                                     <td>{{(item.LibelleArticle)}}</td>
+                                                    <td>{{item.Quantite}}</td>
                                                     <td>{{item.Quantite-item.QuantiteServi}}</td>
 
                                                 </tr>

@@ -1,79 +1,83 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RouterModule, Routes, Router } from '@angular/router';
-
+import {  Router } from '@angular/router';
 import { Globals } from '../globals';
 import { JsonFormData } from '../components/json-form/json-form.component';
-import { GroupeSvc } from '../services/groupeSvc';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { GroupeSvc } from '../services/apiService/groupeSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import { Utilisateur } from '../entities/Utilisateur';
 import {Login} from '../entities/Login';
-import { Rxjs } from '../services/rxjs';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Rxjs } from '../services/apiService/rxjs';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router'
 import Swal from 'sweetalert2';
-import { Observable, Subject, Subscription } from 'rxjs';
 import { Objettoupdate } from './objettoupdate';
-import { ArticleSvc } from '../services/articleSvc';
-import { CategorieSvc } from '../services/categorieSvc';
-import { CaisseSvc } from '../services/caisseSvc';
-import { LocaliteSvc } from '../services/localiteSvc';
+import { ArticleSvc } from '../services/apiService/articleSvc';
+import { CategorieSvc } from '../services/apiService/categorieSvc';
+import { CaisseSvc } from '../services/apiService/caisseSvc';
+import { LocaliteSvc } from '../services/apiService/localiteSvc';
+
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css']
 })
 export class FormsComponent implements OnInit {
-public formData: JsonFormData |any;
-public resultat:any
-public utilisateur : Utilisateur|any
-private obj: Array<string>=[];
-public utilisateurOrg : Utilisateur[] = [];
-public form:string="utilisateur"
-public url:string=""
-public title:string=""
-public id:number=0
-public login:Login|any
-public logins:Login[]=[]
-public  $: any;
 
-    
+  public formData: JsonFormData |any;
+  public resultat:any
+  public utilisateur : Utilisateur|any
+  private obj: Array<string>=[];
+  public utilisateurOrg : Utilisateur[] = [];
+  public form:string="utilisateur"
+  public url:string=""
+  public title:string=""
+  public id:number=0
+  public login:Login|any
+  public logins:Login[]=[]
+  public  $: any;
   sub: any;
 
-  constructor(public router:Router,public LocaliteSvc:LocaliteSvc,public CaisseSvc:CaisseSvc,
-    public CategorieSvc:CategorieSvc,public articleSvc:ArticleSvc,public objettoupdat:Objettoupdate, 
-    public route:ActivatedRoute,public GroupeSvc:GroupeSvc,private http: HttpClient,private g:Globals,
-    public utilisateurSvc:UtilisateurSvc,public rxjs:Rxjs) { 
+  constructor(public router:Router,
+    public LocaliteSvc:LocaliteSvc,
+    public CaisseSvc:CaisseSvc,
+    public CategorieSvc:CategorieSvc,
+    public articleSvc:ArticleSvc,
+    public objettoupdat:Objettoupdate, 
+    public route:ActivatedRoute,
+    public GroupeSvc:GroupeSvc,
+    private http: HttpClient,
+    private g:Globals,
+    public utilisateurSvc:UtilisateurSvc,
+    public rxjs:Rxjs) { 
     
-  if(this.g.typeform=="utilisateur"){ 
-    this.url='/assets/utilisateur-form.json'
- this.title="Forms->Utilisateur"
+    if(this.g.typeform=="utilisateur"){ 
+      this.url='/assets/utilisateur-form.json'
+      this.title="Forms->Utilisateur"
+    }
 
-}
-  if(this.g.typeform=="article"){ 
-    this.url='/assets/article-form.json'
- this.title="Forms->Article"
+    if(this.g.typeform=="article"){ 
+      this.url='/assets/article-form.json'
+      this.title="Forms->Article"
+    }
 
-}
-  if(this.g.typeform=="localite"){ 
-    this.url='/assets/localite-form.json'
- this.title="Forms->localite"
+    if(this.g.typeform=="localite"){ 
+      this.url='/assets/localite-form.json'
+      this.title="Forms->localite"
+    }
 
-}
 
-  if(this.g.typeform=="categorie"){ 
-    this.url='/assets/categorie-form.json'
- this.title="Forms->Categorie"
+    if(this.g.typeform=="categorie"){ 
+      this.url='/assets/categorie-form.json'
+      this.title="Forms->Categorie"
+    }
 
-}
- if(this.g.typeform=="caisse"){ 
-    this.url='/assets/caisse-form.json'
- this.title="Forms->Stock"
+    if(this.g.typeform=="caisse"){ 
+      this.url='/assets/caisse-form.json'
+      this.title="Forms->Stock"
+    }
 
-}
   }
-
- 
 
   async  ngOnInit() {
     this.sub = this.route.params.subscribe(
@@ -214,199 +218,200 @@ forms.reset();
   }
 
   ajouterUtilisateur(forms:FormGroup|any){
-this.objettoupdat.getutilisateur(forms).then((result)=>{
-    this.g.showLoadingBlock(true);
-    console.log("result==",result)
-      this.utilisateurSvc.ajouterUtilisateur(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
+    this.objettoupdat.getutilisateur(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+        console.log("result==",result)
+          this.utilisateurSvc.ajouterUtilisateur(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
       }
-    ); 
-
-})
+    )
   }
 
-    ajouterArticle(forms:FormGroup|any){
-      console.log("forms",forms)
-this.objettoupdat.getarticle(forms).then((result)=>{
-    this.g.showLoadingBlock(true);
-      this.articleSvc.addArticle(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
+  ajouterArticle(forms:FormGroup|any){
+    console.log("forms",forms)
+    this.objettoupdat.getarticle(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+          this.articleSvc.addArticle(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+            //console.log("Succes")
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
       }
-    ); 
-
-})
+    )
   }
-    ajouterLocalite(forms:FormGroup|any){
-this.objettoupdat.getlocalite(forms).then((result)=>{
-    this.g.showLoadingBlock(true);
-      this.LocaliteSvc.ajouterLocalite(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    ); 
 
-})
+  ajouterLocalite(forms:FormGroup|any){
+    this.objettoupdat.getlocalite(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+          this.LocaliteSvc.ajouterLocalite(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+            //console.log("Succes")
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
+      }
+    )
   }
     
-    ajouterCategorie(forms:FormGroup|any){
-this.objettoupdat.getcategorie(forms).then((result)=>{
-    this.g.showLoadingBlock(true);
-      this.CategorieSvc.ajouterCategorie(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    ); 
-
-})
-  }
-
-      ajouterCaisse(forms:FormGroup|any){
-this.objettoupdat.getcaisse(forms).then((result)=>{
-    this.g.showLoadingBlock(true);
-      this.CaisseSvc.addCaisse(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    ); 
-
-})
-  }
-
-    modifierUtilisateur(forms:FormGroup|any){
+  ajouterCategorie(forms:FormGroup|any){
+    this.objettoupdat.getcategorie(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+          this.CategorieSvc.ajouterCategorie(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
+    })
     
-this.objettoupdat.getutilisateur(forms).then((result)=>{
-  console.log("resltat",result)
-    this.g.showLoadingBlock(true);
-      this.utilisateurSvc.modifierUtilisateur(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
-      }
-    ); 
-
-})
   }
 
-     modifierArticle(forms:FormGroup|any){
-  console.log("modifier")
-  this.objettoupdat.getarticle(forms).then((result)=>{
-  console.log("resltatxx==",result)
-    this.g.showLoadingBlock(true);
-      this.articleSvc.updateArticle(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: "update article" , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
+  ajouterCaisse(forms:FormGroup|any){
+    this.objettoupdat.getcaisse(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+          this.CaisseSvc.addCaisse(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
       }
-    ); 
-
-})
+    )
   }
-     modifierLocalite(forms:FormGroup|any){
-this.objettoupdat.getlocalite(forms).then((result)=>{
-  console.log("resltat==",result)
-    this.g.showLoadingBlock(true);
-      this.LocaliteSvc.modifierLocalite(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
+
+  modifierUtilisateur(forms:FormGroup|any){
+    this.objettoupdat.getutilisateur(forms).then(
+      (result) => { 
+        console.log("resltat",result)
+        this.g.showLoadingBlock(true);
+          this.utilisateurSvc.modifierUtilisateur(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
       }
-    ); 
-
-})
+    )
   }
-     modifierCategorie(forms:FormGroup|any){
-      //console.log('forms',forms)
-this.objettoupdat.getcategorie(forms).then((result)=>{
-  //console.log("resltat",result)
-    this.g.showLoadingBlock(true);
-      this.CategorieSvc.modifierCategorie(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
+
+  modifierArticle(forms:FormGroup|any){
+    console.log("modifier")
+    this.objettoupdat.getarticle(forms).then(
+      (result)=>{
+        console.log("resltatxx==",result)
+        this.g.showLoadingBlock(true);
+        this.articleSvc.updateArticle(result).subscribe(
+        (res:any) => {
+          let etatReponse = res["EtatReponse"];
+          if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+            Swal.fire({ text: etatReponse.Message , icon: 'success'});
+          }else{ 
+            Swal.fire({ text: "update article" , icon: 'error'});
+          }
+          this.g.showLoadingBlock(false);    
         }
-        this.g.showLoadingBlock(false);    
+        ); 
       }
-    ); 
-
-})
+    )
   }
+
+  modifierLocalite(forms:FormGroup|any){
+    this.objettoupdat.getlocalite(forms).then(
+      (result)=>{
+        console.log("resltat==",result)
+        this.g.showLoadingBlock(true);
+          this.LocaliteSvc.modifierLocalite(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
+      }
+    )
+  }
+
+  modifierCategorie(forms:FormGroup|any){
+    this.objettoupdat.getcategorie(forms).then(
+      (result)=>{
+        this.g.showLoadingBlock(true);
+          this.CategorieSvc.modifierCategorie(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
+      }
+    )
+  }
+
   modifierCaisse(forms:FormGroup|any){
-      //console.log('forms',forms)
-this.objettoupdat.getcaisse(forms).then((result)=>{
-  //console.log("resltat",result)
-    this.g.showLoadingBlock(true);
-      this.CaisseSvc.updateCaisse(result).subscribe(
-      (res:any) => {
-        let etatReponse = res["EtatReponse"];
-        if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-        //console.log("Succes")
-          Swal.fire({ text: etatReponse.Message , icon: 'success'});
-        }else{ 
-          Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        this.g.showLoadingBlock(false);    
+    this.objettoupdat.getcaisse(forms).then(
+      (result) => {
+        this.g.showLoadingBlock(true);
+          this.CaisseSvc.updateCaisse(result).subscribe(
+          (res:any) => {
+            let etatReponse = res["EtatReponse"];
+            if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
+              Swal.fire({ text: etatReponse.Message , icon: 'success'});
+            }else{ 
+              Swal.fire({ text: etatReponse.Message , icon: 'error'});
+            }
+            this.g.showLoadingBlock(false);    
+          }
+        ); 
       }
-    ); 
-
-})
+    )
   }
 }

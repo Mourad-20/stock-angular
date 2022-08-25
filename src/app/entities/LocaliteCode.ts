@@ -6,3 +6,9 @@ export class LocaliteCode {
     LOCALE05: string = "LOCALE05";
 	EMPORTER:string="EMPORTER";
 }
+export class SocieteCode {
+    CLIENT: string = "CLIENT";
+    FOURNISEUR: string = "FOURNISEUR";
+    TRANSPORT: string = "TRANSPORT";	
+   
+}

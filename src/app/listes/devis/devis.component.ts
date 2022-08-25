@@ -10,16 +10,16 @@ import { Seance } from '../../entities/Seance';
 import { EtatCommandeCode } from '../../entities/EtatCommandeCode';
 import { Recap } from '../../entities/Recap';
 import { Utilisateur } from '../../entities/Utilisateur';
-import { UtilisateurSvc } from '../../services/utilisateurSvc';
+import { UtilisateurSvc } from '../../services/apiService/utilisateurSvc';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
-import { CommandeSvc } from '../../services/commandeSvc';
-import { ReglementSvc } from '../../services/reglementSvc';
-import { SeanceSvc } from '../../services/seanceSvc';
-import { EtatCommandeSvc } from '../../services/EtatCommandeSvc';
+import { CommandeSvc } from '../../services/apiService/commandeSvc';
+import { ReglementSvc } from '../../services/apiService/reglementSvc';
+import { SeanceSvc } from '../../services/apiService/seanceSvc';
+import { EtatCommandeSvc } from '../../services/apiService/EtatCommandeSvc';
 //import {Subscription} from 'rxjs'
-import { Rxjs } from '../../services/rxjs';
+import { Rxjs } from '../../services/apiService/rxjs';
 import Swal from 'sweetalert2'
 import * as $AB from 'jquery';
 import{format} from 'date-fns'
@@ -176,6 +176,20 @@ constructor( public route:ActivatedRoute,public EtatCommandeSvc:EtatCommandeSvc,
  }, 100); 
 
 }
+  async refrechtableControle(){
+   
+  var datatable = $('#datatableexample2').DataTable();
+              //datatable reloading 
+                datatable.destroy();
+  setTimeout(() => {
+   $('#datatableexample2').DataTable( 
+      this.dtOptions
+   
+  );
+  
+ }, 200); 
+
+}
 initreglement(){
   this.NCompte=""
   this.Ncheque=""
@@ -268,6 +282,7 @@ this.Chart.options.barColor="green"
 }
 
 async showCommande(){
+  this.initRowIndex()
   this.chargerCommandes()
    this.commandeoption="TOUS";
    
@@ -297,6 +312,7 @@ async update(idcommande:any){
    
   }
 showCommandeControle(){
+  this.initRowIndex()
   this.commandeoption="CONTROLE";
 this.chargerCommandeControle()
 }
@@ -339,9 +355,11 @@ this.chargerCommandeControle()
   }
 
   showCommandeNonReglees(){
+    this.initRowIndex()
   this.commandeoption="N-REGLEE";
 this.chargerCommandesNonReglees()
 }
+
   chargerCommandesNonReglees(){
     //this.g.showLoadingBlock(true);  
    
@@ -350,27 +368,22 @@ this.chargerCommandesNonReglees()
         let etatReponse = res["EtatReponse"];
         
         if(etatReponse.Code == this.g.EtatReponseCode.SUCCESS) {
-             
-
           this.commandesOrg = res["commandeVMs"];
- this.commandes.length = 0;
+          this.commandes.length = 0;
           this.commandes = [];
+              for (let i = 0; i < this.commandesOrg.length; i++) {
+                  if(this.commandesOrg[i].CodeCommande==this.typecommande){
+                       this.commandes.push(this.commandesOrg[i]);
+                 }}
 
-         for (let i = 0; i < this.commandesOrg.length; i++) {
-            if(this.commandesOrg[i].CodeCommande==this.typecommande){
-              this.commandes.push(this.commandesOrg[i]);
-            }}
              this.refrechtable()
-//console.log(this.commandes)
         }else{ 
           Swal.fire({ text: etatReponse.Message , icon: 'error'});
-        }
-        //this.g.showLoadingBlock(false);    
+        } 
       }
     );
-
-    
   }
+
   datedif(item:DetailCommande){
     console.log(item)
 let datcreation:any=new Date(item.DateCreation)

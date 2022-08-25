@@ -3,7 +3,7 @@ import { NgModel , NgForm } from '@angular/forms';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { CookieService  } from 'ngx-cookie-service';
 import { Globals } from '../globals';
-import { UtilisateurSvc } from '../services/utilisateurSvc';
+import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
 import Swal from 'sweetalert2';
 import * as $AB from 'jquery';
 
