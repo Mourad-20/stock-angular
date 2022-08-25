@@ -75,95 +75,98 @@ public  $: any;
 
  
 
- async  ngOnInit() {
-this.sub = this.route.params.subscribe(params => {
-   //this.g.showLoadingBlock(true)
-      if(params['id']!=null ) {
-        
-        this.objettoupdat.id= Number(params['id'])>=0?params['id']:0 }
-      else{
-        
-        this.objettoupdat.id=0
-      }})
-console.log(this.g.typeform)
- setTimeout(() => {
-    this.http
-      .get(this.url)
-      .subscribe((formData: JsonFormData|any) => {
-if(this.g.typeform=="utilisateur"){
-       
-          this.objettoupdat.rechargerutilisateurformdata(formData).subscribe((form:any)=>{
-             //console.log("test01===",form)
-            formData.controls=JSON.parse(form) 
+  async  ngOnInit() {
+    this.sub = this.route.params.subscribe(
+      params => {
+        if(params['id']!=null ) {
+          this.objettoupdat.id= Number(params['id'])>=0?params['id']:0
+        }
+        else{
+          this.objettoupdat.id=0
+        }
+      }
+    )
+    console.log(this.g.typeform)
+    setTimeout(() => {
+        this.http
+        .get(this.url)
+        .subscribe((formData: JsonFormData|any) => {
+          if(this.g.typeform=="utilisateur"){
+            this.objettoupdat.rechargerutilisateurformdata(formData).subscribe(
+              (form:any)=>{
+                formData.controls=JSON.parse(form) 
                 this.formData = formData
-     this.g.showLoadingBlock(false);
-          })
+                this.g.showLoadingBlock(false);
+              }
+            )
+          }
 
-}
-
-if(this.g.typeform=="article"){
-  
-           this.objettoupdat.getCategorie().subscribe((res)=>{
+          if(this.g.typeform=="article"){
             
-     formData.controls.push(JSON.parse(res))
-     formData.controls.push(this.objettoupdat.getTVAs())
-     formData.controls.push(this.objettoupdat.getTypesArticle())
+                    this.objettoupdat.getCategorie().subscribe((res)=>{
+                      
+              formData.controls.push(JSON.parse(res))
+              formData.controls.push(this.objettoupdat.getTVAs())
+              formData.controls.push(this.objettoupdat.getTypesArticle())
 
-     
-    
+              
+              
 
-    this.objettoupdat.rechargerarticleformdata(formData).subscribe((form:any)=>{
-            formData.controls=JSON.parse(form)
-                this.formData = formData
-                 this.g.showLoadingBlock(false);
-    }) 
-         
-          })
-}
+              this.objettoupdat.rechargerarticleformdata(formData).subscribe((form:any)=>{
+                      formData.controls=JSON.parse(form)
+                          this.formData = formData
+                          this.g.showLoadingBlock(false);
+              }) 
+                  
+                    })
+          }
 
-if(this.g.typeform=="categorie"){
-  
-       this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{ 
-             //console.log("test01===",JSON.parse(form))
-            formData.controls=JSON.parse(form)
+          if(this.g.typeform=="categorie"){
+            
+                this.objettoupdat.rechargercategorieformdata(formData).subscribe((form:any)=>{ 
+                      //console.log("test01===",JSON.parse(form))
+                      formData.controls=JSON.parse(form)
+                        this.formData = formData
+                this.g.showLoadingBlock(false);
+            //console.log("formData",formData.controls)
+                    })
+            
+                
+            /*  setTimeout(()=>{
               this.formData = formData
-       this.g.showLoadingBlock(false);
-  //console.log("formData",formData.controls)
-          })
-   
-       
-  /*  setTimeout(()=>{
-     this.formData = formData
-       this.g.showLoadingBlock(false);
-    },1000)  */
-}
-if(this.g.typeform=="caisse"){
-  //debugger
-          this.objettoupdat.rechargercaisseformdata(formData).subscribe((form:any)=>{
-            formData.controls=JSON.parse(form)
-     this.formData = formData
-       this.g.showLoadingBlock(false);
-      
-          })
-}
-if(this.g.typeform=="localite"){
-    
-       
-    formData.controls.push(this.objettoupdat.getLocaliteCode())
+                this.g.showLoadingBlock(false);
+              },1000)  */
+          }
+
+          if(this.g.typeform=="caisse"){
+            //debugger
+                    this.objettoupdat.rechargercaisseformdata(formData).subscribe((form:any)=>{
+                      formData.controls=JSON.parse(form)
+              this.formData = formData
+                this.g.showLoadingBlock(false);
+                
+                    })
+          }
+
+          if(this.g.typeform=="localite"){
+            
+              
+            formData.controls.push(this.objettoupdat.getLocaliteCode())
 
 
-          this.objettoupdat.rechargerlocaliteformdata(formData).subscribe((form:any)=>{
-             //console.log("test01===",form)
-            formData.controls=JSON.parse(form) 
-                this.formData = formData
-     this.g.showLoadingBlock(false);
-          })
-      
+                  this.objettoupdat.rechargerlocaliteformdata(formData).subscribe((form:any)=>{
+                    //console.log("test01===",form)
+                    formData.controls=JSON.parse(form) 
+                        this.formData = formData
+            this.g.showLoadingBlock(false);
+                  })
+              
 
-}
-      });
- }, 1000);
- 
+          }
+
+        }
+      );
+    }, 1000);   
   }
 
   submit(forms: FormGroup|any){
