@@ -321,6 +321,8 @@ getdetailcommandes(item:Article){
 
     chargerArticle(event :any) {
           this.articleState=false;
+               this.g.tableloading=[];
+this.g.tableloading.push('Libelle','Categorie');
 setTimeout(() => {
   this.articleState=true;
 }, 1000);

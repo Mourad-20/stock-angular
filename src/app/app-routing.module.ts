@@ -48,20 +48,25 @@ const routes: Routes = [
   { path: 'loginMobile', component: LoginMobileComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'home', component: HomeComponent },
+  
   { path: 'caisse', component: CaisseComponent },
   { path: 'caisses/:id', component: CaisseComponent },
+
   { path: 'vente', component: VentComponent },
   { path: 'ventes/:id', component: VentComponent },
-  { path: 'devis', component: DevisComponent },
-  { path: 'bondecommande', component: BonCommandeComponent },
-{ path: 'bondecommandes/:id', component: BonCommandeComponent },
   
+  { path: 'bondecommande', component: BonCommandeComponent },
+  { path: 'bondecommandes/:id', component: BonCommandeComponent },
+
+  { path: 'devis', component: DevisComponent },
   { path: 'devis/:id', component: DevisComponent },
+
   { path: 'devistocommande/:id', component: DtransfertComponent },
   { path: 'bontoachat/:id', component: BctransfertComponent },
   
   { path: 'achat', component: AchatComponent },
   { path: 'achats/:id', component: AchatComponent },
+
 { path: 'article/:id', component: DetailarticleComponent },
 { path: 'detail/stocks', component: DetailstockComponent },
 

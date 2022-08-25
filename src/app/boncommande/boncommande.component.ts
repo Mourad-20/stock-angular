@@ -19,15 +19,15 @@ import { AffectationMessage } from '../entities/AffectationMessage';
 import { CommandeSvc } from '../services/apiService/commandeSvc';
 import { LocaliteSvc } from '../services/apiService/localiteSvc';
 import { ReglementSvc } from '../services/apiService/reglementSvc';
-import { UtilisateurSvc } from '../services/apiService/utilisateurSvc';
-import { CategorieSvc } from '../services/apiService/categorieSvc';
-import { ArticleSvc } from '../services/apiService/articleSvc';
-import { SeanceSvc } from '../services/apiService/seanceSvc';
-import { MessageSvc } from '../services/apiService/messageSvc';
+import { UtilisateurSvc} from '../services/apiService/utilisateurSvc';
+import { CategorieSvc} from '../services/apiService/categorieSvc';
+import { ArticleSvc} from '../services/apiService/articleSvc';
+import { SeanceSvc} from '../services/apiService/seanceSvc';
+import { MessageSvc} from '../services/apiService/messageSvc';
 import { AssociationMessageSvc } from '../services/apiService/associationMessageSvc';
 import {Message}from '../entities/Message';
-import { Rxjs } from '../services/apiService/rxjs';
-import { LoadingtableComponent } from '../components/loadingtable/loadingtable.component';
+import { Rxjs} from '../services/apiService/rxjs';
+import { LoadingtableComponent} from '../components/loadingtable/loadingtable.component';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -249,6 +249,7 @@ public idcatsearch:number=0;
   }
 
   setdc(item:DetailCommande){
+    
     console.log(this.article)
     this.article=this.g.articlesOrg.filter(x=>x.Identifiant==item.IdArticle)[0]
     this.detailCommande=item;
