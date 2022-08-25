@@ -85,6 +85,7 @@ import { BondecommandesComponent } from './listes/bondecommandes/bondecommandes.
 import { BctransfertComponent } from './bctransfert/bctransfert.component';
 import { LoadingtableComponent } from './components/loadingtable/loadingtable.component';
 
+import { DetailRapportComponent } from './detail-rapport/detail-rapport.component';
 @NgModule({
   declarations: [
   PercentComponent,
@@ -131,7 +132,8 @@ import { LoadingtableComponent } from './components/loadingtable/loadingtable.co
   AchatsComponent,
   BondecommandesComponent,
   BctransfertComponent,
-  LoadingtableComponent
+  LoadingtableComponent,
+  DetailRapportComponent
 
   ],
   imports: [

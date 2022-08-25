@@ -41,6 +41,7 @@ import{AchatComponent}from './achat/achat.component';
 import { listeallimentationsComponent } from './listes/allimentation/allimentations.component';
 import { BondecommandesComponent } from './listes/bondecommandes/bondecommandes.component';
 import { BctransfertComponent } from './bctransfert/bctransfert.component';
+import { DetailRapportComponent } from './detail-rapport/detail-rapport.component';
 const routes: Routes = [
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -103,6 +104,7 @@ const routes: Routes = [
 
 { path: 'rapportarticle', component: ArticlerapportComponent },
 { path: 'rapportcaisse', component: CaisserapportComponent },
+{ path: 'detailrapport', component: DetailRapportComponent },
 
 ];
 

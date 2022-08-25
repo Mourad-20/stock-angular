@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	authentification(){
-		// this.g.openFullscreen()
+		// // this.g.openFullscreen()
 		this.g.showLoadingBlock(true);
 		if(this.methode == "STANDARD"){
 			this.utilisateurSvc.authentifier(this.loginValue,this.passwordValue).subscribe(
